@@ -10,7 +10,6 @@ def matrix_shape(mat):
 
     Args:
         mat (_type_): _description_
-    
     Returns:
         _type_: _description_
     """
