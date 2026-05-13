@@ -6,7 +6,6 @@
     The shape should be returned as a tuple of integers
 
     """
-import numpy as np
 
 
 def np_shape(matrix):
@@ -15,4 +14,11 @@ def np_shape(matrix):
     Args:
         matrix (_type_): _description_
     """
-    return np.shape(matrix)
+    mat = matrix.tolist()
+    out = []
+    while (
+        isinstance(mat, list) and len(mat) > 0
+    ):  # Loop as long as we have non-empty lists
+        out.append(len(mat))  # Append the current dimension
+        mat = mat[0]  # Drill down to the next level
+    return tuple(out)  # Return the shape list
