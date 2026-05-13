@@ -15,7 +15,9 @@ and division:
 
 
 def np_elementwise(mat1, mat2):
-    """function def np_elementwise(mat1, mat2): that performs element-wise addition, subtraction, multiplication, and
+    """function def np_elementwise(mat1, mat2): that
+    performs element-wise addition, subtraction,
+    multiplication, and
     division:
 
     Args:
