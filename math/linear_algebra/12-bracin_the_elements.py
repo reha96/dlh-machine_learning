@@ -17,5 +17,5 @@ def np_elementwise(mat1, mat2):
         mat1 (_type_): _description_
         mat2 (_type_): _description_
     """
-    return (np.add(mat1, mat2), np.subtract(mat1, mat2),
-            np.multiply(mat1, mat2), np.divide(mat1, mat2))
+    return (mat1.add(mat2), mat1.subtract(mat2),
+            mat1.multiply(mat2), mat1.divide(mat2))
