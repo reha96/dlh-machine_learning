@@ -10,6 +10,16 @@ matrix:
 
     """
 
+
 def np_transpose(matrix):
+    """function def np_transpose(matrix): that transposes
+matrix
+
+    Args:
+        matrix (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     out = matrix.transpose()
     return out
