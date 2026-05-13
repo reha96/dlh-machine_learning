@@ -17,19 +17,22 @@ def matrix_transpose(matrix):
     Args:
         matrix (_type_): _description_
     """
-    i = range(len(matrix))
-    j = range(len(matrix[i]))
-    out = [[]]
-    for i in range(len(matrix)):
-        for j in range(len(matrix[i])):
-            out.append(matrix[j][i])
+    rows = range(len(matrix))
+    cols = range(len(matrix[0]))
+    out = []
+    for i in cols:
+        temp = []
+        for j in rows:
+            temp.append(matrix[j][i])
+            print(temp)
+        out.append(temp)
     return out
 
 
 mat1 = [[1, 2], [3, 4]]
-print(mat1)
+# print(mat1)
 print(matrix_transpose(mat1))
-mat2 = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, 15],
-        [16, 17, 18, 19, 20], [21, 22, 23, 24, 25], [26, 27, 28, 29, 30]]
-print(mat2)
-print(matrix_transpose(mat2))
+# mat2 = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, 15],
+#         [16, 17, 18, 19, 20], [21, 22, 23, 24, 25], [26, 27, 28, 29, 30]]
+# print(mat2)
+# print(matrix_transpose(mat2))

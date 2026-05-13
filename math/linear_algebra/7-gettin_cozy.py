@@ -26,9 +26,11 @@ def cat_matrices2D(mat1, mat2, axis=0):
             out = []
             out.extend([mat1, mat2])
         if axis == 1:
-            out = [[0] * len(mat1[0]) for _ in range(len(mat1))]
-            for i in range(len(mat1)):
-                    out[i][j] = (mat1[i][j] + mat2[i][j])
+            # rows =
+            # columns =
+            # out = [[0] * len(mat1[0]) for _ in range(len(mat1))]
+            # for i in range(len(mat1)):
+            #         out[i][j] = (mat1[i][j] + mat2[i][j])
     except Exception:
         return None
     return out
@@ -42,4 +44,5 @@ mat5 = cat_matrices2D(mat1, mat3, axis=1)
 print(mat4)
 print(mat5)
 [[1, 2], [3, 4], [5, 6]]
-[[1, 2, 7], [3, 4, 8]]
+[[1, 2, 5], [3, 4, 6]]
+# [[1, 2, 7], [3, 4, 8]]
