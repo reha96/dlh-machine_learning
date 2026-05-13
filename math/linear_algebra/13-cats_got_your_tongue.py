@@ -11,10 +11,10 @@ that concatenates two matrices along a specific axis:
     You can assume that mat1 and mat2 are never empty
 
     """
-import numpy as np
 
 
 def np_cat(mat1, mat2, axis=0):
+    import numpy as np
     """a function def np_cat(mat1, mat2, axis=0)
     that concatenates two matrices along a specific axis
 
