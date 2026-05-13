@@ -24,6 +24,5 @@ def matrix_transpose(matrix):
         temp = []
         for j in rows:
             temp.append(matrix[j][i])
-            print(temp)
         out.append(temp)
     return out
