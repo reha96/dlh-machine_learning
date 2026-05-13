@@ -14,4 +14,5 @@ def np_shape(matrix):
     Args:
         matrix (_type_): _description_
     """
-    return np.shape(matrix)
+    dim = matrix.shape
+    return (dim)
