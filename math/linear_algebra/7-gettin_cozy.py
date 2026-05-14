@@ -25,11 +25,15 @@ def cat_matrices2D(mat1, mat2, axis=0):
     """
 
     out = []
+    if len(mat1) == 0 or len(mat2) == 0:
+        return None
     if axis == 0:
         out = mat1 + mat2
         return out
 
     if axis == 1:
+        if len(mat1[0]) != len(mat2):
+            return None
         for i in range(len(mat1)):
             for j in range(len(mat2[i])):
                 mat1[i].append(mat2[i][j])
