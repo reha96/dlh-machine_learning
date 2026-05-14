@@ -12,6 +12,16 @@ slices a matrix along specific axes:
 
 
 def np_slice(matrix, axes={}):
+    """function def np_slice(matrix, axes={}): that
+slices a matrix along specific axes
+
+    Args:
+        matrix (_type_): _description_
+        axes (dict, optional): _description_. Defaults to {}.
+
+    Returns:
+        _type_: _description_
+    """
     keys = []
     temp = [slice(None)] * matrix.ndim
     for i in axes.keys():
