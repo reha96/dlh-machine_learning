@@ -27,24 +27,12 @@ that concatenates two matrices along a specific axis
     if len(mat1) == 0 or len(mat2) == 0:
         return None
     if axis == 0:
-        if len(mat1[0]) != len(mat2[0]):
-            return None
         out = mat1 + mat2
         return out
 
     if axis == 1:
-        if len(mat1) != len(mat2):
-            return None
         for i in range(len(mat1)):
             for j in range(len(mat2[i])):
                 mat1[i].append(mat2[i][j])
         out.extend(mat1)
-        return out
-    
-    if axis == 2:
-        for i in range(len(mat1)):
-            for j in range(len(mat2[i])):
-                for k in range(len(mat2[i][j])):
-                    mat1[i][j].append(mat2[i][j][k])
-            out.extend(mat1[i])
         return out
