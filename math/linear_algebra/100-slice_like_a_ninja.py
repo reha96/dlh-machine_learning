@@ -15,10 +15,8 @@ import numpy as np
 
 
 def np_slice(matrix, axes={}):
-    items = list(axes.items())
-    print(items[0], items[0][0], items[0][1])
-    # out = matrix[items[0], items[1][0]:items[1][1]]
-    # return out
+    result = np.take_along_axis(matrix, np.array([[1, 2], [1, 2]]), axis=1)
+    return result
 
 
 mat1 = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
@@ -29,4 +27,3 @@ print(np_slice(mat1, axes={1: (1, 3)}))
 #                  [[21, 22, 23, 24, 25], [26, 27, 28, 29, 30]]])
 # print(np_slice(mat2, axes={0: (2,), 2: (None, None, -2)}))
 # print(mat2)
-
