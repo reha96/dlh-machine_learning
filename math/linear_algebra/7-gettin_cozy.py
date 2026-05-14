@@ -33,5 +33,5 @@ def cat_matrices2D(mat1, mat2, axis=0):
         for i in range(len(mat1)):
             for j in range(len(mat2[i])):
                 mat1[i].append(mat2[i][j])
-        out.append(mat1)
+        out.extend(mat1)
         return out
