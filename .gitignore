@@ -2,3 +2,4 @@
 pipeline/databases/temperatures.sql
 pipeline/databases/tv_shows.sql
 pipeline/databases/hbtn_0d_tvshows.sql
+pipeline/databases/hbtn_0d_tvshows_rate.sql
