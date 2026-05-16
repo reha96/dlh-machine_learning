@@ -2,5 +2,5 @@
 SELECT band_name, (2020 - formed) AS life_span
 FROM metal_bands
 WHERE
-    split IS NULL
+    split IS NULL AND style LIKE 'Glam rock'
 ORDER BY life_span DESC
