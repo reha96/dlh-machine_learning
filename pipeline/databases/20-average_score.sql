@@ -3,23 +3,23 @@
 DELIMITER $$
 
 CREATE PROCEDURE ComputeAverageScoreForUser(
-    IN user_id INT
+    IN p_user_id INT
 )
 
 BEGIN
 
     -- declare local variable to store avg score
-    DECLARE average_score FLOAT;
+    DECLARE v_average_score FLOAT;
 
     -- select and calculate student average score
-    SELECT AVG(score) INTO average_score
+    SELECT AVG(score) INTO v_average_score
     FROM corrections
-    WHERE user_id = user_id;
+    WHERE user_id = p_user_id;
 
     -- Update the user's average_score, handle NULL case
     UPDATE users
-    SET average_score = IFNULL(avg_score, 0)  -- Use 0 if no scores exist
-    WHERE id = input_user_id;
+    SET average_score = IFNULL(v_average_score, 0)  -- Use 0 if no scores exist
+    WHERE id = p_user_id;
 
 END $$
 
