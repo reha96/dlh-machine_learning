@@ -7,17 +7,22 @@ CREATE PROCEDURE AddBonus (
     IN p_score INT
 )
 BEGIN
--- declare local variable to store project_id
+    -- declare local variable to store project_id
     DECLARE project_id INT;
--- create new project name if it doesn't exist yet
-   IF NOT EXISTS (SELECT * FROM projects WHERE
-projects.name = p_project_name) THEN:
- INSERT INTO projects (name) VALUES (p_project_name)
-   END IF;
--- store in local var project id for selected project name
-SELECT id INTO project_id FROM projects WHERE name = p_project_name;
--- update corrections table with user_id, project_id, and score
-INSERT INTO corrections (user_id, project_id, score)
+    
+    -- Check if the project exists
+    SELECT id INTO project_id 
+    FROM projects 
+    WHERE name = p_project_name;
+
+    -- If project does not exist, create it
+    IF project_id IS NULL THEN
+        INSERT INTO projects (name) VALUES (p_project_name);
+        SET project_id = LAST_INSERT_ID();
+    END IF;
+    
+    -- Insert into corrections table
+    INSERT INTO corrections (user_id, project_id, score)
     VALUES (p_user_id, project_id, p_score);
 
    END$$
