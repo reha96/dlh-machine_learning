@@ -17,6 +17,5 @@ def update_topics(mongo_collection, name, topics):
         _type_: _description_
     """
     return mongo_collection.update(
-        'name': name, {'$set': {'topics': topics}},
-        {multi: true}
+        {'name': name}, {'$set': {'topics': topics}}, {'multi': True}
     )
