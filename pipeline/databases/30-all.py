@@ -9,4 +9,4 @@ def list_all(mongo_collection):
     Args:
         mongo_collection (_type_): _description_
     """
-    print(mongo_collection.list_collection_names())
+    return (list(mongo_collection.find()))
