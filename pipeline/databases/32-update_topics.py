@@ -16,6 +16,8 @@ def update_topics(mongo_collection, name, topics):
     Returns:
         _type_: _description_
     """
+    if not isinstance(name, str) or not isinstance(topics, list):
+        return None 
     return mongo_collection.update(
         {'name': name}, {'$set': {'topics': topics}}, {'multi': True}
     )
