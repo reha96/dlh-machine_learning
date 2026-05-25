@@ -18,3 +18,5 @@ if __name__ == "__main__":
     for method in methods:
         count = collection.count({'method': method})
         print(f"    method {method}: {count}")
+    status = collection.count({'method': "GET", 'path': "/status"})
+    print(f"{status} status check")
