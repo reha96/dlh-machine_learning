@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
     pipeline = [
         {"$group": {
-            "_id": "$IP",
+            "_id": "$ip",
             "count": {"$sum": 1}
         }},
         {"$sort": {"count": -1}},
