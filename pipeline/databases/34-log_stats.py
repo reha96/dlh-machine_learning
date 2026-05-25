@@ -10,13 +10,13 @@ if __name__ == "__main__":
     db = client.logs
     collection = db.nginx
 
-    x = collection.count()
+    x = collection.count_documents({})
     print(f"{x} logs")
     out = []
     methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
     print("Methods")
     for method in methods:
-        count = collection.count({'method': method})
+        count = collection.count_documents({'method': method})
         print(f"    method {method}: {count}")
-    status = collection.count({'method': "GET", 'path': "/status"})
+    status = collection.count_documents({'method': "GET", 'path': "/status"})
     print(f"{status} status check")
