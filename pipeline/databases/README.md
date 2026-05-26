@@ -1,6 +1,6 @@
 # Pipeline — Databases
 
-A progressive journey through SQL — from basic table creation and CRUD operations to multi-table joins, aggregations, constraints, and automated triggers.
+A progressive journey through SQL and MongoDB — from basic table creation and CRUD operations to multi-table joins, aggregations, constraints, triggers, and NoSQL document operations with Python/PyMongo.
 
 ---
 
@@ -17,6 +17,9 @@ A progressive journey through SQL — from basic table creation and CRUD operati
 | 7 | Handle null values and computed columns with `COALESCE` and arithmetic |
 | 8 | Automate database logic with `CREATE TRIGGER` (BEFORE/AFTER, INSERT/UPDATE) |
 | 9 | Design schemas for many-to-many relationships and time-series data |
+| 10 | Interact with MongoDB via the shell: `show dbs`, `use`, `find`, `insert`, `update`, `delete` |
+| 11 | Perform CRUD operations programmatically with PyMongo in Python |
+| 12 | Build MongoDB aggregation pipelines for data analysis (`$group`, `$sort`, `$limit`) |
 
 ---
 
@@ -415,8 +418,313 @@ Flat table: `temperatures` (city, state, year, month, value). Designed for effic
 
 ---
 
+## MongoDB Shell (Tasks 22–29)
+
+Each task below highlights the **unique challenge** it posed and the **new technique** introduced — techniques from MySQL tasks are not repeated.
+
+---
+
+### Task 22 — List Databases (`22-list_databases`)
+
+**Challenge:** Discover what databases exist on the MongoDB server — the first interaction with a new NoSQL environment.
+
+**Approach:** `show dbs` — MongoDB shell's equivalent of `SHOW DATABASES` in MySQL. Returns all database names and their sizes.
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| `show dbs` | List all databases on the MongoDB server |
+| MongoDB shell (`mongosh`) | Interactive JavaScript-based shell for MongoDB operations |
+
+> **Key takeaway:** `show dbs` is your first command in MongoDB — it confirms the server is reachable and shows available databases. Unlike MySQL, databases are lazily created on first insert.
+
+---
+
+### Task 23 — Select/Create Database (`23-use_or_create_database`)
+
+**Challenge:** Switch to (or implicitly create) a database — MongoDB has no explicit `CREATE DATABASE`.
+
+**Approach:** `use my_db` — MongoDB creates the database automatically when you first insert data into it. The `use` command switches context without requiring the database to already exist.
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| `use db_name` | Switch to a database (creates it lazily on first write) |
+| Implicit database creation | No `CREATE DATABASE` needed — databases spring into existence on first insert |
+
+> **Key takeaway:** In MongoDB, `use` switches context; the database isn't physically created until you insert a document. This is fundamentally different from MySQL's explicit `CREATE DATABASE`.
+
+---
+
+### Task 24 — Insert Document (`24-insert`)
+
+**Challenge:** Add data to a MongoDB collection — introducing document insertion with JSON-like syntax.
+
+**Approach:** `db.school.insert({ name: "Holberton school" })` — insert a BSON document (JavaScript object) into the `school` collection. Collections are created implicitly on first insert.
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| `db.collection.insert({...})` | Insert a new document into a collection |
+| JSON/BSON document syntax | Key-value pairs in `{ field: value }` format |
+| Implicit collection creation | Collections are created automatically on first `insert()` |
+
+> **Key takeaway:** MongoDB stores JSON-like documents. `insert()` adds a document to a collection — both the collection and database are created implicitly if they don't exist.
+
+---
+
+### Task 25 — Find All Documents (`25-all`)
+
+**Challenge:** Retrieve all documents from a collection — the MongoDB equivalent of `SELECT *`.
+
+**Approach:** `db.school.find()` — without arguments, returns every document in the collection. Outputs documents in readable JSON format.
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| `db.collection.find()` | Retrieve all documents from a collection |
+| Cursor output | `find()` returns a cursor that the shell iterates and displays |
+
+> **Key takeaway:** `find()` with no arguments returns all documents — MongoDB's `SELECT *`. The shell automatically iterates the cursor and pretty-prints results.
+
+---
+
+### Task 26 — Find with Filter (`26-match`)
+
+**Challenge:** Retrieve only documents matching a specific condition — introducing query filters.
+
+**Approach:** `db.school.find({ name: "Holberton school" })` — pass a query document to filter results. Only documents whose `name` field matches the value are returned.
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| `find({ field: value })` | Filter documents by exact field match |
+| Query document | MongoDB uses `{key: value}` objects as query predicates |
+
+> **Key takeaway:** MongoDB queries are themselves JSON-like documents. `find({name: "X"})` is equivalent to `WHERE name = 'X'` in SQL — the filter is declarative.
+
+---
+
+### Task 27 — Count Documents (`27-count`)
+
+**Challenge:** Count how many documents exist in a collection — introducing document counting.
+
+**Approach:** `db.school.count()` — returns the total number of documents. Can also accept a filter: `db.school.count({name: "Holberton school"})`.
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| `db.collection.count()` | Return the total number of documents in a collection |
+| `count({filter})` | Count only documents matching a query filter |
+
+> **Key takeaway:** `count()` is MongoDB's `COUNT(*)`. It's a simple, fast way to check collection size or count matching documents.
+
+---
+
+### Task 28 — Update Documents (`28-update`)
+
+**Challenge:** Modify existing documents by adding new fields — introducing the `$set` operator and `multi` option.
+
+**Approach:** `db.school.update({ name: "Holberton school" }, { $set: { address: "972 Mission street" } }, { multi: true })` — match documents by `name`, then add an `address` field via `$set`. `multi: true` updates all matching documents, not just the first.
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| `db.collection.update(query, update, options)` | Modify documents matching a query |
+| `$set` operator | Add or modify specific fields without replacing the entire document |
+| `{ multi: true }` | Update ALL matching documents (default updates only the first) |
+
+> **Key takeaway:** `$set` modifies only specified fields — the rest of the document is untouched. Always use `{ multi: true }` when you intend to update multiple documents; without it, only the first match is changed.
+
+---
+
+### Task 29 — Delete Documents (`29-delete`)
+
+**Challenge:** Remove documents from a collection — introducing bulk deletion.
+
+**Approach:** `db.school.deleteMany({ name: "Holberton school" })` — delete all documents matching the filter. `deleteMany()` removes every match; `deleteOne()` would remove only the first.
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| `db.collection.deleteMany({filter})` | Delete all documents matching a query filter |
+| `deleteOne()` vs `deleteMany()` | `deleteOne` removes first match; `deleteMany` removes all matches |
+
+> **Key takeaway:** `deleteMany()` is MongoDB's `DELETE FROM ... WHERE ...` — it removes all matching documents in one operation. Use `deleteOne()` when you want to limit removal to a single document.
+
+---
+
+## Python & PyMongo (Tasks 30–34)
+
+Transitioning from the MongoDB shell to programmatic database access with Python's `pymongo` driver.
+
+---
+
+### Task 30 — List All Documents in Python (`30-all.py`)
+
+**Challenge:** Retrieve all documents from a MongoDB collection and return them as a Python list — bridging the shell-to-Python gap.
+
+**Approach:** `list(mongo_collection.find())` — `find()` returns a Cursor; wrapping it in `list()` materializes all documents into a Python list of dicts.
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| `pymongo` collection object | Python driver interface matching shell commands |
+| `mongo_collection.find()` | Return a Cursor over all documents in the collection |
+| `list(cursor)` | Materialize a Cursor into a Python list of dictionaries |
+
+> **Key takeaway:** PyMongo's API mirrors the shell — `collection.find()` is equivalent to `db.collection.find()`. Wrap the cursor in `list()` to get all documents at once.
+
+---
+
+### Task 31 — Insert with Keyword Arguments (`31-insert_school.py`)
+
+**Challenge:** Accept arbitrary keyword arguments and insert them as a MongoDB document — introducing dynamic document creation.
+
+**Approach:** `mongo_collection.insert(kwargs)` — Python's `**kwargs` captures all keyword arguments as a dictionary, then `insert()` stores it directly as a MongoDB document.
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| `**kwargs` parameter | Capture arbitrary keyword arguments as a dictionary |
+| `insert(document)` | Insert a Python dict as a MongoDB document (returns `_id`) |
+
+> **Key takeaway:** `**kwargs` + `insert()` lets you pass any field-value pairs from Python directly into MongoDB — the Python dict maps 1:1 to a BSON document.
+
+---
+
+### Task 32 — Update Many with `$set` (`32-update_topics.py`)
+
+**Challenge:** Update the `topics` field for ALL schools matching a given name — translating the shell update pattern to Python.
+
+**Approach:** `mongo_collection.update_many({'name': name}, {'$set': {'topics': topics}})` — filter by `name`, then use `$set` to add/overwrite the `topics` field. `update_many()` ensures all matches are updated.
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| `update_many(filter, update)` | Update all documents matching the filter |
+| `{'$set': {field: value}}` in Python | Same `$set` operator, expressed as a Python dict |
+
+> **Key takeaway:** PyMongo update operations use the same MongoDB operators (`$set`, `$inc`, etc.) — just expressed as Python dicts. `update_many()` is the safe default; `update_one()` only touches the first match.
+
+---
+
+### Task 33 — Find by Array Field (`33-schools_by_topic.py`)
+
+**Challenge:** Find all schools whose `topics` array contains a specific value — introducing array field matching in MongoDB.
+
+**Approach:** `mongo_collection.find({'topics': topic})` — when the field is an array, MongoDB automatically matches documents where ANY element equals the query value.
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| Array field matching | `find({array_field: value})` matches if any array element equals `value` |
+| Implicit `$in` behavior | MongoDB treats scalar-to-array matching as "contains" |
+
+> **Key takeaway:** MongoDB intelligently matches array fields — `find({'topics': 'math'})` finds documents where `topics` is an array containing `'math'`. No special syntax needed.
+
+---
+
+### Task 34 — Nginx Log Analysis (`34-log_stats.py`)
+
+**Challenge:** Connect to a real MongoDB instance and analyze Nginx access logs — introducing `MongoClient`, database/collection access, and `count_documents()`.
+
+**Approach:** `MongoClient('mongodb://127.0.0.1:27017')` connects to the local server. Then `client.logs.nginx` navigates to the `nginx` collection in the `logs` database. `count_documents({})` counts total logs; `count_documents({'method': 'GET'})` counts per HTTP method.
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| `MongoClient(uri)` | Establish a connection to a MongoDB server |
+| `client.db_name.collection_name` | Attribute-style access to database and collection |
+| `count_documents({filter})` | Count documents matching a filter (modern replacement for `count()`) |
+| Real-world data analysis | Apply MongoDB queries to production Nginx log data |
+
+> **Key takeaway:** `MongoClient` is the entry point — it connects to MongoDB, and from there you navigate databases and collections with dot notation. `count_documents()` is the modern, preferred way to count.
+
+---
+
+## Python & PyMongo — Aggregation (Tasks 105–106)
+
+Advanced data analysis using MongoDB's aggregation pipeline — grouping, sorting, and limiting results.
+
+---
+
+### Task 105 — Students Sorted by Average Score (`105-students.py`)
+
+**Challenge:** Compute each student's average score from a nested `topics` array and sort them by that average — introducing the aggregation pipeline.
+
+**Approach:** A two-stage pipeline: `$addFields` creates a new `averageScore` field by averaging `$topics.score` with `$avg`, then `$sort` orders by `averageScore` descending. `aggregate(pipeline)` executes and returns a cursor.
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| `aggregate([pipeline_stages])` | Execute a sequence of data transformations |
+| `$addFields` stage | Add computed fields to each document |
+| `$avg: '$nested.field'` | Compute the average of an array field's values |
+| `$sort: {field: -1}` | Sort results in descending order (`-1`) |
+
+> **Key takeaway:** The aggregation pipeline processes documents through stages in sequence — each stage transforms the data flowing from the previous one. `$addFields` enriches documents; `$sort` reorders them. Together they form a composable data processing chain.
+
+---
+
+### Task 106 — Top 10 IPs (`106-log_stats.py`)
+
+**Challenge:** Extend the Nginx log analysis (Task 34) to find the 10 most frequent IP addresses — introducing `$group`, `$sum`, and `$limit`.
+
+**Approach:** A three-stage pipeline appended to the existing script: `$group` clusters documents by `$ip` and counts each with `$sum: 1`, `$sort` orders by count descending, `$limit: 10` keeps only the top 10.
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| `$group` stage | Group documents by a field, computing per-group aggregates |
+| `_id: '$field'` in `$group` | Specify the grouping key (field to group by) |
+| `$sum: 1` | Count documents per group (1 per document, summed) |
+| `$limit: N` | Restrict output to the first N documents |
+
+> **Key takeaway:** `$group` is MongoDB's `GROUP BY` — `_id` defines the bucket, accumulator expressions (`$sum`, `$avg`, `$max`) compute per-group values. `$limit` caps results, making it perfect for "top N" queries.
+
+---
+
+## Technique Inventory — MongoDB
+
+| Task | New technique summarized | Category |
+|------|--------------------------|----------|
+| 22 | `show dbs` — list all databases | MongoDB Shell |
+| 23 | `use db_name` — implicit DB creation | MongoDB Shell |
+| 24 | `db.collection.insert({...})` — document insertion | MongoDB CRUD |
+| 25 | `db.collection.find()` — retrieve all documents | MongoDB CRUD |
+| 26 | `find({field: value})` — query with filter | MongoDB Queries |
+| 27 | `db.collection.count()` — document counting | MongoDB Queries |
+| 28 | `$set` operator, `update()`, `multi: true` | MongoDB Updates |
+| 29 | `deleteMany()` — bulk document deletion | MongoDB CRUD |
+| 30 | `list(mongo_collection.find())` — materialize cursor to Python list | PyMongo CRUD |
+| 31 | `insert(kwargs)`, `**kwargs` — dynamic insert | PyMongo CRUD |
+| 32 | `update_many()` with `$set` in Python | PyMongo Updates |
+| 33 | Array field matching in `find()` | PyMongo Queries |
+| 34 | `MongoClient`, `count_documents()` — real-world analysis | PyMongo Connection |
+| 105 | `aggregate()`, `$addFields`, `$avg`, `$sort` | Aggregation Pipeline |
+| 106 | `$group`, `$sum`, `$limit` — top-N grouping | Aggregation Pipeline |
+
+---
+
 ## Resources
 
+### MySQL
 - [MySQL CREATE DATABASE — Official Docs](https://dev.mysql.com/doc/refman/8.0/en/create-database.html)
 - [MySQL CREATE TABLE — Official Docs](https://dev.mysql.com/doc/refman/8.0/en/create-table.html)
 - [MySQL JOIN Syntax](https://dev.mysql.com/doc/refman/8.0/en/join.html)
@@ -424,3 +732,11 @@ Flat table: `temperatures` (city, state, year, month, value). Designed for effic
 - [MySQL Triggers — Official Docs](https://dev.mysql.com/doc/refman/8.0/en/trigger-syntax.html)
 - [MySQL ENUM — Official Docs](https://dev.mysql.com/doc/refman/8.0/en/enum.html)
 - [SQL COALESCE — Official Docs](https://dev.mysql.com/doc/refman/8.0/en/comparison-operators.html#function_coalesce)
+
+### MongoDB
+- [MongoDB Shell (mongosh) — Official Docs](https://www.mongodb.com/docs/mongodb-shell/)
+- [MongoDB CRUD Operations](https://www.mongodb.com/docs/manual/crud/)
+- [MongoDB Query Documents](https://www.mongodb.com/docs/manual/tutorial/query-documents/)
+- [MongoDB Update Operators (`$set`)](https://www.mongodb.com/docs/manual/reference/operator/update/set/)
+- [MongoDB Aggregation Pipeline](https://www.mongodb.com/docs/manual/aggregation/)
+- [PyMongo Documentation](https://pymongo.readthedocs.io/)
