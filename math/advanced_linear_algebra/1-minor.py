@@ -27,8 +27,8 @@ matrix of a matrix
     if not all(isinstance(row, list) for row in matrix):
         raise TypeError("matrix must be a list of lists")
 
-    if len(matrix) != len(matrix[0]):
-        raise ValueError("matrix must be a square matrix")
+    if len(matrix) != len(matrix[0]) or matrix == []:
+        raise ValueError("matrix must be a non-empty square matrix")
 
     # Base case: 1x1 matrix
     if len(matrix) == 1:
