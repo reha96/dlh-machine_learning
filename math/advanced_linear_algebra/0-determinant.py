@@ -19,8 +19,7 @@ def determinant(matrix):
     Returns:
         _type_: _description_
     """
-    if not isinstance(matrix, list) or not isinstance(matrix[0], list) \
-            or len(matrix) == 0:
+    if not isinstance(matrix, list) or not isinstance(matrix[0], list):
         raise TypeError("matrix must be a list of lists")
 
     if len(matrix) != len(matrix[0]):
