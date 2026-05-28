@@ -20,9 +20,9 @@ def determinant(matrix):
         _type_: _description_
     """
     if not isinstance(matrix, list) or not isinstance(matrix[0], list):
-        raise TypeError
+        raise TypeError("matrix must be a list of lists")
     if len(matrix) != len(matrix[0]):
-        raise ValueError
+        raise ValueError("matrix must be a square matrix")
 
     # Base case: 1x1 matrix
     if len(matrix) == 1:
