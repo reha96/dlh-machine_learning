@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
+"""Minor matrix calculator."""
 
-"""Write a function def minor(matrix): that calculates the minor
-matrix of a matrix:
-    """
+
 def determinant(matrix):
     """calculates
     the determinant of a matrix
@@ -56,58 +55,44 @@ def determinant(matrix):
         det += ((-1) ** col) * matrix[0][col] * determinant(submatrix[col])
     return det
 
+
 def minor(matrix):
-    """calculates the minor
-matrix of a matrix
-
-    Args:
-        matrix (_type_): _description_
-    """
-
-    if not isinstance(matrix, list):
-        raise TypeError("matrix must be a list of lists")
-
-    # Base case: 0x0 matrix
-    if matrix == [[]]:
-        return 1
-
-    if len(matrix) == 0:
-        raise TypeError("matrix must be a list of lists")
-
-    # Every element must be a list
-    if not all(isinstance(row, list) for row in matrix):
-        raise TypeError("matrix must be a list of lists")
-
-    if len(matrix) != len(matrix[0]) or matrix == []:
+    # --- unified validation ---
+    if (not isinstance(matrix, list) or
+        len(matrix) == 0 or
+        matrix == [[]] or
+        not all(isinstance(row, list) for row in matrix) or
+            len(matrix) != len(matrix[0])):
         raise ValueError("matrix must be a non-empty square matrix")
 
-    # Base case: 1x1 matrix
-    if len(matrix) == 1:
+    n = len(matrix)
+
+    # 1x1
+    if n == 1:
         return [[1]]
 
-    # Base case: 2x2 matrix
-    out = []
-    if len(matrix) == 2:
-        for row in range(len(matrix)-1, -1, -1):
-            out.append(matrix[row][::-1])
-        return out
+    # 2x2
+    if n == 2:
+        return [[matrix[1][1], matrix[1][0]],
+                [matrix[0][1], matrix[0][0]]]
 
-    # Base case: 3x3 matrix and more
-    submatrix = []
-    for i in range(len(matrix)):  # row = 0, 1, 2, ...
-        for j in range(len(matrix)):  # col = 0, 1, 2, ...
-            temp = []
-            for k in range(len(matrix)):
+    # n >= 3
+    submatrices = []
+    for i in range(n):
+        for j in range(n):
+            sub = []
+            for k in range(n):
                 if k == i:
                     continue
                 new_row = matrix[k][:j] + matrix[k][j+1:]
-                temp.append(new_row)
-            submatrix.append(temp)
+                sub.append(new_row)
+            submatrices.append(sub)
 
-    temp = []
-    for mat in submatrix:
-        temp.append(determinant(mat))
-    for i in range(len(matrix)):
-        out += [temp[i*len(matrix):(i+1)*len(matrix)]]
+    # compute all determinants
+    minors_flat = [determinant(sub) for sub in submatrices]
 
+    # reshape into n x n
+    out = []
+    for i in range(n):
+        out.append(minors_flat[i*n: (i+1)*n])
     return out
