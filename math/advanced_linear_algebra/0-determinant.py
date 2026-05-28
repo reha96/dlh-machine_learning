@@ -19,7 +19,7 @@ def determinant(matrix):
     Returns:
         _type_: _description_
     """
-    if not isinstance(matrix, list) or len(matrix) == 0:
+    if not isinstance(matrix, list):
         raise TypeError("matrix must be a list of lists")
 
     # Base case: 0x0 matrix
