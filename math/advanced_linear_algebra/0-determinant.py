@@ -24,6 +24,10 @@ def determinant(matrix):
     if len(matrix) != len(matrix[0]):
         raise ValueError("matrix must be a square matrix")
 
+    # Base case: 0x0 matrix
+    if len(matrix) == 0:
+        return None
+
     # Base case: 1x1 matrix
     if len(matrix) == 1:
         return matrix[0][0]
