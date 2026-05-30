@@ -122,6 +122,10 @@ the cofactor matrix of a matrix
             or matrix == [] or matrix == [[]] or len(matrix) == 0:
         raise ValueError("matrix must be a non-empty square matrix")
 
+    # Base case: 1x1 matrix
+    if len(matrix) == 1:
+        return [[1]]
+
     temp = []
     for row in range(len(matrix)):
         for col in range(len(matrix)):
