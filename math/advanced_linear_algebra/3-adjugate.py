@@ -135,9 +135,10 @@ def adjugate(matrix):
     """
 
     cofact = cofactor(matrix)
+
     temp = []
-    for row in cofact:
-        for col in cofact:
+    for row in range(len(cofact)):
+        for col in range(len(cofact)):
             temp.append(cofact[col][row])
 
     out = []
