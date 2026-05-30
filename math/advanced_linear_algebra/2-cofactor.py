@@ -114,23 +114,13 @@ the cofactor matrix of a matrix
     Args:
         matrix (_type_): _description_
     """
-    if not isinstance(matrix, list) \
-            or not all(isinstance(row, list) for row in matrix):
-        raise TypeError("matrix must be a list of lists")
-
-    if not all(len(row) == len(matrix) for row in matrix) \
-            or matrix == [] or matrix == [[]] or len(matrix) == 0:
-        raise ValueError("matrix must be a non-empty square matrix")
-
-    # Base case: 1x1 matrix
-    if len(matrix) == 1:
-        return [[1]]
+    min = minor(matrix)
 
     temp = []
-    for row in range(len(matrix)):
-        for col in range(len(matrix)):
-            temp.append((-1) ** (col+row) * matrix[row][col])
+    for row in range(len(min)):
+        for col in range(len(min)):
+            temp.append((-1) ** (col+row) * min[row][col])
     out = []
-    for i in range(len(matrix)):
-        out += [temp[i*len(matrix):(i+1)*len(matrix)]]
+    for i in range(len(min)):
+        out += [temp[i*len(min):(i+1)*len(min)]]
     return out
