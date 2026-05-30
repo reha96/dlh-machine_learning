@@ -29,7 +29,7 @@ def definiteness(matrix):
         return None
 
     if not np.allclose(matrix, matrix.T, rtol=1e-8, atol=1e-10):
-        raise ValueError("matrix must be symmetric")
+        return None
 
     tol = 1e-10
     eigvals = np.linalg.eigvalsh(matrix)  # works for symmetric matrices
