@@ -1,6 +1,6 @@
 # Pipeline — Databases
 
-A progressive journey through SQL and MongoDB — from basic table creation and CRUD operations to multi-table joins, aggregations, constraints, triggers, and NoSQL document operations with Python/PyMongo.
+A progressive journey through SQL and MongoDB — from basic table creation and CRUD operations to stored procedures, user-defined functions, indexes, views, and NoSQL document operations with Python/PyMongo.
 
 ---
 
@@ -17,9 +17,14 @@ A progressive journey through SQL and MongoDB — from basic table creation and 
 | 7 | Handle null values and computed columns with `COALESCE` and arithmetic |
 | 8 | Automate database logic with `CREATE TRIGGER` (BEFORE/AFTER, INSERT/UPDATE) |
 | 9 | Design schemas for many-to-many relationships and time-series data |
-| 10 | Interact with MongoDB via the shell: `show dbs`, `use`, `find`, `insert`, `update`, `delete` |
-| 11 | Perform CRUD operations programmatically with PyMongo in Python |
-| 12 | Build MongoDB aggregation pipelines for data analysis (`$group`, `$sort`, `$limit`) |
+| 10 | Create stored procedures with variables, conditionals, and input parameters |
+| 11 | Define user-defined functions (UDFs) for reusable safe computations |
+| 12 | Optimize queries with prefix and composite indexes |
+| 13 | Create views for dynamic, reusable filtered datasets |
+| 14 | Compute weighted averages with JOIN in stored procedures |
+| 15 | Interact with MongoDB via the shell: `show dbs`, `use`, `find`, `insert`, `update`, `delete` |
+| 16 | Perform CRUD operations programmatically with PyMongo in Python |
+| 17 | Build MongoDB aggregation pipelines (`$group`, `$sort`, `$limit`) and regex queries (`$regex`) |
 
 ---
 
@@ -366,6 +371,133 @@ Each task below highlights the **unique challenge** it posed and the **new techn
 
 ---
 
+### Task 19 — Stored Procedure: Add Bonus (`19-bonus.sql`)
+
+**Challenge:** Create a reusable stored procedure that adds a correction for a student, auto-creating the project if it doesn't exist — introducing procedural SQL with variables and conditional logic.
+
+**Approach:** `CREATE PROCEDURE AddBonus(IN p_user_id INT, IN p_project_name VARCHAR(255), IN p_score INT)` — declares a local variable with `DECLARE`, checks if the project exists with `SELECT id INTO`, and conditionally inserts a new project with `IF ... THEN`. Finally inserts the correction.
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| `CREATE PROCEDURE name(IN param TYPE, ...)` | Define a stored procedure with input parameters |
+| `DECLARE var_name TYPE` | Declare a local variable inside a procedure body |
+| `SELECT col INTO var FROM table WHERE ...` | Store a query result into a variable |
+| `IF var IS NULL THEN ... END IF` | Conditional logic inside a stored procedure |
+
+> **Key takeaway:** Stored procedures encapsulate multi-step logic — check, branch, insert — into a single callable unit. `SELECT ... INTO` is how you capture query results in procedural SQL.
+
+---
+
+### Task 20 — Stored Procedure: Compute Average Score (`20-average_score.sql`)
+
+**Challenge:** Compute a student's average score across all corrections and store it back into the `users` table — automating derived data with a stored procedure.
+
+**Approach:** `CREATE PROCEDURE ComputeAverageScoreForUser(IN p_user_id INT)` — uses `SELECT AVG(score) INTO` to compute the average, then `UPDATE users SET average_score = IFNULL(var, 0)` to persist it, gracefully handling students with no corrections.
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| `AVG()` in a stored procedure | Compute aggregates inside procedural SQL |
+| `UPDATE ... SET col = value WHERE id = param` | Persist computed results back to the database |
+| `IFNULL(expr, default)` | Return a default value (0) when the expression is NULL |
+
+> **Key takeaway:** Stored procedures can bridge the gap between raw data and derived values — compute once, store for fast retrieval. `IFNULL` prevents NULL from propagating into your computed columns.
+
+---
+
+### Task 21 — User-Defined Function: Safe Division (`21-div.sql`)
+
+**Challenge:** Create a reusable function that performs safe division — returning 0 instead of raising a divide-by-zero error.
+
+**Approach:** `CREATE FUNCTION SafeDiv(first_num INT, second_num INT) RETURNS FLOAT DETERMINISTIC NO SQL` — checks `IF second_num = 0 THEN RETURN 0`, otherwise returns `first_num / second_num`. The function is marked `DETERMINISTIC` (same inputs → same output) and `NO SQL` (no data reads/writes).
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| `CREATE FUNCTION name(params) RETURNS TYPE` | Define a user-defined function (UDF) |
+| `DETERMINISTIC` | Declare the function always returns the same result for the same inputs |
+| `NO SQL` | Declare the function does not read or write database data |
+| `RETURN value` inside IF/ELSE | Return different values based on conditions |
+
+> **Key takeaway:** UDFs differ from procedures — they return a value and can be used inline in `SELECT` statements. `SafeDiv` encapsulates a business rule (no division by zero) in one reusable place.
+
+---
+
+### Task 100 — Index on First Letter (`100-index_my_names.sql`)
+
+**Challenge:** Speed up name lookups by creating an index on only the first letter of the `name` column — introducing prefix/partial indexes.
+
+**Approach:** `CREATE INDEX idx_name_first ON names (name(1))` — indexes just the first character of `name`, dramatically reducing index size while still accelerating prefix searches.
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| `CREATE INDEX index_name ON table (col(N))` | Create a prefix index on the first N characters of a column |
+| `name(1)` — single-character index | Index only what you query — minimal storage, maximal speed for prefix searches |
+
+> **Key takeaway:** You don't need to index the entire column. A prefix index on `name(1)` is perfect for queries like `WHERE name LIKE 'A%'` — tiny index, huge speedup.
+
+---
+
+### Task 101 — Composite Index (`101-index_name_score.sql`)
+
+**Challenge:** Optimize queries that filter by both first letter of name AND score — introducing multi-column composite indexes.
+
+**Approach:** `CREATE INDEX idx_name_first_score ON names (name(1), score)` — the index covers both columns in order, so queries filtering on `name(1)` alone OR `name(1) + score` both benefit.
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| `CREATE INDEX ON table (col1, col2)` | Create a composite (multi-column) index |
+| Column order matters | Leftmost prefix rule — index on `(A, B)` helps queries on `A` alone, not `B` alone |
+
+> **Key takeaway:** Composite indexes cover multiple columns. Order matters: `(name(1), score)` helps `WHERE name LIKE 'A%' AND score > 80`, but NOT `WHERE score > 80` alone.
+
+---
+
+### Task 102 — View: Students Needing Meeting (`102-need_meeting.sql`)
+
+**Challenge:** Create a dynamically-filtered view of students with low scores and stale/no meetings — introducing `CREATE VIEW` with date arithmetic.
+
+**Approach:** `CREATE VIEW need_meeting AS SELECT name FROM students WHERE score < 80 AND (last_meeting IS NULL OR last_meeting < CURDATE() - INTERVAL 1 MONTH)` — the view encapsulates the filtering logic and always returns current results.
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| `CREATE VIEW name AS SELECT ...` | Define a virtual table based on a query |
+| `CURDATE()` | Get the current date (no time component) |
+| `INTERVAL 1 MONTH` | Date arithmetic — subtract one month from a date |
+| `IS NULL` OR date comparison | Handle both "never met" and "met too long ago" cases |
+
+> **Key takeaway:** Views are saved queries — they don't store data, they rerun the query each time. `CURDATE() - INTERVAL 1 MONTH` is how you express "more than a month ago" in SQL.
+
+---
+
+### Task 103 — Stored Procedure: Weighted Average Score (`103-average_weighted_score.sql`)
+
+**Challenge:** Compute a student's weighted average score — where each project has a different weight — and store the result. Introducing `JOIN` inside a stored procedure with weighted aggregation.
+
+**Approach:** `CREATE PROCEDURE ComputeAverageWeightedScoreForUser(IN p_user_id INT)` — uses `SELECT SUM(score * projects.weight) / SUM(projects.weight) INTO` from `corrections JOIN projects` to compute the weighted average, then updates the user record.
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| `SUM(score * weight) / SUM(weight)` | Weighted average formula: sum of (value × weight) divided by sum of weights |
+| `JOIN` inside a stored procedure | Combine data from multiple tables in procedural SQL |
+| `INTO` with aggregate expression | Store a computed aggregate directly into a variable |
+
+> **Key takeaway:** A weighted average accounts for unequal importance — a project worth 5× counts 5× more. The formula $\frac{\sum(\text{score} \times \text{weight})}{\sum \text{weight}}$ handles any weight distribution.
+
+---
+
 ## Schema Reference
 
 ### `hbtn_0d_tvshows.sql` — TV Shows + Genres (Many-to-Many)
@@ -415,6 +547,13 @@ Flat table: `temperatures` (city, state, year, month, value). Designed for effic
 | 16 | `LIKE '%pattern%'`, `COALESCE()`, arithmetic in SELECT | Pattern Matching & Nulls |
 | 17 | `CREATE TRIGGER AFTER INSERT`, `NEW` reference | Triggers |
 | 18 | `BEFORE UPDATE`, `IF` in trigger, `OLD` vs `NEW` | Triggers |
+| 19 | `CREATE PROCEDURE`, `IN` params, `DECLARE`, `SELECT INTO`, `IF` | Stored Procedures |
+| 20 | `AVG()` in procedure, `UPDATE` with `IFNULL` | Stored Procedures |
+| 21 | `CREATE FUNCTION`, `RETURNS`, `DETERMINISTIC`, `NO SQL` | User-Defined Functions |
+| 100 | `CREATE INDEX ON name(1)` — prefix index | Indexes |
+| 101 | Composite index `(name(1), score)` — multi-column | Indexes |
+| 102 | `CREATE VIEW`, `CURDATE()`, `INTERVAL 1 MONTH` | Views |
+| 103 | `SUM(score*weight)/SUM(weight)`, `JOIN` in procedure | Stored Procedures |
 
 ---
 
@@ -559,6 +698,24 @@ Each task below highlights the **unique challenge** it posed and the **new techn
 | `deleteOne()` vs `deleteMany()` | `deleteOne` removes first match; `deleteMany` removes all matches |
 
 > **Key takeaway:** `deleteMany()` is MongoDB's `DELETE FROM ... WHERE ...` — it removes all matching documents in one operation. Use `deleteOne()` when you want to limit removal to a single document.
+
+---
+
+### Task 104 — Find with Regex (`104-find`)
+
+**Challenge:** Find all documents whose `name` field starts with a specific prefix — introducing MongoDB's `$regex` operator for pattern matching.
+
+**Approach:** `db.school.find({ name: { $regex: "^Holberton" } })` — the `$regex` operator applies a regular expression to the `name` field. `^` anchors the match to the start of the string, so only names beginning with "Holberton" match.
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| `{ field: { $regex: "pattern" } }` | Apply a regular expression filter to a field |
+| `^` anchor in regex | Match only at the start of the string (prefix matching) |
+| MongoDB regex vs SQL `LIKE` | `$regex: "^Holberton"` ≈ `WHERE name LIKE 'Holberton%'` in SQL |
+
+> **Key takeaway:** MongoDB's `$regex` is the NoSQL equivalent of SQL's `LIKE` — it enables pattern-based queries. The `^` anchor makes it a prefix search, which can leverage indexes for performance.
 
 ---
 
@@ -719,6 +876,7 @@ Advanced data analysis using MongoDB's aggregation pipeline — grouping, sortin
 | 34 | `MongoClient`, `count_documents()` — real-world analysis | PyMongo Connection |
 | 105 | `aggregate()`, `$addFields`, `$avg`, `$sort` | Aggregation Pipeline |
 | 106 | `$group`, `$sum`, `$limit` — top-N grouping | Aggregation Pipeline |
+| 104 | `$regex: "^prefix"` — pattern-matching query | MongoDB Queries |
 
 ---
 
