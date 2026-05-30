@@ -128,7 +128,7 @@ the cofactor matrix of a matrix
 
 def adjugate(matrix):
     """calculates the adjugate matrix of a matrix by
-    transposing the cofactor matrix 
+    transposing the cofactor matrix
 
     Args:
         matrix (_type_): _description_
