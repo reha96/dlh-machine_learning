@@ -13,7 +13,7 @@ def definiteness(matrix):
     if matrix.size == 0:
         return None
 
-    if not all(i-1 == i for i in np.shape(matrix)):
+    if not all(np.shape(matrix)[0] == i for i in np.shape(matrix)):
         return None
 
     tol = 1e-10
