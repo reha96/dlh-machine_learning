@@ -7,8 +7,7 @@ import numpy as np
 
 def definiteness(matrix):
 
-    if not isinstance(matrix, list) \
-            or not all(isinstance(row, list) for row in matrix):
+    if not isinstance(matrix, np.ndarray):
         return None
 
     if not all(len(row) == len(matrix) for row in matrix) \
