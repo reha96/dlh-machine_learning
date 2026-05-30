@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Write a function def adjugate(matrix): that calculates
     the adjugate matrix of a matrix:
     """
