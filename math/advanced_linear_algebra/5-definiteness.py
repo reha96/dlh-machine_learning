@@ -18,10 +18,6 @@ def definiteness(matrix):
     Returns:
         _type_: _description_
     """
-    trans = np.transpose(matrix)
-
-    if trans != matrix:
-        return None
 
     if not isinstance(matrix, np.ndarray):
         raise TypeError("matrix must be a numpy.ndarray")
@@ -31,6 +27,9 @@ def definiteness(matrix):
 
     if not all(np.shape(matrix)[0] == i for i in np.shape(matrix)):
         return None
+
+    if not np.allclose(matrix, matrix.T, rtol=1e-8, atol=1e-10):
+        raise ValueError("matrix must be symmetric")
 
     tol = 1e-10
     eigvals = np.linalg.eigvalsh(matrix)  # works for symmetric matrices
