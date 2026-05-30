@@ -10,8 +10,10 @@ def definiteness(matrix):
     if not isinstance(matrix, np.ndarray):
         raise TypeError("matrix must be a numpy.ndarray")
 
-    if not all(len(row) == len(matrix) for row in matrix) \
-            or matrix == [] or matrix == [[]] or len(matrix) == 0:
+    if matrix.size == 0:
+        return None
+
+    if not all(i-1 == i for i in np.shape(matrix)):
         return None
 
     tol = 1e-10
