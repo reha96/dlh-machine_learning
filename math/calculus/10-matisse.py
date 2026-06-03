@@ -11,10 +11,14 @@ def poly_derivative(poly):
     Args:
         poly (_type_): _description_
     """
-    if not isinstance(poly, list) and not all(isinstance(item, int)
-                                              for item in poly):
+    if not isinstance(poly, list) or not all(isinstance(item, int)
+                                             for item in poly) or \
+            len(poly) == 0:
         return None
     out = []
     for i in range(1, len(poly)):
         out.append(poly[i]*i)
+
+    if len(poly) == 0 or all(x == 0 for x in out):
+        return [0]
     return out
