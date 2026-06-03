@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Write a function def poly_derivative(poly): that calculates
-    the derivative of a polynomial: 
+    the derivative of a polynomial:
     """
 
 
@@ -11,9 +11,7 @@ def poly_derivative(poly):
     Args:
         poly (_type_): _description_
     """
-    if not isinstance(poly, list) or not all(isinstance(item, int)
-                                             for item in poly) or \
-            len(poly) == 0:
+    if not isinstance(poly, list) or len(poly) == 0:
         return None
     out = []
     for i in range(1, len(poly)):
