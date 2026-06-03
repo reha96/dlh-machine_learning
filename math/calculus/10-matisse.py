@@ -11,10 +11,8 @@ def poly_derivative(poly):
     Args:
         poly (_type_): _description_
     """
-    if not isinstance(poly, list):
-        return None
-    
-    if not all(isinstance(item for item in poly, int)):
+    if not isinstance(poly, list) and not all(isinstance(item, int)
+                                              for item in poly):
         return None
     out = []
     for i in range(1, len(poly)):
