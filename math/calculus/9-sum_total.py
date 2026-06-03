@@ -9,13 +9,7 @@ def summation_i_squared(n):
     Args:
         n (_type_): _description_
     """
-    if not isinstance(n, int):
+    if not isinstance(n, int) or n < 1:
         return None
 
-    if n < 0:
-        return None
-
-    if n == 1:
-        return n
-
-    return n**2 + summation_i_squared(n-1)
+    return n * (n + 1) * (2 * n + 1) // 6

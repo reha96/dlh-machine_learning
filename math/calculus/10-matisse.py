@@ -13,6 +13,9 @@ def poly_derivative(poly):
     """
     if not isinstance(poly, list):
         return None
+    
+    if not all(isinstance(item for item in poly, int)):
+        return None
     out = []
     for i in range(1, len(poly)):
         out.append(poly[i]*i)
