@@ -24,7 +24,9 @@ def poly_integral(poly, C=0):
 
     out = [C]
     for i in range(len(poly)):
-        out.append(poly[i]/(i+1))
+        # Store as int
+        out.append(int(poly[i]/(i+1)) if poly[i]/(i+1) ==
+                   int(poly[i]/(i+1)) else poly[i]/(i+1))
 
     # Remove trailing zeros (keep at least one coefficient)
     while len(out) > 1 and out[-1] == 0:
