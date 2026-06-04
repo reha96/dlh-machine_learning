@@ -11,14 +11,16 @@ def poly_integral(poly, C=0):
         poly (_type_): _description_
         C (int, optional): _description_. Defaults to 0.
     """
-    if not isinstance(poly, list) or len(poly) == 0:
+
+    if type(C) is float and C.is_integer():
+        C = int(C)
+
+    if not isinstance(poly, list) or len(poly) == 0 \
+            or not isinstance(C, int):
         return None
 
-    out = [0]
+    out = [C]
     for i in range(len(poly)):
         out.append(poly[i]/(i+1))
-
-    if not isinstance(C, float) or all(x == 0 for x in out):
-        return None
 
     return out
