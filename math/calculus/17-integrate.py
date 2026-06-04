@@ -19,6 +19,9 @@ def poly_integral(poly, C=0):
             or not isinstance(C, int):
         return None
 
+    if not all(isinstance(i, int) or not isinstance(i, float) for i in poly):
+        return None
+
     out = [C]
     for i in range(len(poly)):
         out.append(poly[i]/(i+1))
