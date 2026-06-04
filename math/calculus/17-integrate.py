@@ -26,4 +26,8 @@ def poly_integral(poly, C=0):
     for i in range(len(poly)):
         out.append(poly[i]/(i+1))
 
+    # Remove trailing zeros (keep at least one coefficient)
+    while len(out) > 1 and out[-1] == 0:
+        out.pop()
+
     return out
