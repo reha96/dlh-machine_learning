@@ -17,4 +17,5 @@ def line():
     plt.figure(figsize=(6.4, 4.8))
 
     plt.plot(y, color='r')
+    plt.xlim(0, 10)
     return plt.show()
