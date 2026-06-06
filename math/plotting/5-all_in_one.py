@@ -55,8 +55,8 @@ def all_in_one():
 
     # ---------- Plot 0: y = x^3 ----------
     ax0.plot(x0, y0, 'r-')
-    ax0.set_xlim(0,10)
-    ax0.set_ylim(0,1000)
+    ax0.set_xlim(0, 10)
+    ax0.set_ylim(0, 1000)
     # ---------- Plot 1: Men's height vs weight (scatter) ----------
     ax1.scatter(x1, y1, c='magenta')
     ax1.set_xlabel("Height (in)")
