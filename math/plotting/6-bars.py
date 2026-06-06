@@ -1,6 +1,6 @@
-#!/bin/usr/env python3
-"""Complete the following source code to plot a stacked bar graph:
-
+#!/usr/bin/env python3
+"""Complete the following source code to plot a stacked bar
+graph:
 fruit is a matrix representing the number of fruit various
 people possess
 The columns of fruit represent the number of fruit Farrah,
@@ -32,6 +32,11 @@ import matplotlib.pyplot as plt
 
 
 def bars():
+    """stacked bar chart with custom colors and labels 
+
+    Returns:
+        _type_: _description_
+    """
     np.random.seed(5)
     fruit = np.random.randint(0, 20, (4, 3))
     plt.figure(figsize=(6.4, 4.8))
@@ -56,6 +61,3 @@ def bars():
     ax.legend(loc="upper right")
 
     return plt.show()
-
-
-bars()
