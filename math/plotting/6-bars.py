@@ -32,7 +32,7 @@ import matplotlib.pyplot as plt
 
 
 def bars():
-    """stacked bar chart with custom colors and labels 
+    """stacked bar chart with custom colors and labels
 
     Returns:
         _type_: _description_
