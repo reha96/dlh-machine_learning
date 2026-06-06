@@ -43,26 +43,26 @@ def all_in_one():
     # ----- Global font size settings (x-small for labels and titles) -----
     plt.rc('axes', labelsize='x-small', titlesize='x-small')
 
-    # ----- Create figure with GridSpec (3 rows, 2 columns) -----
+    # ----- Create figure with custom grid (3 rows, 2 columns) -----
     fig = plt.figure()
-    gs = fig.add_gridspec(3, 2)
-
-    ax0 = fig.add_subplot(gs[0, 0])   # row0, col0: cubic line
-    ax1 = fig.add_subplot(gs[0, 1])   # row0, col1: scatter
-    ax2 = fig.add_subplot(gs[1, 0])   # row1, col0: C-14 log scale
-    ax3 = fig.add_subplot(gs[1, 1])   # row1, col1: two lines
-    ax4 = fig.add_subplot(gs[2, :])   # row2, both columns: histogram
+    # subplot2grid(shape, location, rowspan, colspan)
+    ax0 = plt.subplot2grid((3, 2), (0, 0))  # top left
+    ax1 = plt.subplot2grid((3, 2), (0, 1))  # top right
+    ax2 = plt.subplot2grid((3, 2), (1, 0))  # middle left
+    ax3 = plt.subplot2grid((3, 2), (1, 1))  # middle right
+    # bottom row, both columns
+    ax4 = plt.subplot2grid((3, 2), (2, 0), colspan=2)
 
     # ---------- Plot 0: y = x^3 ----------
     ax0.plot(x0, y0, 'r-')
-    ax0.set_xlabel("x")
-    ax0.set_ylabel("y")
-
+    ax0.set_xlim(0,10)
+    ax0.set_ylim(0,1000)
     # ---------- Plot 1: Men's height vs weight (scatter) ----------
     ax1.scatter(x1, y1, c='magenta')
     ax1.set_xlabel("Height (in)")
     ax1.set_ylabel("Weight (lbs)")
     ax1.set_title("Men's Height vs Weight")
+    ax1.set_xticks(np.arange(60, 81, 10))
 
     # ---------- Plot 2: Exponential decay C-14 (log scale) ----------
     ax2.plot(x2, y2)
@@ -70,6 +70,7 @@ def all_in_one():
     ax2.set_ylabel("Fraction Remaining")
     ax2.set_yscale('log')
     ax2.set_xlim(0, 28650)
+    ax2.set_xticks(np.arange(0, 28650, 10000))
     ax2.set_title("Exponential Decay of C-14")
 
     # ---------- Plot 3: Two radioactive elements ----------
@@ -78,6 +79,7 @@ def all_in_one():
     ax3.set_xlabel("Time (years)")
     ax3.set_ylabel("Fraction Remaining")
     ax3.set_xlim(0, 20000)
+    ax3.set_xticks(np.arange(0, 20001, 5000))
     ax3.set_ylim(0, 1)
     ax3.set_title("Exponential Decay of Radioactive Elements")
     ax3.legend(loc='upper right')
@@ -93,5 +95,9 @@ def all_in_one():
 
     # Figure title
     fig.suptitle("All in One")
-
+    # fix layout
+    plt.tight_layout()
     return plt.show()
+
+
+all_in_one()
