@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""Complete the following source code to plot x ↦ y as a scatter plot:
-
+"""Complete the following source code to plot x ↦ y as a
+scatter plot:
     The x-axis should be labeled Height (in)
     The y-axis should be labeled Weight (lbs)
     The title should be Men's Height vs Weight
     The data should be plotted as magenta points
-
     """
 
 import numpy as np
@@ -25,8 +24,7 @@ def scatter():
     plt.scatter(
         x=x,
         y=y,
-        c='magenta',
-        marker="."
+        c='magenta'
     )
     plt.xlabel("Height (in)")
     plt.ylabel("Weight (lbs)")
