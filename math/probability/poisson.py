@@ -46,4 +46,4 @@ class Poisson:
         for i in range(len(data)):
             sum += data[i]
         self.lambtha = sum/len(data)
-        return self.lambtha
+        return None
