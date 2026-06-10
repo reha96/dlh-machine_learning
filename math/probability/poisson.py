@@ -36,7 +36,7 @@ class Poisson:
         if self.lambtha <= 0:
             raise ValueError("lambtha must be a positive value")
         if data is None:
-            return self.lambtha
+            return None
         elif not isinstance(data, list):
             raise TypeError("data must be a list")
         elif len(data) < 2:
