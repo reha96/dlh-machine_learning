@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Create a class Poisson that represents a poisson distribution:
-
 Class contructor def __init__(self, data=None, lambtha=1.):
 data is a list of the data to be used to estimate the distribution
 lambtha is the expected number of occurences in a given time frame
@@ -16,8 +15,7 @@ Calculate the lambtha of data
 If data is not a list, raise a TypeError with the message
 data must be a list
 If data does not contain at least two data points,
-raise a ValueError with the message data must contain multiple values 
-
+raise a ValueError with the message data must contain multiple values
 """
 
 
