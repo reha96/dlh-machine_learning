@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+"""Write a function def poly_integral(poly, C=0):
+    that calculates the integral of a polynomial:
+    """
+
+
+def poly_integral(poly, C=0):
+    """calculates the integral of a polynomial
+
+    Args:
+        poly (_type_): _description_
+        C (int, optional): _description_. Defaults to 0.
+    """
+
+    if type(C) is float and C.is_integer():
+        C = int(C)
+
+    if not isinstance(poly, list) or len(poly) == 0 \
+            or not isinstance(C, int):
+        return None
+
+    if not all(isinstance(i, (int, float)) for i in poly):
+        return None
+
+    out = [C]
+    for i in range(len(poly)):
+        # Store as int
+        out.append(int(poly[i]/(i+1)) if poly[i]/(i+1) ==
+                   int(poly[i]/(i+1)) else poly[i]/(i+1))
+
+    # Remove trailing zeros (keep at least one coefficient)
+    while len(out) > 1 and out[-1] == 0:
+        out.pop()
+
+    return out
