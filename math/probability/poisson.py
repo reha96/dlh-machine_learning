@@ -45,3 +45,24 @@ class Poisson:
             sum += data[i]
         self.lambtha = sum/len(data)
         return None
+
+    def pmf(self, k):
+        """Update the class Poisson:
+        Instance method def pmf(self, k):
+        Calculates the value of the PMF for
+        a given number of "successes"
+        k is the number of "successes"
+        If k is not an integer, convert it to an integer
+        If k is out of range, return 0
+        Returns the PMF value for k
+        Args:
+            k (_type_): _description_
+        """
+        if not isinstance(k, int):
+            self.k = int(k)
+        e = 2.7182818285
+        sigma = 1
+        for i in range(1, k):
+            sigma = sigma*i
+        pmf = ((self.lambtha**self.k)*e**(-self.lambtha))/(k*sigma)
+        return pmf
