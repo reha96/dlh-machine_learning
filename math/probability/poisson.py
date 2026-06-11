@@ -84,7 +84,7 @@ class Poisson:
         if not isinstance(self.k, int) or self.k < 0:
             return 0
         sigma = 1
-        for j in range(1, self.k):
+        for j in range(1, self.k+1):
             sigma = sigma*j
             cdf = (self.lambtha**j)/sigma
         return cdf
