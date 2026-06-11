@@ -32,6 +32,7 @@ distribution
             data (_type_, optional): _description_. Defaults to None.
             lambtha (_type_, optional): _description_. Defaults to 1..
         """
+        self.lambtha = float(lambtha)
         if self.lambtha <= 0:
             raise ValueError("lambtha must be a positive value")
         if data is None:
