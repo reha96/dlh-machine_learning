@@ -58,8 +58,9 @@ class Poisson:
         Args:
             k (_type_): _description_
         """
+        self.k = int(k)
         if not isinstance(k, int):
-            self.k = int(k)
+            return None
         e = 2.7182818285
         sigma = 1
         for i in range(1, k):
