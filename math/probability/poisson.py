@@ -59,14 +59,14 @@ class Poisson:
         Args:
             k (_type_): _description_
         """
-        self.k = int(k)
-        if not isinstance(self.k, int) or self.k < 0:
+        k = int(k)
+        if not isinstance(k, int) or k < 0:
             return 0
         sigma = 1
-        for i in range(1, self.k):
+        for i in range(1, k):
             sigma = sigma*i
-        pmf = ((self.lambtha**self.k)*self.e **
-               (-self.lambtha))/(self.k*sigma)
+        pmf = ((self.lambtha**k)*self.e **
+               (-self.lambtha))/(k*sigma)
         return pmf
 
     def cdf(self, k):
@@ -80,12 +80,12 @@ class Poisson:
         Args:
             k (_type_): _description_
         """
-        self.k = int(k)
-        if not isinstance(self.k, int) or self.k < 0:
+        k = int(k)
+        if not isinstance(k, int) or k < 0:
             return 0
         sigma = 1
-        cdf = 0
-        for j in range(1, self.k+1):  # bc 0!=1
+        cdf = 1  # bc k = 0 ==> 1
+        for j in range(1, k+1):  # bc 0!=1
             sigma *= j
             cdf += ((self.lambtha**j)/sigma)
         return self.e**(-self.lambtha)*cdf
