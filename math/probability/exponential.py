@@ -24,6 +24,7 @@ class Exponential:
     """class that represents an exponential
 distribution
     """
+    e = 2.7182818285
 
     def __init__(self, data=None, lambtha=1.):
         """class constructor
@@ -47,3 +48,19 @@ distribution
             sum += data[i]
         self.lambtha = 1/(sum/len(data))
         return None
+
+    def pdf(self, x):
+        """Update the class Exponential:
+        Instance method def pdf(self, x):
+        Calculates the value of the PDF for a given time period
+        x is the time period
+        Returns the PDF value for x
+        If x is out of range, return 0
+        Args:
+            x (_type_): _description_
+        """
+        x = float(x)
+        if not isinstance(x, float) or x < 0:
+            return 0
+        pmf = self.lambtha*self.e**(-self.lambtha*x)
+        return pmf
