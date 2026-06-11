@@ -80,6 +80,9 @@ class Poisson:
         Args:
             k (_type_): _description_
         """
+        self.k = int(k)
+        if not isinstance(self.k, int) or self.k < 0:
+            return 0
         sigma = 1
         for j in range(1, self.k):
             sigma = sigma*j
