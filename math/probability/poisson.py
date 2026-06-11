@@ -63,7 +63,7 @@ class Poisson:
             return 0
         e = 2.7182818285
         sigma = 1
-        for i in range(1, k):
+        for i in range(1, self.k):
             sigma = sigma*i
-        pmf = ((self.lambtha**self.k)*e**(-self.lambtha))/(k*sigma)
+        pmf = ((self.lambtha**self.k)*e**(-self.lambtha))/(self.k*sigma)
         return pmf
