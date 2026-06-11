@@ -22,6 +22,7 @@ raise a ValueError with the message data must contain multiple values
 class Poisson:
     """class that represents a poisson distribution
     """
+    e = 2.7182818285
 
     def __init__(self, data=None, lambtha=1.):
         """class contructor
@@ -61,9 +62,26 @@ class Poisson:
         self.k = int(k)
         if not isinstance(self.k, int) or self.k < 0:
             return 0
-        e = 2.7182818285
         sigma = 1
         for i in range(1, self.k):
             sigma = sigma*i
-        pmf = ((self.lambtha**self.k)*e**(-self.lambtha))/(self.k*sigma)
+        pmf = ((self.lambtha**self.k)*self.e **
+               (-self.lambtha))/(self.k*sigma)
         return pmf
+
+    def cdf(self, k):
+        """Update the class Poisson:
+        Instance method def cdf(self, k):
+        Calculates the value of the CDF for a given number of "successes"
+        k is the number of "successes"
+        If k is not an integer, convert it to an integer
+        If k is out of range, return 0
+        Returns the CDF value for k
+        Args:
+            k (_type_): _description_
+        """
+        sigma = 1
+        for j in range(1, self.k):
+            sigma = sigma*j
+            cdf = (self.lambtha**j)/sigma
+        return cdf
