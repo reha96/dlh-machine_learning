@@ -64,3 +64,19 @@ distribution
             return 0
         pmf = self.lambtha*self.e**(-self.lambtha*x)
         return pmf
+
+    def cdf(self, x):
+        """Update the class Exponential:
+        Instance method def cdf(self, x):
+        Calculates the value of the CDF for a given time period
+        x is the time period
+        Returns the CDF value for x
+        If x is out of range, return 0
+        Args:
+            x (_type_): _description_
+        """
+        x = float(x)
+        if not isinstance(x, float) or x < 0:
+            return 0
+        cdf = 1 - self.e**(-self.lambtha*x)
+        return cdf
