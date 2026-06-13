@@ -26,7 +26,7 @@ class Normal:
     """class Normal that represents a normal distribution
     """
 
-    def __init(self, data=None, mean=0., stddev=1.):
+    def __init__(self, data=None, mean=0., stddev=1.):
         """class constructor
 
         Args:
