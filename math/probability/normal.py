@@ -44,14 +44,14 @@ class Normal:
         """
         self.stddev = float(stddev)
         self.mean = float(mean)
+        if self.stddev <= 0:
+            raise ValueError("stddev must be a positive value")
         if data is None:
             return None
         elif not isinstance(data, list):
             raise TypeError("data must be a list")
         elif len(data) < 2:
             raise ValueError("data must contain multiple values")
-        if self.stddev <= 0:
-            raise ValueError("stddev must be a positive value")
 
         sum = 0
         for i in range(len(data)):
