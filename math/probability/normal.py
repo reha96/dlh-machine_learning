@@ -42,14 +42,14 @@ class Normal:
         Returns:
             _type_: _description_
         """
+        self.stddev = float(stddev)
+        self.mean = float(mean)
         if data is None:
             return None
         elif not isinstance(data, list):
             raise TypeError("data must be a list")
         elif len(data) < 2:
             raise ValueError("data must contain multiple values")
-        self.stddev = float(stddev)
-        self.mean = float(mean)
         if self.stddev <= 0:
             raise ValueError("stddev must be a positive value")
 
@@ -62,3 +62,4 @@ class Normal:
         for i in range(len(data)):
             sigma += (data[i]-self.mean)**2
         self.stddev = (sigma/len(data))**(1/2)
+        return None
