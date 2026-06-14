@@ -26,6 +26,9 @@ class Normal:
     """class Normal that represents a normal distribution
     """
 
+    e = 2.7182818285
+    pi = 3.1415926536
+
     def __init__(self, data=None, mean=0., stddev=1.):
         """class constructor
 
@@ -86,3 +89,17 @@ class Normal:
         self.z = z
         x = self.stddev*self.z + self.mean
         return x
+
+    def pdf(self, x):
+        """Instance method def pdf(self, x):
+    Calculates the value of the PDF for a given x-value
+    x is the x-value
+    Returns the PDF value for x
+
+        Args:
+            x (_type_): _description_
+        """
+        self.x = x
+        pdf = (1/((2*self.pi*self.stddev**2)**1/2))*self.e **\
+            ((-(self.x-self.mean)**2)/(2*self.stddev**2))
+        return pdf
