@@ -1,5 +1,5 @@
+#!/usr/bin/env python3
 """Create a class Binomial that represents a binomial distribution:
-
 Class contructor def __init__(self, data=None, n=1, p=0.5):
 data is a list of the data to be used to estimate the distribution
 n is the number of Bernoulli trials
