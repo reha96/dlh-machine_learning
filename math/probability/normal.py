@@ -63,3 +63,26 @@ class Normal:
             sigma += (data[i]-self.mean)**2
         self.stddev = (sigma/len(data))**(1/2)
         return None
+
+    def z_score(self, x):
+        """Update the class Normal:
+    Instance method def z_score(self, x):
+        Calculates the z-score of a given x-value
+        x is the x-value
+        Returns the z-score of x"""
+        x.self = x
+        z = (x - self.mean)/self.stddev
+        return z
+
+    def x_score(self, z):
+        """
+    Instance method def x_value(self, z):
+        Calculates the x-value of a given z-score
+        z is the z-score
+        Returns the x-value of z
+        Args:
+            x (_type_): _description_
+        """
+        z.self = z
+        x = self.stddev*z.self + self.mean
+        return x
