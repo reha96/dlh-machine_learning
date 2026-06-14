@@ -70,7 +70,7 @@ class Normal:
         Calculates the z-score of a given x-value
         x is the x-value
         Returns the z-score of x"""
-        x.self = x
+        self.x = x
         z = (x - self.mean)/self.stddev
         return z
 
@@ -83,6 +83,6 @@ class Normal:
         Args:
             x (_type_): _description_
         """
-        z.self = z
+        self.z = z
         x = self.stddev*z.self + self.mean
         return x
