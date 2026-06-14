@@ -17,7 +17,7 @@ Calculate n and p from data
 Round n to the nearest integer (rounded, not casting!
 int(3.7) is not
 the same as round(3.7))
-Hint 1: Calculate p first and then calculate n. 
+Hint 1: Calculate p first and then calculate n.
 Then recalculate p. Think about why you would want
 to do it this way?
 Hint 2: Method of Moments
