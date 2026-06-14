@@ -74,7 +74,7 @@ class Normal:
         z = (x - self.mean)/self.stddev
         return z
 
-    def x_score(self, z):
+    def x_value(self, z):
         """
     Instance method def x_value(self, z):
         Calculates the x-value of a given z-score
