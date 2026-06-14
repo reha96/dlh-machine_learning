@@ -105,3 +105,21 @@ class Normal:
         c = 2*(self.stddev**2)
         pdf = (1/a)*(self.e**(b/c))
         return pdf
+
+    def cdf(self, x):
+        """Instance method def cdf(self, x):
+
+    Calculates the value of the CDF for a given x-value
+    x is the x-value
+    Returns the CDF value for x
+
+        Args:
+            x (_type_): _description_
+        """
+        self.x = x
+        z = (self.x - self.mean) / (self.stddev * (2**(1/2)))
+        a = 2 / (self.pi**(1/2))
+        b = z - (z**3)/3 + (z**5)/10 - (z**7)/42 + (z**9)/216
+        erf = a * b
+        cdf = (1/2) * (1 + erf)
+        return cdf
