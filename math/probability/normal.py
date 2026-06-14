@@ -84,5 +84,5 @@ class Normal:
             x (_type_): _description_
         """
         self.z = z
-        x = self.stddev*z.self + self.mean
+        x = self.stddev*self.z + self.mean
         return x
