@@ -100,6 +100,8 @@ class Normal:
             x (_type_): _description_
         """
         self.x = x
-        pdf = (1/((2*self.pi*self.stddev**2)**1/2))*self.e **\
-            ((-(self.x-self.mean)**2)/(2*self.stddev**2))
+        a = (2*self.pi*(self.stddev**2))**(1/2)
+        b = -(self.x-self.mean)**2
+        c = 2*(self.stddev**2)
+        pdf = (1/a)*(self.e**(b/c))
         return pdf
