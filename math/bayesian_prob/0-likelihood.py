@@ -1,4 +1,4 @@
-#!/usr/bin/usr python3
+#!/usr/bin/env python3
 """
 You are conducting a study on a revolutionary cancer drug and are
 looking to find the probability that a patient who takes this
