@@ -49,8 +49,8 @@ likelihood of obtaining data
     if not isinstance(P, numpy.ndarray) or P.ndim != 1:
         raise TypeError("P must be a 1D numpy.ndarray")
 
-    for i in P:
-        if i < 0 or i > 1:
+    for i in range(len(P)):
+        if not (0 <= P[i] <= 1):
             raise ValueError("All values in\
                 P must be in the range [0, 1]")
 
