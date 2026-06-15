@@ -28,7 +28,6 @@ with the message All values in P must be in the range [0, 1]
 Returns: a 1D numpy.ndarray containing the likelihood of obtaining
 the data, x and n, for each probability in P, respectively
 """
-import numpy
 
 
 def likelihood(x, n, P):
