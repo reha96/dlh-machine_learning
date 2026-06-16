@@ -53,6 +53,9 @@ def intersection(x, n, P, Pr):
         raise ValueError("x cannot be greater than n")
     if not isinstance(P, np.ndarray) or P.ndim != 1:
         raise TypeError("P must be a 1D numpy.ndarray")
+    m4 = "Pr must be a numpy.ndarray with the same shape as P"
+    if not isinstance(Pr, np.ndarray) or Pr.ndim != P.ndim:
+        raise TypeError(m4)
 
     m2 = "All values in P must be in the range [0, 1]"
     m3 = "All values in Pr must be in the range [0, 1]"
@@ -60,8 +63,10 @@ def intersection(x, n, P, Pr):
         if not (0 <= P[i] <= 1):
             raise ValueError(m2)
     for i in range(len(Pr)):
-        if not (0 <= P[i] <= 1):
+        if not (0 <= Pr[i] <= 1):
             raise ValueError(m3)
+    if not np.isclose(Pr, 1):
+        raise ValueError("Pr must sum to 1")
 
     a = 1.0
     for i in range(1, x + 1):
@@ -69,3 +74,4 @@ def intersection(x, n, P, Pr):
     b = P ** x
     c = (1 - P) ** (n - x)
     likelihood = a * b * c
+    return Pr*likelihood
