@@ -65,7 +65,7 @@ def intersection(x, n, P, Pr):
     for i in range(len(Pr)):
         if not (0.0 <= Pr[i] <= 1.0):
             raise ValueError(m3)
-    if not np.isclose(Pr.all(), 1.0):
+    if not np.isclose(np.sum(Pr), 1.0):
         raise ValueError("Pr must sum to 1")
 
     a = 1.0
