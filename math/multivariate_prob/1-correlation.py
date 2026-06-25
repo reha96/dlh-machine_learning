@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Write a function def correlation(C): that calculates
 a correlation matrix:
 
