@@ -33,8 +33,7 @@ def mean_cov(X):
     n, d = X.shape
     if n < 2:
         raise ValueError("X must contain multiple data points")
-    mean = [np.mean(X, axis=0)]
+    mean = np.mean(X, axis=0, keepdims=True)  # keepdims for shape (1, d)
     inner_1 = X - mean
-    inner_2 = np.transpose(inner_1)
-    cov = [np.mean(inner_2@inner_1, 0)/n]
+    cov = (inner_1.T @ inner_1) / n  # formula to get shape (d, d)
     return mean, cov
