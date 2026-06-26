@@ -1,9 +1,9 @@
+#!/usr/bin/env python3
 """calculates the posterior probability that the probability
 of developing severe side effects falls within a specific
 range given the data
 
     """
-#!/usr/bin/env python3
 from scipy import special
 
 
@@ -33,8 +33,7 @@ with the message {p} must be a float in the range [0, 1] where {p}
 is the corresponding variable
 if p2 <= p1, raise a ValueError with the message p2 must
 be greater than p1
-The only import you are allowed to use is from
-scipy import special
+
 Returns: the posterior probability that p is within
 the range [p1, p2] given x and n
 
