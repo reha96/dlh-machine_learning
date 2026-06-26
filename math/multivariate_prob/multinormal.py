@@ -36,7 +36,7 @@ class MultiNormal:
         """
         if not isinstance(data, np.ndarray) or data.ndim != 2:
             raise TypeError("data must be a 2D numpy.ndarray")
-        d, n = data.shape
+        self.d, n = data.shape
         if n < 2:
             raise ValueError("data must contain multiple data points")
         self.mean = np.mean(data, axis=1, keepdims=True)  # shape (d, 1)
@@ -63,10 +63,10 @@ class MultiNormal:
         """
         if not isinstance(x, np.ndarray) or x.ndim != 2:
             raise TypeError("x must be a numpy.ndarray")
-        d, n = x.shape
-        if n != 1:
-            raise ValueError(f"x must have the shape ({d}, 1)")
-        left = (2*np.pi)**(-d/2) * np.linalg.det(self.cov)**(-1/2)
+        d_new, n = x.shape
+        if n != 1 or d_new != self.d:
+            raise ValueError(f"x must have the shape ({self.d}, 1)")
+        left = (2*np.pi)**(-self.d/2) * np.linalg.det(self.cov)**(-1/2)
         mid = x - self.mean
         right = np.e**(-1/2 * mid.T @ np.linalg.inv(self.cov) @ mid)
         return left * right
