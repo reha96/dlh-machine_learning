@@ -1,9 +1,9 @@
-#!/usr/bin/env python3
 """calculates the posterior probability that the probability
 of developing severe side effects falls within a specific
 range given the data
 
     """
+#!/usr/bin/env python3
 from scipy import special
 
 
