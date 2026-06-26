@@ -1,5 +1,14 @@
 #!/usr/bin/env python3
-"""
+"""calculates the posterior probability that the probability
+of developing severe side effects falls within a specific
+range given the data
+
+    """
+from scipy import special
+
+
+def posterior(x, n, p1, p2):
+    """
 Based on 3-posterior.py, write a function
 def posterior(x, n, p1, p2): that
 calculates the posterior probability that the probability
@@ -29,11 +38,23 @@ scipy import special
 Returns: the posterior probability that p is within
 the range [p1, p2] given x and n
 
-"""
-from scipy import special
+    Args:
+        x (_type_): _description_
+        n (_type_): _description_
+        p1 (_type_): _description_
+        p2 (_type_): _description_
 
+    Raises:
+        ValueError: _description_
+        ValueError: _description_
+        ValueError: _description_
+        ValueError: _description_
+        ValueError: _description_
+        ValueError: _description_
 
-def posterior(x, n, p1, p2):
+    Returns:
+        _type_: _description_
+    """
     if not isinstance(n, int) or n <= 0:
         raise ValueError("n must be a positive integer")
     m = "x must be an integer that is greater than or equal to 0"
