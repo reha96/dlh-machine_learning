@@ -30,155 +30,25 @@ Returns: the posterior probability that p is within
 the range [p1, p2] given x and n
 
 """
-import numpy as np
-from scipy 
+from scipy import special
 
-def likelihood(x, n, P):
-    """calculates the
-likelihood of obtaining data
 
-    Args:
-        x (_type_): _description_
-        n (_type_): _description_
-        P (_type_): _description_
-    """
-    m1 = "x must be an integer that is greater than or equal to 0"
+def posterior(x, n, p1, p2):
     if not isinstance(n, int) or n <= 0:
         raise ValueError("n must be a positive integer")
+    m = "x must be an integer that is greater than or equal to 0"
     if not isinstance(x, int) or x < 0:
-        raise ValueError(m1)
+        raise ValueError(m)
     if x > n:
         raise ValueError("x cannot be greater than n")
-    if not isinstance(P, np.ndarray) or P.ndim != 1:
-        raise TypeError("P must be a 1D numpy.ndarray")
+    if not isinstance(p1, float) or p1 > 1.0 or p1 < 0.0:
+        raise ValueError("p1 must be a float in the range [0, 1]")
+    if not isinstance(p2, float) or p2 > 1.0 or p2 < 0.0:
+        raise ValueError("p2 must be a float in the range [0, 1]")
+    if p2 <= p1:
+        raise ValueError("p2 must be greater than p1")
 
-    m2 = "All values in P must be in the range [0, 1]"
-    for i in range(len(P)):
-        if not (0 <= P[i] <= 1):
-            raise ValueError(m2)
+    a = x + 1  # uniform dist for prior p and posterior
+    b = n - x + 1  # uniform dist for prior p and posterior
 
-    a = 1.0
-    for i in range(1, x + 1):
-        a = a * (n - x + i) / i
-    b = P ** x
-    c = (1 - P) ** (n - x)
-    likelihood = a * b * c
-    return likelihood
-
-
-def intersection(x, n, P, Pr):
-    """calculates the intersection of obtaining this
-    data with the various hypothetical probabilities
-
-    Args:
-        x (_type_): _description_
-        n (_type_): _description_
-        P (_type_): _description_
-        Pr (_type_): _description_
-    """
-
-    m1 = "x must be an integer that is greater than or equal to 0"
-    if not isinstance(n, int) or n <= 0:
-        raise ValueError("n must be a positive integer")
-    if not isinstance(x, int) or x < 0:
-        raise ValueError(m1)
-    if x > n:
-        raise ValueError("x cannot be greater than n")
-    if not isinstance(P, np.ndarray) or P.ndim != 1:
-        raise TypeError("P must be a 1D numpy.ndarray")
-    m4 = "Pr must be a numpy.ndarray with the same shape as P"
-    if not isinstance(Pr, np.ndarray) or np.shape(Pr) != np.shape(P):
-        raise TypeError(m4)
-
-    m2 = "All values in P must be in the range [0, 1]"
-    m3 = "All values in Pr must be in the range [0, 1]"
-    for i in range(len(P)):
-        if not (0 <= P[i] <= 1):
-            raise ValueError(m2)
-    for i in range(len(Pr)):
-        if not (0.0 <= Pr[i] <= 1.0):
-            raise ValueError(m3)
-    if not np.isclose(np.sum(Pr), 1.0):
-        raise ValueError("Pr must sum to 1")
-
-    a = 1.0
-    for i in range(1, x + 1):
-        a = a * (n - x + i) / i
-    b = P ** x
-    c = (1 - P) ** (n - x)
-    likelihood = a * b * c
-    return Pr*likelihood
-
-
-def marginal(x, n, P, Pr):
-    """calculates the marginal probability of obtaining the data
-
-    Args:
-        x (_type_): _description_
-        n (_type_): _description_
-        P (_type_): _description_
-        Pr (_type_): _description_
-    """
-    m1 = "x must be an integer that is greater than or equal to 0"
-    if not isinstance(n, int) or n <= 0:
-        raise ValueError("n must be a positive integer")
-    if not isinstance(x, int) or x < 0:
-        raise ValueError(m1)
-    if x > n:
-        raise ValueError("x cannot be greater than n")
-    if not isinstance(P, np.ndarray) or P.ndim != 1:
-        raise TypeError("P must be a 1D numpy.ndarray")
-    m4 = "Pr must be a numpy.ndarray with the same shape as P"
-    if not isinstance(Pr, np.ndarray) or np.shape(Pr) != np.shape(P):
-        raise TypeError(m4)
-
-    m2 = "All values in P must be in the range [0, 1]"
-    m3 = "All values in Pr must be in the range [0, 1]"
-    for i in range(len(P)):
-        if not (0 <= P[i] <= 1):
-            raise ValueError(m2)
-    for i in range(len(Pr)):
-        if not (0.0 <= Pr[i] <= 1.0):
-            raise ValueError(m3)
-    if not np.isclose(np.sum(Pr), 1.0):
-        raise ValueError("Pr must sum to 1")
-
-    return np.sum(likelihood(x, n, P) * Pr)
-
-
-def posterior(x, n, P, Pr):
-    """calculates the posterior probability
-for the various hypothetical
-probabilities
-
-    Args:
-        x (_type_): _description_
-        n (_type_): _description_
-        P (_type_): _description_
-        Pr (_type_): _description_
-    """
-    m1 = "x must be an integer that is greater than or equal to 0"
-    if not isinstance(n, int) or n <= 0:
-        raise ValueError("n must be a positive integer")
-    if not isinstance(x, int) or x < 0:
-        raise ValueError(m1)
-    if x > n:
-        raise ValueError("x cannot be greater than n")
-    if not isinstance(P, np.ndarray) or P.ndim != 1:
-        raise TypeError("P must be a 1D numpy.ndarray")
-    m4 = "Pr must be a numpy.ndarray with the same shape as P"
-    if not isinstance(Pr, np.ndarray) or np.shape(Pr) != np.shape(P):
-        raise TypeError(m4)
-
-    m2 = "All values in P must be in the range [0, 1]"
-    m3 = "All values in Pr must be in the range [0, 1]"
-    for i in range(len(P)):
-        if not (0 <= P[i] <= 1):
-            raise ValueError(m2)
-    for i in range(len(Pr)):
-        if not (0.0 <= Pr[i] <= 1.0):
-            raise ValueError(m3)
-    if not np.isclose(np.sum(Pr), 1.0):
-        raise ValueError("Pr must sum to 1")
-
-    return intersection(x, n, P, Pr) / marginal(x, n, P, Pr)
+    return special.betainc(a, b, p2) - special.betainc(a, b, p1)
