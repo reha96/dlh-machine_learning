@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Create the class MultiNormal that represents a
 Multivariate Normal distribution:
 
@@ -14,7 +15,6 @@ mean - a numpy.ndarray of shape (d, 1)
 containing the mean of data
 cov - a numpy.ndarray of shape (d, d)
 containing the covariance matrix data
-You are not allowed to use the function numpy.cov
 
 """
 import numpy as np
