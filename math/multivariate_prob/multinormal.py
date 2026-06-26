@@ -30,8 +30,8 @@ class MultiNormal:
         d, n = data.shape
         if n < 2:
             raise ValueError("data must contain multiple data points")
-        self.mean = np.mean(data, axis=1, keepdims=True).T  # shape (d, 1)
-        inner_1 = data - self.mean.T  # transpose so operation feasible
+        self.mean = np.mean(data, axis=1, keepdims=True)  # shape (d, 1)
+        inner_1 = data - self.mean
         self.cov = (inner_1 @ inner_1.T) / (d - 1)  # cov shape (d, d)
 
 
