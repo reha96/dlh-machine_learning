@@ -69,7 +69,8 @@ class MultiNormal:
         left = (2*np.pi)**(-self.d/2) * np.linalg.det(self.cov)**(-1/2)
         mid = x - self.mean
         right = np.e**(-1/2 * mid.T @ np.linalg.inv(self.cov) @ mid)
-        return left * right
+        pdf = (left * right).item()   # .item() returns a scalar float
+        return pdf
 
 
 if __name__ == '__main__':
