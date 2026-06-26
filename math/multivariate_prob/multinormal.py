@@ -27,7 +27,7 @@ class MultiNormal:
     def __init__(self, data):
         if not isinstance(data, np.ndarray) or data.ndim != 2:
             raise TypeError("data must be a 2D numpy.ndarray")
-        n, d = data.shape
+        d, n = data.shape
         if n < 2:
             raise ValueError("data must contain multiple data points")
         self.mean = np.mean(data, axis=1, keepdims=True).T  # shape (d, 1)
