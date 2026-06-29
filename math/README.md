@@ -1,6 +1,6 @@
 # Math
 
-Foundational mathematics for machine learning — linear algebra, calculus, probability, and visualization progressing from manual Python implementations to NumPy and Matplotlib.
+Foundational mathematics for machine learning — linear algebra, calculus, probability, multivariate statistics, and visualization progressing from manual Python implementations to NumPy and Matplotlib.
 
 ## Modules
 
@@ -12,6 +12,7 @@ Foundational mathematics for machine learning — linear algebra, calculus, prob
 | [Bayesian Probability](bayesian_prob/) | Likelihood, intersection, marginal, posterior probability with NumPy | 4 tasks |
 | [Plotting](plotting/) | Matplotlib: line, scatter, bar, frequency, all-in-one, gradient descent, PCA | 9 tasks |
 | [Probability](probability/) | Statistical distributions: binomial, normal, poisson, exponential | 4 tasks |
+| [Multivariate Probability](multivariate_prob/) | Mean vector, covariance, correlation, multivariate normal distribution | 3 tasks |
 
 ## Learning Path
 
@@ -22,8 +23,9 @@ Foundational mathematics for machine learning — linear algebra, calculus, prob
 5. **Advanced Generalization** (Tasks 100–102): N-dimensional operations with recursion, `slice` objects, tuple indexing
 6. **Advanced Linear Algebra** (det → minor → cofactor → adjugate → inverse → definiteness)
 7. **Calculus** (derivatives → partial derivatives → integrals → double integrals)
-8. **Probability & Bayesian** (distributions → likelihood → posterior)
-9. **Visualization** (basic plots → gradient descent → PCA)
+8. **Probability & Bayesian** (distributions → likelihood → posterior → continuous queries)
+9. **Multivariate Probability** (mean/cov → correlation → multivariate normal PDF)
+10. **Visualization** (basic plots → gradient descent → PCA)
 
 ## Resources
 

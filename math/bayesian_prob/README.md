@@ -1,6 +1,6 @@
 # Math — Bayesian Probability
 
-A progressive implementation of Bayes' theorem — building the complete pipeline from likelihood through posterior probability, using a drug trial scenario with NumPy vectorization.
+A progressive implementation of Bayes' theorem — building the complete pipeline from likelihood through posterior probability, using a drug trial scenario with NumPy vectorization, then extending to continuous-range queries with the Beta distribution.
 
 ---
 
@@ -15,6 +15,7 @@ A progressive implementation of Bayes' theorem — building the complete pipelin
 | 5 | Understand the Bayesian workflow: prior → likelihood → marginal → posterior |
 | 6 | Apply NumPy vectorized operations on 1D arrays for efficient probability calculations |
 | 7 | Validate inputs with cascading exception checks in a specific order |
+| 8 | Compute the posterior probability over a continuous range $[p_1, p_2]$ using the Beta distribution's CDF |
 
 ---
 
@@ -98,6 +99,26 @@ Each task below highlights the **unique challenge** it posed and the **new techn
 
 ---
 
+### Task 100 — Continuous Posterior (`100-continuous.py`)
+
+**Challenge:** Compute the posterior probability that the parameter $p$ falls within a specific continuous range $[p_1, p_2]$ — moving from discrete point probabilities (Task 3) to interval probabilities using the Beta distribution's cumulative distribution function.
+
+**Approach:** With a uniform prior, the posterior for a binomial likelihood is $\text{Beta}(x+1,\, n-x+1)$. Use `scipy.special.betainc(a, b, x)` — the regularized incomplete beta function, which is the CDF of the Beta distribution. The probability that $p \in [p_1, p_2]$ is $\text{betainc}(a, b, p_2) - \text{betainc}(a, b, p_1)$. Validates $n$ (positive int), $x$ (non-negative int $\le n$), $p_1$ and $p_2$ (floats in $[0,1]$, $p_2 > p_1$) with specific error messages.
+
+**New techniques introduced:**
+
+| Technique | Purpose |
+|-----------|---------|
+| Beta distribution as conjugate prior for binomial | Posterior is $\text{Beta}(x+1,\, n-x+1)$ when prior is uniform $\text{Beta}(1,1)$ |
+| `scipy.special.betainc(a, b, x)` | Regularized incomplete beta function — the exact CDF of the Beta distribution |
+| $F(p_2) - F(p_1)$ for continuous probability | Probability over an interval is the difference of CDF values |
+| Uniform prior $\to$ Beta posterior | The Beta distribution is the conjugate prior — prior and posterior have the same form |
+| Cascading integer/float validation with `isinstance` | Validate $n$ and $x$ as integers, $p_1$ and $p_2$ as floats in sequence |
+
+> **Key takeaway:** The Beta distribution is the conjugate prior for the binomial — when the prior is uniform ($\text{Beta}(1,1)$), the posterior is $\text{Beta}(x+1,\, n-x+1)$. The incomplete beta function (`scipy.special.betainc`) gives exact continuous probabilities without numerical integration. This extends the discrete Bayesian pipeline to answer "what's the probability the true rate is between 30% and 50%?"
+
+---
+
 ## Technique Inventory
 
 | Task | New technique summarized | Category |
@@ -106,6 +127,7 @@ Each task below highlights the **unique challenge** it posed and the **new techn
 | 1 | Element-wise prior × likelihood, `np.isclose` for sum-to-1 check | Intersection |
 | 2 | `np.sum()` for marginal probability, law of total probability | Marginal |
 | 3 | Bayes' theorem: posterior = intersection ÷ marginal, full pipeline | Posterior |
+| 100 | Beta conjugate prior, `scipy.special.betainc`, continuous posterior via $F(p_2)-F(p_1)$ | Continuous Posterior |
 
 ---
 
@@ -113,10 +135,12 @@ Each task below highlights the **unique challenge** it posed and the **new techn
 
 ```
 Prior P(H)  ──┐
-               ├──→ Intersection ──→ Marginal P(D) ──→ Posterior P(H|D)
-Likelihood    ──┘     P(D|H)·P(H)      Σ P(D|H)·P(H)      Intersection/Marginal
-P(D|H)
+               ├──→ Intersection ──→ Marginal P(D) ──→ Posterior P(H|D) ──→ Continuous Query
+Likelihood    ──┘     P(D|H)·P(H)      Σ P(D|H)·P(H)      Intersection/Marginal    Beta CDF subtraction
+P(D|H)                                                                              P(p₁ < p < p₂)
 ```
+
+Task 100 extends the pipeline beyond point probabilities: after computing the posterior, use the Beta CDF to answer range queries like "what's the probability $p$ is between $p_1$ and $p_2$?"
 
 ---
 

@@ -28,6 +28,9 @@ dlh-machine_learning/
 │   ├── probability/             # Distributions: binomial, normal, poisson, exponential
 │   │   ├── binomial.py, normal.py, poisson.py, exponential.py
 │   │   └── README.md
+│   ├── multivariate_prob/       # Mean vector, covariance, correlation, multivariate normal
+│   │   ├── 0-mean_cov.py, 1-correlation.py, multinormal.py
+│   │   └── README.md
 │   └── README.md
 ├── pipeline/                    # Data engineering
 │   ├── databases/               # SQL: creation, CRUD, joins, aggregates, triggers
@@ -52,6 +55,7 @@ dlh-machine_learning/
 | **Math** | [Bayesian Probability](math/bayesian_prob/) | Likelihood, intersection, marginal, posterior probability | 4 |
 | **Math** | [Plotting](math/plotting/) | Line, scatter, bar, frequency, all-in-one, gradient descent, PCA | 9 |
 | **Math** | [Probability](math/probability/) | Binomial, normal, poisson, exponential distributions | 4 |
+| **Math** | [Multivariate Probability](math/multivariate_prob/) | Mean vector, covariance, correlation, multivariate normal distribution | 3 |
 | **Pipeline** | [Databases](pipeline/databases/) | DDL, CRUD, WHERE, ORDER BY, GROUP BY, JOINS, aggregates, constraints, triggers | 18 (+4 schemas) |
 
 ---
@@ -59,7 +63,7 @@ dlh-machine_learning/
 ## Learning Progression
 
 ### Math Track
-1. **Python Slicing** → 2. **Manual Matrix Ops** (nested loops) → 3. **NumPy Vectorization** → 4. **N-Dimensional Generalization** → 5. **Advanced Linear Algebra** (determinant → inverse → definiteness) → 6. **Calculus** (derivatives → integrals) → 7. **Probability & Statistics** (distributions → Bayesian) → 8. **Visualization** (plotting → PCA)
+1. **Python Slicing** → 2. **Manual Matrix Ops** (nested loops) → 3. **NumPy Vectorization** → 4. **N-Dimensional Generalization** → 5. **Advanced Linear Algebra** (determinant → inverse → definiteness) → 6. **Calculus** (derivatives → integrals) → 7. **Probability & Statistics** (distributions → Bayesian) → 8. **Multivariate Probability** (mean/cov → correlation → multivariate normal) → 9. **Visualization** (plotting → PCA)
 
 ### Pipeline Track
 1. **Foundation** (CREATE) → 2. **CRUD** → 3. **Filtering/Sorting** → 4. **Joins** → 5. **Constraints** → 6. **Real-World Data** → 7. **Triggers**
