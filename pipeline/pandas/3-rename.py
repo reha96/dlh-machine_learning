@@ -19,7 +19,8 @@ def rename(df):
     Args:
         df (_type_): _description_
     """
-    df.rename(columns={"Timestamp": "Datetime"})
-    df["Datetime"] = df["Datetime"].Timestamp.to_pydatetime()
-    df = df["Datetime", "Close"]
+    df = df.rename(columns={"Timestamp": "Datetime"})
+    df["Datetime"] = pd.to_datetime(df["Datetime"])  # convert
+    cols = ["Datetime", "Close"]  # send in as list
+    df = df[cols]
     return df
