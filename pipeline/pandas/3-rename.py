@@ -20,7 +20,7 @@ def rename(df):
         df (_type_): _description_
     """
     df = df.rename(columns={"Timestamp": "Datetime"})
-    df["Datetime"] = pd.to_datetime(df["Datetime"])  # convert
+    df["Datetime"] = pd.to_datetime(df["Datetime"], unit='s')  # convert
     cols = ["Datetime", "Close"]  # send in as list
     df = df[cols]
     return df
