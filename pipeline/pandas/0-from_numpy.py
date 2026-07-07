@@ -21,13 +21,3 @@ def from_numpy(array):
     df = pd.DataFrame(array)
     df.columns = [chr(65 + i) for i in range(len(df.columns))]  # list
     return df
-
-
-if __name__ == "__main__":
-    import numpy as np
-
-    np.random.seed(0)
-    A = np.random.randn(5, 8)
-    print(from_numpy(A))
-    B = np.random.randn(9, 3)
-    print(from_numpy(B))
