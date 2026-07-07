@@ -1,4 +1,4 @@
-#!/bin/usr/env python3
+#!/usr/bin/env python3
 """Write a function def array(df): that takes a
 pd.DataFrame as input and performs the following:
 
