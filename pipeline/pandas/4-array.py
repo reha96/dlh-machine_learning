@@ -14,5 +14,13 @@ import pandas as pd
 
 
 def array(df):
+    """takes a pd.DataFrame and converts to np array
+
+    Args:
+        df (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     df = df.tail(10)
     return df.to_numpy()
