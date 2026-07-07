@@ -22,5 +22,5 @@ def array(df):
     Returns:
         _type_: _description_
     """
-    df = df.tail(10)
+    df = df[["High", "Close"]].tail(10)
     return df.to_numpy()
