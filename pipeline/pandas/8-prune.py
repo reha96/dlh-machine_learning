@@ -18,5 +18,5 @@ def prune(df):
         df (_type_): _description_
     """
 
-    df = df[df["Close"] != "NaN"]
+    df = df[df["Close"].notna()]
     return df
