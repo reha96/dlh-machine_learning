@@ -14,5 +14,5 @@ def index(df):
         df (_type_): _description_
     """
 
-    df.index = df["Timestamp"]
+    df = df.set_index('Timestamp')
     return df
