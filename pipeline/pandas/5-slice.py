@@ -6,7 +6,6 @@ Selects every 60th row from these columns.
 Returns: the sliced pd.DataFrame
 
 """
-import pandas as pd
 
 
 def slice(df):
