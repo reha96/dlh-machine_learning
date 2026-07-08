@@ -26,7 +26,7 @@ def fill(df):
     Args:
         df (_type_): pd.DataFrame
     """
-    df = df.drop(["Weighted_Price"], axis=1)
+    df = df.drop("Weighted_Price", axis=1)
     df['Close'] = df['Close'].ffill()  # forward fill default
     df[['High', 'Low', 'Open']] = df[[
         'High', 'Low', 'Open']].fillna(df['Close'])  # fill NaN
