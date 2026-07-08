@@ -30,6 +30,6 @@ def fill(df):
     df['Close'] = df['Close'].ffill()  # forward fill default
     df[['High', 'Low', 'Open']] = df[[
         'High', 'Low', 'Open']].fillna(df['Close'])  # fill NaN
-    df['Volume_(BTC)', 'Volume_(Currency)'] = \
-        df['Volume_(BTC)', 'Volume_(Currency)'].fillna(0)
+    df[['Volume_(BTC)', 'Volume_(Currency)']] = \
+        df[['Volume_(BTC)', 'Volume_(Currency)']].fillna(0)
     return df
