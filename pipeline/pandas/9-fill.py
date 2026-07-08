@@ -28,8 +28,8 @@ def fill(df):
     """
     df = df.drop("Weighted_Price", axis=1)
     df['Close'] = df['Close'].ffill()  # forward fill default
-    df[['High', 'Low', 'Open']] = df[[
-        'High', 'Low', 'Open']].fillna(df['Close'])  # fill NaN
+    for col in ['High', 'Low', 'Open']:
+        df[col] = df[col].fillna(df['Close'])
     df[['Volume_(BTC)', 'Volume_(Currency)']] = \
         df[['Volume_(BTC)', 'Volume_(Currency)']].fillna(0)
     return df
