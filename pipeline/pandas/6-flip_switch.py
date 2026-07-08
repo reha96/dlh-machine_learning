@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Write a function def flip_switch(df): 
+"""Write a function def flip_switch(df):
 that takes a pd.DataFrame and:
 
 Sorts the data in reverse chronological order.
