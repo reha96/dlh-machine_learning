@@ -15,5 +15,5 @@ def slice(df):
         df (_type_): _description_
     """
     df = df[['High', 'Low', 'Close', 'Volume_(BTC)']]
-    df = df.loc[60]
+    df = df[::60]
     return df
