@@ -28,6 +28,19 @@ A progressive journey through SQL and MongoDB — from basic table creation and 
 
 ---
 
+## Table of Contents
+
+- [SQL: Tasks 0–18](#task-by-task-reference)
+- [Stored Procedures, UDFs, Indexes, Views: Tasks 19–103](#task-19--stored-procedure-add-bonus-19-bonussql)
+- [Schema Reference](#schema-reference)
+- [Technique Inventory — SQL](#technique-inventory)
+- [MongoDB Shell: Tasks 22–29](#task-22--list-databases-22-list_databases)
+- [PyMongo: Tasks 30–34 & 105–106](#task-30--list-all-documents-in-python-30-allpy)
+- [Technique Inventory — MongoDB](#technique-inventory--mongodb)
+- [Resources](#resources)
+
+---
+
 ## Task-by-Task Reference
 
 Each task below highlights the **unique challenge** it posed and the **new technique** introduced — techniques from earlier tasks are not repeated.

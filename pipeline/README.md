@@ -7,6 +7,7 @@ Data engineering and database operations — SQL from table creation through com
 | Module | Description | Files |
 |--------|-------------|-------|
 | [Databases](databases/) | SQL: DDL, CRUD, filtering, grouping, joins, constraints, triggers, schema design | 18 tasks + 4 schema dumps |
+| [Pandas](pandas/) | DataFrame creation, transformation, cleaning, indexing, concatenation, aggregation, visualization | 15 tasks |
 
 ## Learning Path
 
@@ -17,6 +18,7 @@ Data engineering and database operations — SQL from table creation through com
 5. **Constraints** (Tasks 13–14): `AUTO_INCREMENT`, `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, `ENUM`
 6. **Real-World Data** (Tasks 15–16): `LIKE`, `COALESCE`, arithmetic in SELECT
 7. **Automation** (Tasks 17–18): `CREATE TRIGGER`, `BEFORE`/`AFTER`, `OLD`/`NEW` references
+8. **Pandas** (Tasks 0–14): DataFrame I/O → column/datetime transforms → cleaning → sorting → indexing → concat → analysis → resample & visualize
 
 ## Schema Datasets
 

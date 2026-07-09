@@ -8,11 +8,11 @@ Foundational mathematics for machine learning — linear algebra, calculus, prob
 |--------|-------------|-------|
 | [Linear Algebra](linear_algebra/) | Matrix operations: slicing, shape, transpose, element-wise ops, concatenation, multiplication — manual → NumPy | 19 tasks |
 | [Advanced Linear Algebra](advanced_linear_algebra/) | Determinant, minor, cofactor, adjugate, inverse, definiteness — pure Python → NumPy verification | 7 tasks |
-| [Calculus](calculus/) | Derivatives, partial derivatives, integrals, definite/indefinite, double integrals | 17 tasks |
-| [Bayesian Probability](bayesian_prob/) | Likelihood, intersection, marginal, posterior probability with NumPy | 4 tasks |
-| [Plotting](plotting/) | Matplotlib: line, scatter, bar, frequency, all-in-one, gradient descent, PCA | 9 tasks |
-| [Probability](probability/) | Statistical distributions: binomial, normal, poisson, exponential | 4 tasks |
-| [Multivariate Probability](multivariate_prob/) | Mean vector, covariance, correlation, multivariate normal distribution | 3 tasks |
+| [Calculus](calculus/) | Derivatives, partial derivatives, integrals, definite/indefinite, double integrals — manual computation → Python verification | 17 tasks |
+| [Bayesian Probability](bayesian_prob/) | Likelihood, intersection, marginal, posterior probability — discrete → continuous Beta-Binomial | 4 tasks |
+| [Plotting](plotting/) | Matplotlib: line, scatter, log scale, multi-curve, histogram, subplots, stacked bars, gradient descent, PCA | 9 tasks |
+| [Probability](probability/) | Statistical distributions: binomial, normal, poisson, exponential — PMF, PDF, CDF, parameter estimation | 4 tasks |
+| [Multivariate Probability](multivariate_prob/) | Mean vector, covariance, correlation, multivariate normal PDF — n×d vs d×n conventions | 3 tasks |
 
 ## Learning Path
 

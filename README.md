@@ -38,6 +38,10 @@ dlh-machine_learning/
 │   │   ├── hbtn_0d_tvshows.sql, hbtn_0d_tvshows_rate.sql
 │   │   ├── metal_bands.sql, temperatures.sql
 │   │   └── README.md
+│   ├── pandas/                  # Pandas: DataFrame creation, cleaning, concat, resample, plot
+│   │   ├── 0-from_numpy.py through 14-visualize.py
+│   │   ├── *.csv, *.csv.zip
+│   │   └── README.md
 │   └── README.md
 ├── my-venv/                     # Python virtual environment
 └── README.md
@@ -57,6 +61,7 @@ dlh-machine_learning/
 | **Math** | [Probability](math/probability/) | Binomial, normal, poisson, exponential distributions | 4 |
 | **Math** | [Multivariate Probability](math/multivariate_prob/) | Mean vector, covariance, correlation, multivariate normal distribution | 3 |
 | **Pipeline** | [Databases](pipeline/databases/) | DDL, CRUD, WHERE, ORDER BY, GROUP BY, JOINS, aggregates, constraints, triggers | 18 (+4 schemas) |
+| **Pipeline** | [Pandas](pipeline/pandas/) | DataFrame creation, rename, slice, fill, concat, hierarchy, describe, resample, visualize | 15 |
 
 ---
 
@@ -66,7 +71,7 @@ dlh-machine_learning/
 1. **Python Slicing** → 2. **Manual Matrix Ops** (nested loops) → 3. **NumPy Vectorization** → 4. **N-Dimensional Generalization** → 5. **Advanced Linear Algebra** (determinant → inverse → definiteness) → 6. **Calculus** (derivatives → integrals) → 7. **Probability & Statistics** (distributions → Bayesian) → 8. **Multivariate Probability** (mean/cov → correlation → multivariate normal) → 9. **Visualization** (plotting → PCA)
 
 ### Pipeline Track
-1. **Foundation** (CREATE) → 2. **CRUD** → 3. **Filtering/Sorting** → 4. **Joins** → 5. **Constraints** → 6. **Real-World Data** → 7. **Triggers**
+1. **Foundation** (CREATE) → 2. **CRUD** → 3. **Filtering/Sorting** → 4. **Joins** → 5. **Constraints** → 6. **Real-World Data** → 7. **Triggers** → 8. **Pandas** (DataFrame ops → cleaning → concat → resample → visualize)
 
 ---
 
