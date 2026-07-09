@@ -6,6 +6,7 @@ Timestamp column.
 Returns a new pd.DataFrame containing these statistics.
 
 """
+import pandas as pd
 
 
 def analyze(df):
@@ -14,6 +15,5 @@ def analyze(df):
     Args:
         df (_type_): _description_
     """
-    _ = df.drop["Timestamp"]
-    out = _.describe()
-    return out
+    out = df.drop("Timestamp", axis=1)
+    return out.describe()
