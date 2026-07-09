@@ -41,4 +41,35 @@ from_file = __import__('2-from_file').from_file
 
 df = from_file('coinbaseUSD_1-min_data_2014-12-01_to_2019-01-09.csv', ',')
 
-# YOUR CODE HERE
+df = df.drop("Weighted_Price", axis=1)  # drop col
+
+df = df.rename(columns={"Timestamp": "Date"})
+df["Date"] = pd.to_datetime(df["Date"], unit='s')  # convert to date
+
+df = df.set_index("Date")  # set index
+
+df['Close'] = df['Close'].ffill()  # by default previous row
+
+for col in ['High', 'Low', 'Open']:
+    df[col] = df[col].fillna(df['Close'])
+
+df[['Volume_(BTC)', 'Volume_(Currency)']] = \
+    df[['Volume_(BTC)', 'Volume_(Currency)']].fillna(0) # missing vals
+    
+df = df[df.index >= '2017-01-01'] # keep data after 1st Jan 2017
+
+# resample to daily frequency and aggregate
+df = df.resample('D').agg({
+    'High': 'max',
+    'Low': 'min',
+    'Open': 'mean',
+    'Close': 'mean',
+    'Volume_(BTC)': 'sum',
+    'Volume_(Currency)': 'sum'
+})
+
+# plot example: show Close and Volume
+df[['Close', 'Volume_(BTC)']].plot(subplots=True, figsize=(10, 6))
+plt.show()
+
+
