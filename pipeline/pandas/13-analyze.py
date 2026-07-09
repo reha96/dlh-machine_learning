@@ -6,7 +6,6 @@ Timestamp column.
 Returns a new pd.DataFrame containing these statistics.
 
 """
-import pandas as pd
 
 
 def analyze(df):
