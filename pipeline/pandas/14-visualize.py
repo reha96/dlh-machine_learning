@@ -54,9 +54,9 @@ for col in ['High', 'Low', 'Open']:
     df[col] = df[col].fillna(df['Close'])
 
 df[['Volume_(BTC)', 'Volume_(Currency)']] = \
-    df[['Volume_(BTC)', 'Volume_(Currency)']].fillna(0) # missing vals
-    
-df = df[df.index >= '2017-01-01'] # keep data after 1st Jan 2017
+    df[['Volume_(BTC)', 'Volume_(Currency)']].fillna(0)  # missing vals
+
+df = df[df.index >= '2017-01-01']  # keep data after 1st Jan 2017
 
 # resample to daily frequency and aggregate
 df = df.resample('D').agg({
@@ -71,5 +71,3 @@ df = df.resample('D').agg({
 # plot example: show Close and Volume
 df[['Close', 'Volume_(BTC)']].plot(subplots=True, figsize=(10, 6))
 plt.show()
-
-
