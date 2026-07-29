@@ -24,7 +24,7 @@ def initialize(X, k):
 
     """
     if not isinstance(X, np.ndarray) or \
-        not isinstance(k, int) or k <= 0:
+            not isinstance(k, int) or k <= 0:
         return None
     else:
         try:
@@ -33,5 +33,5 @@ def initialize(X, k):
             maxs = X.max(axis=0)          # shape (d,) max of each column
             centroids = np.random.uniform(mins, maxs, size=(k, d))
             return centroids
-        except:
+        except Exception:
             return None
