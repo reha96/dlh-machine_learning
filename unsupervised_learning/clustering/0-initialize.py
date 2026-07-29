@@ -23,7 +23,8 @@ def initialize(X, k):
     centroids for each cluster, or None on failure
 
     """
-    if not isinstance(X, np.ndarray) or k <= 0:
+    if not isinstance(X, np.ndarray) or \
+        not isinstance(k, int) or k <= 0:
         return None
     else:
         try:
