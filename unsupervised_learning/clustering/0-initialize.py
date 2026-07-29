@@ -23,6 +23,8 @@ def initialize(X, k):
     centroids for each cluster, or None on failure
 
     """
+    if not isinstance(X, np.ndarray) or k <= 0:
+        return None
     d = X.shape[1]
     mins = X.min(axis=0)          # shape (d,) min of each column
     maxs = X.max(axis=0)          # shape (d,) max of each column
