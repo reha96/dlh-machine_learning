@@ -38,7 +38,8 @@ Returns: C, clss, or None, None on failure
 
     """
     if not isinstance(X, np.ndarray) or \
-            not isinstance(k, int) or k <= 0:
+            not isinstance(k, int) or k <= 0 or \
+        not isinstance(iterations, int) or iterations <= 0:
         return (None, None)
     else:
         try:
@@ -52,8 +53,10 @@ Returns: C, clss, or None, None on failure
             for _ in range(iterations):
                 C_old = C.copy()
 
-                """ Step 1: assign each point to nearest centroid """
-                # use broadcasting trick to make the substraction w/o loops
+                """ Step 1: assign each point to nearest centroid
+
+                use broadcasting trick to make the substraction
+                w/o loops """
                 diffs = X[:, np.newaxis, :] - C
 
                 # euclidian distance to all 5 centroids
@@ -61,12 +64,14 @@ Returns: C, clss, or None, None on failure
                 # find which cluster point belongs to
                 clss = dists.argmin(axis=1)
 
-                """ Step 2: recompute centroids as mean of assigned points"""
+                """ Step 2: recompute centroids as mean of points"""
                 for j in range(k):
                     # True where condition holds
                     mask = (clss == j)
-                    if mask.any():  # returns True if any element of iterable is True
-                        C[j] = X[mask].mean(axis=0)  # average along the rows
+                    # returns True if any element of iterable is True
+                    if mask.any():
+                        # average along the rows
+                        C[j] = X[mask].mean(axis=0)
                     else:
                         C[j] = np.random.uniform(mins, maxs)
 
@@ -76,7 +81,8 @@ Returns: C, clss, or None, None on failure
                 clss = dists.argmin(axis=1)
 
                 """ Step 3: early stop if centroids didn't move"""
-                if np.all(C == C_old):  # test if all elements are identical
+                # test if all elements are identical
+                if np.all(C == C_old):
                     break
 
             return (C, clss)
