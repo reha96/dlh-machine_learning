@@ -52,7 +52,7 @@ Returns: C, clss, or None, None on failure
             for _ in range(iterations):
                 C_old = C.copy()
 
-                # Step 1: assign each point to nearest centroid
+                """ Step 1: assign each point to nearest centroid """
                 # use broadcasting trick to make the substraction w/o loops
                 diffs = X[:, np.newaxis, :] - C
 
@@ -61,7 +61,7 @@ Returns: C, clss, or None, None on failure
                 # find which cluster point belongs to
                 clss = dists.argmin(axis=1)
 
-                # Step 2: recompute centroids as mean of assigned points
+                """ Step 2: recompute centroids as mean of assigned points"""
                 for j in range(k):
                     # True for where condition holds
                     mask = (clss == j)
@@ -70,7 +70,7 @@ Returns: C, clss, or None, None on failure
                     else:
                         C[j] = np.random.uniform(mins, maxs)
 
-                # Step 3: early stop if centroids didn't move
+                """ Step 3: early stop if centroids didn't move"""
                 if np.all(C == C_old):  # test if all elements are identical
                     break
 
