@@ -70,7 +70,7 @@ Returns: C, clss, or None, None on failure
                     else:
                         C[j] = np.random.uniform(mins, maxs)
 
-                # re-compute clss for new C
+                # re-compute clss for new C (if C changed)
                 diffs = X[:, np.newaxis, :] - C
                 dists = np.sqrt((diffs ** 2).sum(axis=2))
                 clss = dists.argmin(axis=1)
