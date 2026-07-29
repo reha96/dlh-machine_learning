@@ -8,7 +8,7 @@ import numpy as np
 def kmeans(X, k, iterations=10):
     """X is a numpy.ndarray of shape (n, d) containing the dataset
     n is the number of data points
-    d is the number of dimensions for each data point
+    d is the number of dimensions
 
 k is a positive integer containing the number of clusters
 
@@ -31,7 +31,7 @@ You may use at most 2 loops
 Returns: C, clss, or None, None on failure
 
     C is a numpy.ndarray of shape (k, d) containing
-    the centroid means for each cluster
+    the centroid means
 
     clss is a numpy.ndarray of shape (n,) containing
     the index of the cluster in C that each data point belongs to
@@ -63,7 +63,7 @@ Returns: C, clss, or None, None on failure
 
                 """ Step 2: recompute centroids as mean of assigned points"""
                 for j in range(k):
-                    # True for where condition holds
+                    # True where condition holds
                     mask = (clss == j)
                     if mask.any():  # returns True if any element of iterable is True
                         C[j] = X[mask].mean(axis=0)  # average along the rows
