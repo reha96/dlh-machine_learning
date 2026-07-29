@@ -38,7 +38,7 @@ Returns: C, clss, or None, None on failure
 
     """
     if not isinstance(X, np.ndarray) or not isinstance(k, int) or \
-        k <= 0 or not isinstance(iterations, int) or iterations <= 0:
+            k <= 0 or not isinstance(iterations, int) or iterations <= 0:
         return (None, None)
     else:
         try:
