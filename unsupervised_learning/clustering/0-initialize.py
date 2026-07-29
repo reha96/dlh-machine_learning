@@ -26,8 +26,11 @@ def initialize(X, k):
     if not isinstance(X, np.ndarray) or k <= 0:
         return None
     else:
-        d = X.shape[1]
-        mins = X.min(axis=0)          # shape (d,) min of each column
-        maxs = X.max(axis=0)          # shape (d,) max of each column
-        centroids = np.random.uniform(mins, maxs, size=(k, d))
-        return centroids
+        try:
+            d = X.shape[1]
+            mins = X.min(axis=0)          # shape (d,) min of each column
+            maxs = X.max(axis=0)          # shape (d,) max of each column
+            centroids = np.random.uniform(mins, maxs, size=(k, d))
+            return centroids
+        except:
+            return None
