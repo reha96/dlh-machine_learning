@@ -70,6 +70,11 @@ Returns: C, clss, or None, None on failure
                     else:
                         C[j] = np.random.uniform(mins, maxs)
 
+                # re-compute clss for new C
+                diffs = X[:, np.newaxis, :] - C
+                dists = np.sqrt((diffs ** 2).sum(axis=2))
+                clss = dists.argmin(axis=1)
+
                 """ Step 3: early stop if centroids didn't move"""
                 if np.all(C == C_old):  # test if all elements are identical
                     break
