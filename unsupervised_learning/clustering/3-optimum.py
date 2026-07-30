@@ -39,13 +39,20 @@ the smallest cluster size for each cluster size
         try:
             kmeans = __import__('1-kmeans').kmeans
             variance = __import__('2-variance').variance
-            
-            d_vars = 0
+
+            results = []
+            var_list = []
+            d_vars = []
             for i in range(kmin, kmax+1):
-                results = kmeans(X, i, iterations)
-                var = variance(X,results[0])
-                d_vars += var
-            
+                C, clss = kmeans(X, i, iterations)
+                results.append(C, clss)
+                var = variance(X, results[0])
+                var_list.append(var)
+
+            var_baseline = var_list[0]
+            for j in var_list:
+                d_vars.append(j - var_baseline)
+
             return (results, d_vars)
         except Exception:
             return (None, None)
