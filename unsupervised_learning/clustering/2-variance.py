@@ -19,8 +19,8 @@ var is the total variance
     """
     if not isinstance(X, np.ndarray) or not isinstance(C, np.ndarray):
         return None
-    # re-compute clss with new C (if C changed)
+    # re-compute clss when new C (if C changed)
     diffs = X[:, np.newaxis, :] - C
-    # sum of the smallest squared distance for each points
+    # sum of the smallest squared distance across clusters
     var = (diffs ** 2).min(axis=1).sum()
     return var
