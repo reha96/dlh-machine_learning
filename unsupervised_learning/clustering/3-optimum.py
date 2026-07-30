@@ -29,7 +29,10 @@ d_vars is a list containing the difference in variance from
 the smallest cluster size
 
     """
-
+    if not isinstance(X, np.ndarray):
+        return (None, None)
+    if kmax is None:
+        kmax = X.shape[0]
     if not isinstance(kmin, int) or kmin <= 0 \
             or not isinstance(iterations, int) or iterations <= 0:
         return (None, None)
