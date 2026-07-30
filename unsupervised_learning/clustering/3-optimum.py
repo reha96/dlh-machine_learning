@@ -5,7 +5,6 @@ by variance:
 
 
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 def optimum_k(X, kmin=1, kmax=None, iterations=1000):
@@ -25,10 +24,9 @@ This function should analyze at least 2 different cluster sizes
 You may use at most 2 loops
 
 Returns: results, d_vars, or None, None on failure
-results is a list containing the outputs of K-means for each
-cluster size
+results is a list containing the outputs of K-means
 d_vars is a list containing the difference in variance from
-the smallest cluster size for each cluster size
+the smallest cluster size
 
     """
     if not isinstance(kmin, int) or kmin <= 0 \
@@ -45,34 +43,14 @@ the smallest cluster size for each cluster size
             d_vars = []
             for i in range(kmin, kmax+1):
                 C, clss = kmeans(X, i, iterations)
-                results.append(C, clss)
-                var = variance(X, results[0])
+                results.append((C, clss))
+                var = variance(X, C)
                 var_list.append(var)
 
             var_baseline = var_list[0]
             for j in var_list:
-                d_vars.append(j - var_baseline)
+                d_vars.append(var_baseline - j)
 
             return (results, d_vars)
         except Exception:
             return (None, None)
-
-
-if __name__ == "__main__":
-    np.random.seed(0)
-    a = np.random.multivariate_normal([30, 40], [[16, 0], [0, 16]], size=50)
-    b = np.random.multivariate_normal([10, 25], [[16, 0], [0, 16]], size=50)
-    c = np.random.multivariate_normal([40, 20], [[16, 0], [0, 16]], size=50)
-    d = np.random.multivariate_normal([60, 30], [[16, 0], [0, 16]], size=50)
-    e = np.random.multivariate_normal([20, 70], [[16, 0], [0, 16]], size=50)
-    X = np.concatenate((a, b, c, d, e), axis=0)
-    np.random.shuffle(X)
-
-    results, d_vars = optimum_k(X, kmax=10)
-    print(results)
-    print(np.round(d_vars, 5))
-    plt.scatter(list(range(1, 11)), d_vars)
-    plt.xlabel('Clusters')
-    plt.ylabel('Delta Variance')
-    plt.title('Optimizing K-means')
-    plt.show()
