@@ -22,5 +22,5 @@ var is the total variance
     # re-compute clss when new C (if C changed)
     diffs = X[:, np.newaxis, :] - C
     # sum of the smallest squared distance across clusters
-    var = (diffs ** 2).min(axis=1).sum()
+    var = (diffs ** 2).sum(axis=2).min(axis=1).sum()
     return var
