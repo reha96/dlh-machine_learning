@@ -33,7 +33,7 @@ the smallest cluster size
         return (None, None)
     if kmax is None:
         kmax = X.shape[0]
-    if not isinstance(kmin, int) or kmin <= 0 \
+    if not isinstance(kmin, int) or kmin <= 0 or kmax == kmin \
             or not isinstance(iterations, int) or iterations <= 0:
         return (None, None)
     else:
