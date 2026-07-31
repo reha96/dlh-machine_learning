@@ -29,14 +29,17 @@ def initialize(X, k):
     """
 
     if not isinstance(X, np.ndarray) or len(X.shape) < 2:
-        return (None, None)
+        return (None, None, None)
 
-    kmeans = __import__('1-kmeans').kmeans
-    n, d = X.shape
-    m, clss = kmeans(X, k)
-    # create new array with shape (k, ) and value
-    pi = np.full(k, 1/k) # neutral prior, equally likely
-    S = np.identity(d) # (d, d) identity matrix
-    S = S[np.newaxis, :,:] # add 1 dimension (1, d, d)
-    S = S.repeat(k, axis=0) # repeat k times along first axis 
-    
+    try:
+        kmeans = __import__('1-kmeans').kmeans
+        n, d = X.shape
+        m, clss = kmeans(X, k)
+        # create new array with shape (k, ) and value
+        pi = np.full(k, 1/k) # neutral prior, equally likely
+        S = np.identity(d) # (d, d) identity matrix
+        S = S[np.newaxis, :,:] # add 1 dimension (1, d, d)
+        S = S.repeat(k, axis=0) # repeat k times along first axis 
+        return (pi, m, S)
+    except Exception:
+        return (None, None, None)
