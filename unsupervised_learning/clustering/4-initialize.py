@@ -33,13 +33,13 @@ def initialize(X, k):
 
     try:
         kmeans = __import__('1-kmeans').kmeans
-        n, d = X.shape
-        m, clss = kmeans(X, k)
+        d = X.shape[1]  # only take 2nd dim
+        m = kmeans(X, k)[0]  # only take 1st output
         # create new array with shape (k, ) and value
-        pi = np.full(k, 1/k) # neutral prior, equally likely
-        S = np.identity(d) # (d, d) identity matrix
-        S = S[np.newaxis, :,:] # add 1 dimension (1, d, d)
-        S = S.repeat(k, axis=0) # repeat k times along first axis 
+        pi = np.full(k, 1/k)  # neutral prior, equally likely
+        S = np.identity(d)  # (d, d) identity matrix
+        S = S[np.newaxis, :, :]  # add 1 dimension (1, d, d)
+        S = S.repeat(k, axis=0)  # repeat k times along first axis
         return (pi, m, S)
     except Exception:
         return (None, None, None)
