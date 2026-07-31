@@ -28,9 +28,8 @@ def initialize(X, k):
         as identity matrices
     """
 
-    if not isinstance(X, np.ndarray) or len(X.shape) < 2:
+    if not isinstance(X, np.ndarray) or len(X.shape) != 2:
         return (None, None, None)
-
     try:
         kmeans = __import__('1-kmeans').kmeans
         d = X.shape[1]  # only take 2nd dim
