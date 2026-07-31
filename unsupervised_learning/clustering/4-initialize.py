@@ -36,6 +36,7 @@ def initialize(X, k):
     m, clss = kmeans(X, k)
     # create new array with shape (k, ) and value
     pi = np.full(k, 1/k) # neutral prior, equally likely
-    S = np.identity(d)
-    S = S[np.newaxis, :,:]
+    S = np.identity(d) # (d, d) identity matrix
+    S = S[np.newaxis, :,:] # add 1 dimension (1, d, d)
+    S = S.repeat(k, axis=0) # repeat k times along first axis 
     
