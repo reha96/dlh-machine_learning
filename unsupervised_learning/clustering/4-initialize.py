@@ -32,3 +32,10 @@ def initialize(X, k):
         return (None, None)
 
     kmeans = __import__('1-kmeans').kmeans
+    n, d = X.shape
+    m, clss = kmeans(X, k)
+    # create new array with shape (k, ) and value
+    pi = np.full(k, 1/k) # neutral prior, equally likely
+    S = np.identity(d)
+    S = S[np.newaxis, :,:]
+    
