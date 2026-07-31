@@ -5,7 +5,7 @@
 import numpy as np
 
 
-def kmeans(X, k, iterations=10):
+def kmeans(X, k, iterations=1000):
     """X is a numpy.ndarray of shape (n, d) containing the dataset
     n is the number of data points
     d is the number of dimensions
