@@ -30,7 +30,7 @@ def expectation(X, pi, m, S):
             S.shape[1] != S.shape[2]:
         return None, None
     if not isinstance(pi, np.ndarray) or len(pi.shape) != 1 or \
-            pi.sum(axis=0) != 1:
+            np.isclose(pi.sum(), 1):
         return None, None
     try:
         pdf = __import__('5-pdf').pdf
