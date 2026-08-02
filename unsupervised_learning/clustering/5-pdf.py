@@ -38,7 +38,8 @@ All values in P should have a minimum value of 1e-300
 
         # multivariate normal pdf formula
         const = (2*np.pi)**(-d/2)*(np.linalg.det(S))**(-1/2)
-        mahl = -1/2*((X-m).T * 1/(np.linalg.det(S)) * (X-m))
+        # (X - m) has shape (n, d), inv(S) has shape (d, d), sum along d
+        mahl = -1/2*(((X-m).T @ np.linalg.inv(S) * (X-m)).sum(axis=1))
         P = const * np.exp(mahl)
         return P
     except Exception:
