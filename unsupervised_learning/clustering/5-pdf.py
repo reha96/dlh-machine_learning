@@ -33,7 +33,13 @@ All values in P should have a minimum value of 1e-300
             S.shape[0] != S.shape[1]:
         return None
     try:
+        # d dimensional
         d = X.shape[1]
-        
+
+        # multivariate normal pdf formula
+        const = (2*np.pi)**(-d/2)*(np.linalg.det(S))**(-1/2)
+        mahl = -1/2*((X-m).T * 1/(np.linalg.det(S)) * (X-m))
+        P = const * np.exp(mahl)
+        return P
     except Exception:
         return None
