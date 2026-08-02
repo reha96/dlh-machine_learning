@@ -40,7 +40,7 @@ All values in P should have a minimum value of 1e-300
         const = (2*np.pi)**(-d/2)*(np.linalg.det(S))**(-1/2)
         # (X - m) has shape (n, d), inv(S) has shape (d, d), sum along d
         mahl = -1/2*(((X-m) @ np.linalg.inv(S) * (X-m)).sum(axis=1))
-        P = np.max(const * np.exp(mahl), np.exp(-300))
+        P = np.max(const * np.exp(mahl), 10**(-300))
         return P
     except Exception:
         return None
