@@ -47,7 +47,7 @@ def expectation(X, pi, m, S):
             denominator += g[i]  # incrementally add evidence
 
         g = g/denominator  # post = prior x likelihood / evidence
-        l = np.sum(np.log(g))  # log likelihood
+        l = np.sum(np.log(denominator))  # log likelihood
 
         return g, l
 
