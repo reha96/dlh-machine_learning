@@ -39,14 +39,15 @@ def expectation(X, pi, m, S):
         k = pi.shape[0]  # clusters
         n = X.shape[0]  # data points
         g = np.zeros((k, n))  # posterior starts with zeros (k, n)
+        denominator = np.zeros(n)  # evidence starts with zeros (n)
 
         # bayes's rule, loop over k clusters: post = prior x likelihood
         for i in range(k):
-            g[i] = pi[i] * pdf(X[i], m[i], S[i])
+            g[i] = pi[i] * pdf(X, m[i], S[i])
             denominator += g[i]  # incrementally add evidence
 
         g = g/denominator  # post = prior x likelihood / evidence
-        l = np.log(g).sum()  # log likelihood
+        l = np.sum(np.log(g))  # log likelihood
 
         return g, l
 
