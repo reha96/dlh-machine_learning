@@ -16,7 +16,7 @@ def expectation(X, pi, m, S):
 
     You may use at most 1 loop
 
-    Returns: g, l, or None, None on failure
+    Returns: g, ll, or None, None on failure
         g is a numpy.ndarray of shape (k, n) containing the posterior
         probabilities
         l is the total log likelihood
@@ -30,7 +30,7 @@ def expectation(X, pi, m, S):
             S.shape[1] != S.shape[2]:
         return None, None
     if not isinstance(pi, np.ndarray) or len(pi.shape) != 1 or \
-            np.isclose(pi.sum(), 1):
+            np.isclose(pi.sum(), 1.0):
         return None, None
     try:
         pdf = __import__('5-pdf').pdf
@@ -47,9 +47,9 @@ def expectation(X, pi, m, S):
             denominator += g[i]  # incrementally add evidence
 
         g = g/denominator  # post = prior x likelihood / evidence
-        l = np.sum(np.log(denominator))  # log likelihood
+        ll = np.sum(np.log(denominator))  # log likelihood
 
-        return g, l
+        return g, ll
 
     except Exception:
         return None, None
