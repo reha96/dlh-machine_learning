@@ -24,7 +24,17 @@ S is a numpy.ndarray of shape (k, d, d) containing the updated covs
     if not isinstance(g, np.ndarray) or len(g.shape) != 2:
         return None, None, None
     try:
-        n, d = X.shape
-                
+        n, d = X.shape  # data points, dims
+        k = g.shape[0]  # clusters
+        m = np.zeros((k, d))  # initialize cluster means
+        S = np.zeros((k, d, d))  # initialize cov matrix
+        pi = np.full(k, 1/k)  # neutral prior, equally likely
+        for i in range(k):
+            nk = g[i].sum()         # soft count N_k
+            pi[i] = nk / n          # weighted mean: (n,) @ (n, d)
+            m[i] = g[i] @ X / nk    # (n, d) deviations, NEW mean
+            diff = X - m[i]
+            S[i] = (g[i][:, np.newaxis] * diff).T @ diff / nk
+        return pi, m, S
     except Exception:
         return None, None, None
