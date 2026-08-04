@@ -21,7 +21,8 @@ S is a numpy.ndarray of shape (k, d, d) containing the updated covs
     """
     if not isinstance(X, np.ndarray) or len(X.shape) != 2:
         return None, None, None
-    if not isinstance(g, np.ndarray) or len(g.shape) != 2:
+    if not isinstance(g, np.ndarray) or len(g.shape) != 2 or \
+            g.shape[1] != X.shape[0]:
         return None, None, None
     try:
         n, d = X.shape  # data points, dims
