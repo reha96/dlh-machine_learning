@@ -32,7 +32,7 @@ S is a numpy.ndarray of shape (k, d, d) containing the updated covs
         pi = np.zeros(k)  # intialize prior
         for i in range(k):
             nk = g[i].sum()  # soft count N_k per cluster
-            pi[i] = nk / n  # soft share per cluster
+            pi[i] = nk / n  # soft share - cluster k's share of the data
             m[i] = g[i] @ X / nk    # weighted mean: (n,) @ (n, d)
             diff = X - m[i]  # (n, d) deviations, NEW mean
             S[i] = (g[i][:, np.newaxis] * diff).T @ diff / nk
