@@ -26,19 +26,25 @@ iterations and after the last iteration
 {i} is the number of iterations of the EM algorithm
 {l} is the log likelihood, rounded to 5 decimal places
 
-You should use:
-initialize = __import__('4-initialize').initialize
-expectation = __import__('6-expectation').expectation
-maximization = __import__('7-maximization').maximization
 You may use at most 1 loop
 
-Returns: pi, m, S, g, l, or None, None, None, None, None on failure
+Returns: pi, m, S, g, ll, or None, None, None, None, None on failure
 pi is a numpy.ndarray of shape (k,) containing the priors 
 m is a numpy.ndarray of shape (k, d) containing the centroid means 
 S is a numpy.ndarray of shape (k, d, d) containing the covs
 g is a numpy.ndarray of shape (k, n) containing the probabilities
-l is the log likelihood of the model
+ll is the log likelihood of the model
 """
     if not isinstance(X, np.ndarray) or len(X.shape) != 2:
         return None, None, None, None, None
-    
+    try:
+        initialize = __import__('4-initialize').initialize
+        expectation = __import__('6-expectation').expectation
+        maximization = __import__('7-maximization').maximization
+        pi, m, S = initialize(X, k)
+        for i in range(iterations):
+            g, ll = expectation(X, pi, m, S)
+            pi, m, S = maximization(X, g)
+        return pi, m, S, g, ll
+    except Exception:
+        return None, None, None, None, None
