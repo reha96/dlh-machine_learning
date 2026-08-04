@@ -39,4 +39,6 @@ S is a numpy.ndarray of shape (k, d, d) containing the covs
 g is a numpy.ndarray of shape (k, n) containing the probabilities
 l is the log likelihood of the model
 """
-
+    if not isinstance(X, np.ndarray) or len(X.shape) != 2:
+        return None, None, None, None, None
+    
