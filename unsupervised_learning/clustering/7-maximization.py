@@ -25,8 +25,6 @@ S is a numpy.ndarray of shape (k, d, d) containing the updated covs
         return None, None, None
     if np.any(g < 0):  # posteriors are non-negative
         return None, None, None
-    if not np.all(np.isclose(g.sum(axis=0), 1)):  # each column sums to 1
-        return None, None, None
     try:
         n, d = X.shape  # data points, dims
         k = g.shape[0]  # clusters
