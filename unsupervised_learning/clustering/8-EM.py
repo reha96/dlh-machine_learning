@@ -61,7 +61,7 @@ ll is the log likelihood of the model
                 print(
                     f"Log Likelihood after {i} iterations: "
                     f"{np.round(ll, 5)}")
-            # check for improvement
+            # check improvement
             if abs(ll - delta_ll) > tol:
                 # get new priors pi, means, covs
                 pi, m, S = maximization(X, g)
