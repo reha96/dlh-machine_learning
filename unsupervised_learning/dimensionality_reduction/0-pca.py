@@ -21,25 +21,18 @@ W is a numpy.ndarray of shape (d, nd) where nd is the new dimensionality
     n, d = X.shape  # with standardized means so no additional centering
     # PCA step 1: covariance mat where Xs are distances from 0
     cov = (1/n) * (X.T @ X)
-    # PCA step 2: eigendecompose covariance matrix 
-    evals, evecs = np.linalg.eigh(cov)
-    # 
+    # PCA step 2: eigendecompose covariance matrix
+    evals, evecs = np.linalg.eigh(cov)  # eigenvalues and eigenvectors
+    # PCA step 3: order by highest eigenvalues first
+    order = np.argsort(evals)[::-1]  # return indices to sort
+    evals = evals[order]
+    evecs = evecs[:, order]
+    # PCA step 4: find number of dimensions
+    total = evals.sum()  # total variance = trace of covariance
+    cum = np.cumsum(evals)  # variance kept by 1, 2, ... components
+    frac = cum / total  # fraction of variance each eval keeps
+    # first prefix that crosses var count + 1
+    nd = np.where(frac >= var)[0][0] + 1
+    # PCA step 5: build W
+    W = evecs[:, :nd]
     return W
-
-
-np.random.seed(0)
-a = np.random.normal(size=50)
-b = np.random.normal(size=50)
-c = np.random.normal(size=50)
-d = 2 * a
-e = -5 * b
-f = 10 * c
-
-X = np.array([a, b, c, d, e, f]).T
-m = X.shape[0]
-X_m = X - np.mean(X, axis=0)
-W = pca(X_m)
-T = np.matmul(X_m, W)
-print(T)
-X_t = np.matmul(T, W.T)
-print(np.sum(np.square(X_m - X_t)) / m)
