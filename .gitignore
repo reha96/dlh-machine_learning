@@ -7,3 +7,5 @@ pipeline/databases/metal_bands.sql
 math/multivariate_prob/__pycache__/multinormal.cpython-314.pyc
 __pycache__/
 /.playwright-mcp
+unsupervised_learning/dimensionality_reduction/mnist2500_X.txt
+unsupervised_learning/dimensionality_reduction/mnist2500_labels.txt
