@@ -54,7 +54,7 @@ ll is the log likelihood of the model
         delta_ll = 0  # init delta tolerance based on last ll
 
         for i in range(iterations):
-            # calculate posterior ll of belonging to cluster
+            # calculate posterior g, and ll of the model 
             g, ll = expectation(X, pi, m, S)
 
             if verbose is True and i % 10 == 0:
@@ -63,7 +63,7 @@ ll is the log likelihood of the model
                     f"{np.round(ll, 5)}")
             # check for improvement
             if abs(ll - delta_ll) > tol:
-                # get new priors
+                # get new priors pi, means, covs
                 pi, m, S = maximization(X, g)
                 delta_ll = ll
 
