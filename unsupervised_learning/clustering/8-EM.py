@@ -51,29 +51,30 @@ ll is the log likelihood of the model
         maximization = __import__('7-maximization').maximization
 
         pi, m, S = initialize(X, k)
-        delta_ll = 0  # init delta tolerance based on last ll
+        # E step: soft assignments g (k, n) and model log-likelihood ll
+        g, ll = expectation(X, pi, m, S)
+        prev_ll = 0.0  # sentinel: |0 - ll| is huge, iteration 0 never stops
 
         for i in range(iterations):
-            # calculate posterior g, and ll of the model
-            g, ll = expectation(X, pi, m, S)
-
             if verbose is True and i % 10 == 0:
                 print(
                     f"Log Likelihood after {i} iterations: "
                     f"{np.round(ll, 5)}")
-            # check improvement
-            if abs(ll - delta_ll) > tol:
-                # get new priors pi, means, covs
-                pi, m, S = maximization(X, g)
-                delta_ll = ll
+            # M step: new priors pi, means m, covariances S
+            pi, m, S = maximization(X, g)
+            # E step: recompute g and ll from the updated parameters
+            g, ll = expectation(X, pi, m, S)
+            # stop when the likelihood stops moving by more than tol
+            if abs(ll - prev_ll) <= tol:
+                break
+            prev_ll = ll
 
-            else:
-                # early stopping
-                if verbose is True:
-                    print(
-                        f"Log Likelihood after {i} iterations: "
-                        f"{np.round(ll, 5)}")
-                return pi, m, S, g, ll
+        if verbose is True:
+            print(
+                f"Log Likelihood after {i + 1} iterations: "
+                f"{np.round(ll, 5)}")
+
+            return pi, m, S, g, ll
         # regular stopping after loop
         if verbose is True:
             print(
