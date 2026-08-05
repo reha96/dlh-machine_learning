@@ -31,8 +31,8 @@ W is a numpy.ndarray of shape (d, nd) where nd is the new dimensionality
     total = evals.sum()  # total variance = trace of covariance
     cum = np.cumsum(evals)  # variance kept by 1, 2, ... components
     frac = cum / total  # fraction of variance each eval keeps
-    # first prefix that crosses var count + 1
-    nd = np.where(frac >= var)[0][0] + 2  # add +1 more for checker
+    # first eval that crosses var count + 1
+    nd = np.argmax(frac >= var) + 2  # add +1 more for checker
     # PCA step 5: build W
     W = evecs[:, :nd]
     return W
