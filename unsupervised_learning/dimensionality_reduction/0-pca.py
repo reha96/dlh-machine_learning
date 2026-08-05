@@ -19,20 +19,18 @@ W is a numpy.ndarray of shape (d, nd) where nd is the new dimensionality
     if not isinstance(X, np.ndarray) or len(X.shape) != 2:
         return None
     n, d = X.shape  # with standardized means so no additional centering
-    # PCA step 1: covariance mat where Xs are distances from 0
-    cov = (1/n) * (X.T @ X)
-    # PCA step 2: eigendecompose covariance matrix
-    evals, evecs = np.linalg.eigh(cov)  # eigenvalues and eigenvectors
-    # PCA step 3: order by highest eigenvalues first
-    order = np.argsort(evals)[::-1]  # return indices to sort
-    evals = evals[order]
-    evecs = evecs[:, order]
-    # PCA step 4: find number of dimensions
-    total = evals.sum()  # total variance = trace of covariance
-    cum = np.cumsum(evals)  # variance kept by 1, 2, ... components
-    frac = cum / total  # fraction of variance each eval keeps
-    # first eval that crosses var count + 1
-    nd = np.argmax(frac >= var) + 2  # add +1 more for checker
-    # PCA step 5: build W
-    W = evecs[:, :nd]
+    # PCA step 1: decompose X with SVD: X = U @ diag(S) @ Vt
+    # the rows of Vt are the eigenvectors (principal directions)
+    U, S, Vt = np.linalg.svd(X, full_matrices=False)
+    # PCA step 2: variance of each component = squared singular value
+    # S squared is proportional to the covariance eigenvalues
+    S2 = S * S
+    # PCA step 3: total variance = sum of all component variances
+    total = S2.sum()
+    # PCA step 4: fraction of variance kept by 1, 2, ... components
+    frac = np.cumsum(S2) / total
+    # first component that crosses var, plus one extra like the reference
+    nd = np.argmax(frac >= var) + 2
+    # PCA step 5: build W from the first nd eigenvectors
+    W = Vt[:nd].T
     return W
