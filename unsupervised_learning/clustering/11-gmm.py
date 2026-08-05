@@ -4,6 +4,7 @@
 
 import sklearn.mixture
 
+
 def gmm(X, k):
     """
 X is a numpy.ndarray of shape (n, d) containing the dataset
@@ -18,8 +19,9 @@ clss is a numpy.ndarray of shape (n,) containing the cluster indices
 bic is a numpy.ndarray of shape (kmax - kmin + 1) containing the BIC
 """
     gm = sklearn.mixture.GaussianMixture(k).fit(X)
-    bic = gm.bic
+    pi = gm.weights_
     m = gm.means_
     S = gm.covariances_
-    pi = gm.weights_
-    clss = gm.
+    clss = gm.predict(X)
+    bic = gm.bic(X)
+    return pi, m, S, clss, bic
