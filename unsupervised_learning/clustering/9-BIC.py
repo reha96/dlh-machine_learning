@@ -71,7 +71,7 @@ ll is the log likelihood of the model
 
         # find min BIC
         best_k = 1 + np.argmin(b)  # add 1 bc we start with kmin=1 + idx
-        best_result = results[best_k]
+        best_result = results[best_k-1] # minus 1 bc we need idx only
 
         return best_k, best_result, ll, b
     except Exception:
