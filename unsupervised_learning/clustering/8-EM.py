@@ -29,22 +29,58 @@ iterations and after the last iteration
 You may use at most 1 loop
 
 Returns: pi, m, S, g, ll, or None, None, None, None, None on failure
-pi is a numpy.ndarray of shape (k,) containing the priors 
-m is a numpy.ndarray of shape (k, d) containing the centroid means 
+pi is a numpy.ndarray of shape (k,) containing the priors
+m is a numpy.ndarray of shape (k, d) containing the centroid means
 S is a numpy.ndarray of shape (k, d, d) containing the covs
 g is a numpy.ndarray of shape (k, n) containing the probabilities
 ll is the log likelihood of the model
 """
     if not isinstance(X, np.ndarray) or len(X.shape) != 2:
         return None, None, None, None, None
+    if not isinstance(k, int) or k <= 0:
+        return None, None, None, None, None
+    if not isinstance(iterations, int) or iterations <= 0:
+        return None, None, None, None, None
+    if not isinstance(tol, (int, float)) or tol < 0:
+        return None, None, None, None, None
+    if not isinstance(verbose, bool):
+        return None, None, None, None, None
     try:
         initialize = __import__('4-initialize').initialize
         expectation = __import__('6-expectation').expectation
         maximization = __import__('7-maximization').maximization
+
         pi, m, S = initialize(X, k)
+        delta_ll = 0  # init delta tolerance based on last ll
+
         for i in range(iterations):
+            # calculate posterior ll of belonging to cluster
             g, ll = expectation(X, pi, m, S)
-            pi, m, S = maximization(X, g)
+
+            if verbose is True and i % 10 == 0:
+                print(
+                    f"Log Likelihood after {i} iterations: "
+                    f"{np.round(ll, 5)}")
+            # check for improvement
+            if abs(ll - delta_ll) > tol:
+                # get new priors
+                pi, m, S = maximization(X, g)
+                delta_ll = ll
+
+            else:
+                # early stopping
+                if verbose is True:
+                    print(
+                        f"Log Likelihood after {i} iterations: "
+                        f"{np.round(ll, 5)}")
+                return pi, m, S, g, ll
+        # regular stopping after loop
+        if verbose is True:
+            print(
+                f"Log Likelihood after {iterations} iterations: "
+                f"{np.round(ll, 5)}")
+
         return pi, m, S, g, ll
+
     except Exception:
         return None, None, None, None, None
