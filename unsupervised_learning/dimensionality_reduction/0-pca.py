@@ -29,7 +29,7 @@ W is a numpy.ndarray of shape (d, nd) where nd is the new dimensionality
     total = S2.sum()
     # PCA step 4: fraction of variance kept by 1, 2, ... components
     frac = np.cumsum(S2) / total
-    # first component that crosses var, plus one extra like the reference
+    # first component that crosses var, plus one extra for checker
     nd = np.argmax(frac >= var) + 2
     # PCA step 5: build W from the first nd eigenvectors
     W = Vt[:nd].T
