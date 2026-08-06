@@ -192,6 +192,8 @@ iterations of training have occurred
         if not alpha > 0:
             raise ValueError("alpha must be positive")
         for i in range(iterations):
+            # make predictions from X
             A = self.forward_prop(X)
+            # improve weight (W) and bias (b)
             self.gradient_descent(X, Y, A, alpha)
         return self.evaluate(X, Y)
