@@ -49,7 +49,7 @@ Each task below highlights the **unique challenge** it posed and the **new techn
 |-----------|---------|
 | `np.mean(X, axis=0, keepdims=True)` | Compute mean along samples axis, preserving 2D shape $(1, d)$ |
 | Data centering: $X - \mu$ | Subtract the mean from every row via NumPy broadcasting |
-| `(X - \mu)^\top @ (X - \mu) / (n - 1)$ | Sample covariance as sum of outer products divided by degrees of freedom |
+| $(X - \mu)^\top @ (X - \mu) / (n - 1)$ | Sample covariance as sum of outer products divided by degrees of freedom |
 | Bessel's correction ($n-1$ denominator) | Unbiased estimate — sample covariance, not population |
 | `isinstance(X, np.ndarray) and X.ndim != 2` | Validate 2D array before any computation |
 | `n < 2` → `ValueError` | Require multiple data points for meaningful covariance |
@@ -96,7 +96,7 @@ using `np.linalg.det()` for the determinant, `np.linalg.inv()` for the precision
 | $(d, n)$ data convention | Features as rows, samples as columns — common in ML literature |
 | `np.mean(data, axis=1, keepdims=True)` | Compute per-feature means, yielding shape $(d, 1)$ |
 | $(X - \mu) @ (X - \mu)^\top$ for covariance | Correct multiplication order for $(d, n)$ layout |
-| `np.linalg.det(self.cov)` | Determinant $|\Sigma|$ — measures the "volume" of the distribution |
+| `np.linalg.det(self.cov)` | Determinant $\|\Sigma\|$ — measures the "volume" of the distribution |
 | `np.linalg.inv(self.cov)` | Precision matrix $\Sigma^{-1}$ — used in the Mahalanobis distance |
 | $(x - \mu)^\top \Sigma^{-1} (x - \mu)$ | Mahalanobis distance — "how many std devs away" accounting for correlations |
 | `.item()` on 1×1 array | Extract a Python float from a NumPy array of shape $(1, 1)$ |
