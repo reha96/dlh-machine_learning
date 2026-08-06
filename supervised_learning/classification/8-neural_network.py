@@ -59,7 +59,7 @@ Upon instantiation, it should be initialized to 0.
         # weights (W1) is of shape (nodes, nx), drawing from std normal
         self.W1 = np.random.standard_normal(size=(nodes, nx))
         # neutral bias (b) init
-        self.b1 = np.zeros((nodes, nx))
+        self.b1 = np.zeros((nodes, 1))
         # neuron answer (A) init
         self.A1 = 0
         # init neuron 2 "Output Layer"
