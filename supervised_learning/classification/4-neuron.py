@@ -96,3 +96,31 @@ Returns the cost
             return cost
         except Exception:
             print("check input dims")
+
+    def evaluate(self, X, Y):
+        """
+Evaluates the neuron's predictions
+
+X is a numpy.ndarray with shape (nx, m) that contains the input data
+nx is the number of input features to the neuron
+m is the number of examples
+Y is a numpy.ndarray with shape (1, m) that contains the correct labels
+
+Returns the neuron's prediction and the cost of the network, respectively
+
+The prediction should be a numpy.ndarray with shape (1, m)
+containing the predicted labels
+
+The label values should be 1 if the output of the network is >= 0.5
+and 0 otherwise        
+        """
+        try:
+            # get predictions A from neuron
+            A = self.forward_prop(X)
+            # loss from A
+            cost = self.cost(Y, A)
+            # label predictions 1 and 0
+            prediction = np.where(A >= 0.5, 1, 0)
+            return prediction, cost
+        except Exception:
+            print("check input dims")
