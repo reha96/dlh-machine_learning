@@ -22,9 +22,9 @@ All exceptions should be raised in the order listed above
 class constructor
 
 Public instance attributes:
-W: The weights vector for the neuron. Upon instantiation,
+W: The weights vector. Upon instantiation,
 it should be initialized using a random normal distribution.
-b: The bias for the neuron. Upon instantiation,
+b: The bias. Upon instantiation,
 it should be initialized to 0.
 A: The activated output of the neuron (prediction). Upon instantiation,
 it should be initialized to 0.
@@ -78,19 +78,19 @@ Returns the private attribute __A
 Calculates the cost of the model using logistic regression
 
 Y is a numpy.ndarray with shape (1, m)
-that contains the correct labels for the input data
+that contains the correct labels
 
 A is a numpy.ndarray with shape (1, m)
-containing the activated output of the neuron for each example
+containing the activated output of the neuron
 
 To avoid division by zero errors, use 1.0000001 - A instead of 1 - A
 Returns the cost
         """
         try:
             # calculate cost, log opposite (1-prediction) of predictions
-            # start with m extracting m examples for later average cost:
+            # start with m extracting m examples to later average cost:
             m = Y.shape[1]
-            # formula: -1/m averages and changes sign of negative output
+            # -1/m averages and changes sign of negative output
             cost = (-1/m) * np.sum((Y * np.log(A)) +
                                    ((1 - Y) * np.log(1.0000001 - A)))
             return cost
