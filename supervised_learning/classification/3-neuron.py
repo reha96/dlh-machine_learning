@@ -73,7 +73,7 @@ Returns the private attribute __A
         except Exception:
             print("check input dims")
 
-    def cost(self, Y):
+    def cost(self, Y, A):
         """
 Calculates the cost of the model using logistic regression
 
@@ -87,10 +87,12 @@ To avoid division by zero errors, use 1.0000001 - A instead of 1 - A
 Returns the cost
         """
         try:
-            # calculate z, weights x input plus bias
-            z = np.matmul(self.__W, X) + self.__b
-            # squeeze z using sigmoid function between (0, 1)
-            self.__Y = 1/(1+np.exp(-z))
-            return self.__Y
+            # calculate cost, log opposite (1-prediction) of predictions
+            # start with m extracting m dims for later regularization:
+            m = Y.shape[1]
+            # formula
+            cost = (-1/m) * np.sum((Y * np.log(A)) +
+                                   ((1 - Y) * np.log(1.0000001 - A)))
+            return cost
         except Exception:
             print("check input dims")
