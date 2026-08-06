@@ -52,17 +52,18 @@ Upon instantiation, it should be initialized to 0.
         # nodes checks
         if not isinstance(nodes, int):
             raise TypeError("nodes must be an integer")
-        if nx < 1:
+        if nodes < 1:
             raise ValueError("nodes must be a positive integer")
 
-        # init neuron 1 "Hidden Layer"
-        # weights (W) is of shape (1, nx) or nx.T, drawing from std normal
-        self.W1 = np.random.standard_normal(size=(1, nx))
+        # init neuron "Hidden Layer" x nodes
+        # weights (W1) is of shape (nodes, nx), drawing from std normal
+        self.W1 = np.random.standard_normal(size=(nodes, nx))
         # neutral bias (b) init
-        self.b1 = 0
+        self.b1 = np.zeros((nodes, nx))
         # neuron answer (A) init
         self.A1 = 0
         # init neuron 2 "Output Layer"
-        self.W2 = np.random.standard_normal(size=(1, nx))
+        # weights (W1) is of shape (1, nodes), drawing from std normal
+        self.W2 = np.random.standard_normal(size=(1, nodes))
         self.b2 = 0
         self.A2 = 0
