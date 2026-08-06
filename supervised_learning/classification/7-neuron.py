@@ -217,7 +217,7 @@ iterations of training have occurred
             cost = self.cost(Y, A)
             costs.append(cost)
             if verbose is True:
-                if i % step == 0 or i == iterations:
+                if i % step == 0:
                     print(f"Cost after {i} iterations: {cost}")
         # plot cost graph
         if graph is True:
