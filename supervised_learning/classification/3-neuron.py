@@ -88,9 +88,9 @@ Returns the cost
         """
         try:
             # calculate cost, log opposite (1-prediction) of predictions
-            # start with m extracting m dims for later regularization:
+            # start with m extracting m examples for later average cost:
             m = Y.shape[1]
-            # formula
+            # formula: -1/m averages and changes sign of negative output
             cost = (-1/m) * np.sum((Y * np.log(A)) +
                                    ((1 - Y) * np.log(1.0000001 - A)))
             return cost
