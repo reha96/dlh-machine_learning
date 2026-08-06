@@ -208,16 +208,17 @@ iterations of training have occurred
 
         # iniate to plot cost
         costs = []
-        for i in range(iterations):
+        for i in range(iterations+1):
             # make predictions from X
             A = self.forward_prop(X)
             # improve weight (W) and bias (b) from predictions A
-            self.gradient_descent(X, Y, A, alpha)
+            if i <= iterations:
+                self.gradient_descent(X, Y, A, alpha)
             # update loop and report cost
             cost = self.cost(Y, A)
             costs.append(cost)
             if verbose is True:
-                if i % step == 0:
+                if i % step == 0 or i == iterations:
                     print(f"Cost after {i} iterations: {cost}")
         # plot cost graph
         if graph is True:
@@ -227,3 +228,13 @@ iterations of training have occurred
             plt.title('Training Cost')
             plt.show()
         return self.evaluate(X, Y)
+
+
+lib_train = np.load(
+    '/home/rehat/Documents/GitHub/dlh-machine_learning/supervised_learning/classification/data/Binary_Train.npz')
+X_train_3D, Y_train = lib_train['X'], lib_train['Y']
+X_train = X_train_3D.reshape((X_train_3D.shape[0], -1)).T
+
+np.random.seed(1)
+neuron = Neuron(X_train.shape[0])
+neuron.train(X_train, Y_train, iterations=1000)
