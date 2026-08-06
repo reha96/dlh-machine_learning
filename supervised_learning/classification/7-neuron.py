@@ -228,13 +228,3 @@ iterations of training have occurred
             plt.title('Training Cost')
             plt.show()
         return self.evaluate(X, Y)
-
-
-lib_train = np.load(
-    '/home/rehat/Documents/GitHub/dlh-machine_learning/supervised_learning/classification/data/Binary_Train.npz')
-X_train_3D, Y_train = lib_train['X'], lib_train['Y']
-X_train = X_train_3D.reshape((X_train_3D.shape[0], -1)).T
-
-np.random.seed(1)
-neuron = Neuron(X_train.shape[0])
-neuron.train(X_train, Y_train, iterations=1000)
