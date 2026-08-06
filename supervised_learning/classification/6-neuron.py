@@ -190,7 +190,7 @@ iterations of training have occurred
         if not isinstance(alpha, float):
             raise TypeError("alpha must be a float")
         if not alpha > 0:
-            raise ValueError("alpha must be positive integer")
+            raise ValueError("alpha must be positive")
         for i in range(iterations):
             A = self.forward_prop(X)
             self.gradient_descent(X, Y, A, alpha)
