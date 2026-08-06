@@ -194,6 +194,6 @@ iterations of training have occurred
         for i in range(iterations):
             # make predictions from X
             A = self.forward_prop(X)
-            # improve weight (W) and bias (b)
+            # improve weight (W) and bias (b) from predictions A
             self.gradient_descent(X, Y, A, alpha)
         return self.evaluate(X, Y)
