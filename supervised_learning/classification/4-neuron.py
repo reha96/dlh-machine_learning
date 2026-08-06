@@ -112,7 +112,7 @@ The prediction should be a numpy.ndarray with shape (1, m)
 containing the predicted labels
 
 The label values should be 1 if the output of the network is >= 0.5
-and 0 otherwise        
+and 0 otherwise
         """
         try:
             # get predictions A from neuron
