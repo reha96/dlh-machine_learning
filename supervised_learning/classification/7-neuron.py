@@ -166,6 +166,7 @@ labels for the input data
 
 verbose is a boolean that defines whether or not to print
 information about the training
+
 graph is a boolean that defines whether or not to graph
 information about the training
 
@@ -202,16 +203,27 @@ iterations of training have occurred
         if verbose or graph is True:
             if not isinstance(step, int):
                 raise TypeError("step must be an integer")
-        if not step > 0 or not step <= iterations:
-            raise ValueError("step must be positive and <= iterations")
+            if not step > 0 or not step <= iterations:
+                raise ValueError("step must be positive and <= iterations")
 
+        # iniate to plot cost
+        costs = []
         for i in range(iterations):
             # make predictions from X
             A = self.forward_prop(X)
             # improve weight (W) and bias (b) from predictions A
             self.gradient_descent(X, Y, A, alpha)
             # update loop and report cost
+            cost = self.cost(Y, A)
+            costs.append(cost)
             if verbose is True:
-                cost = self.cost(Y, A)
-                print(f"Cost after {i} iterations: {cost}")
+                if i % step == 0 or i == iterations:
+                    print(f"Cost after {i} iterations: {cost}")
+        # plot cost graph
+        if graph is True:
+            plt.plot(costs)
+            plt.xlabel('iteration')
+            plt.ylabel('cost')
+            plt.title('Training Cost')
+            plt.show()
         return self.evaluate(X, Y)
