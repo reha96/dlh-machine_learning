@@ -68,7 +68,7 @@ Returns the private attribute __A
             # calculate z, weights x input plus bias
             z = np.matmul(self.__W, X) + self.__b
             # squeeze z using sigmoid function between (0, 1)
-            self.__A = 1/(1+np.log(-z))
+            self.__A = 1/(1+np.exp(-z))
             return self.__A
         except Exception:
             print("check input dims")
