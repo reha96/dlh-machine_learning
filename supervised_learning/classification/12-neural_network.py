@@ -156,7 +156,7 @@ and 0 otherwise
         """
         # identical to 4-neuron.py but intented use is output layer only
         # get predictions A2 from final neuron
-        A2 = self.forward_prop(X)
+        A2 = self.forward_prop(X)[1]
         # loss from A2
         cost = self.cost(Y, A2)
         # label predictions 1 and 0
