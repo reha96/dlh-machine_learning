@@ -52,8 +52,9 @@ Explain every concept in this order, no skipping tiers:
   datasets). Never commit them.
 - When a project's tasks are done, rewrite its README per
   `STUDY_GUIDE_TEMPLATE.md`.
-- Verification environment: system `python3` (numpy 2.3.5) for most tasks;
-  `my-venv` (matplotlib 3.11.0) when plotting is involved.
+- Verification environment: **always** run tests and code with `my-venv`
+  (`my-venv/bin/python`, numpy 2.4.4, matplotlib 3.11.0). Never system
+  `python3` for task code, tests, or verification runs.
 
 ## Verification Battery
 
@@ -72,3 +73,10 @@ Run before the student submits, for every task file:
 ## Lessons Log
 
 Append new lessons here as they are learned; the file is meant to grow.
+
+- 2026-08-07: verification and test runs always use `my-venv`, never system
+  `python3` (keeps numpy 2.4.4 / matplotlib consistent with the checker's
+  tooling and available everywhere).
+- 2026-08-07: a test harness pasted at the bottom of a task file runs on every
+  `import` (7-neuron.py: 20s import + stdout pollution). Harnesses live
+  outside task files, or in a `__main__` guard in a scratch file.
