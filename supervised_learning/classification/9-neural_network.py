@@ -61,7 +61,7 @@ Upon instantiation, it should be initialized to 0.
         # neuron answer (A) init
         self.__A1 = 0
         # init neuron 2 "Output Layer"
-        # weights (W1) is of shape (1, nodes), drawing from std normal
+        # weights (W2) is of shape (1, nodes), drawing from std normal
         self.__W2 = np.random.standard_normal(size=(1, nodes))
         self.__b2 = 0
         self.__A2 = 0

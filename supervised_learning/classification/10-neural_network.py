@@ -61,7 +61,7 @@ Upon instantiation, it should be initialized to 0.
         # neuron answer (A) init
         self.__A1 = 0
         # init neuron 2 "Output Layer"
-        # weights (W1) is of shape (1, nodes), drawing from std normal
+        # weights (W2) is of shape (1, nodes), drawing from std normal
         self.__W2 = np.random.standard_normal(size=(1, nodes))
         self.__b2 = 0
         self.__A2 = 0
@@ -108,9 +108,10 @@ Returns a tuple containing the private attributes __A1 and __A2, respectively
         z1 = np.matmul(self.__W1, X) + self.__b1
         # squeeze z1 using sigmoid function between (0, 1)
         self.__A1 = 1/(1+np.exp(-z1))
+
         # only dimensions change, but np broadcasting handles it
-        # calculate z2, weights x input plus bias
-        z2 = np.matmul(self.__W2, X) + self.__b2
+        # calculate z2, uses A1 as input!
+        z2 = np.matmul(self.__W2, self.__A1) + self.__b2
         # squeeze z2 using sigmoid function between (0, 1)
         self.__A2 = 1/(1+np.exp(-z2))
         return self.__A1, self.__A2
