@@ -154,7 +154,7 @@ containing the predicted labels
 The label values should be 1 if the output of the network is >= 0.5
 and 0 otherwise
         """
-        # identical to 4-neuron.py but intented use for output layer only
+        # identical to 4-neuron.py but intented use is output layer only
         # get predictions A from neuron
         A = self.forward_prop(X)
         # loss from A
