@@ -154,4 +154,11 @@ containing the predicted labels
 The label values should be 1 if the output of the network is >= 0.5
 and 0 otherwise
         """
-        pass
+        # identical to 4-neuron.py but intented use for output layer only
+        # get predictions A from neuron
+        A = self.forward_prop(X)
+        # loss from A
+        cost = self.cost(Y, A)
+        # label predictions 1 and 0
+        prediction = np.where(A >= 0.5, 1, 0)
+        return prediction, cost
