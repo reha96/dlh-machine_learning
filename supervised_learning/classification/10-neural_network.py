@@ -104,4 +104,13 @@ The neuron should use a sigmoid activation function
 
 Returns a tuple containing the private attributes __A1 and __A2, respectively
         """
-        pass
+        # calculate z1, weights x input plus bias
+        z1 = np.matmul(self.__W1, X) + self.__b1
+        # squeeze z1 using sigmoid function between (0, 1)
+        self.__A1 = 1/(1+np.exp(-z1))
+        # only dimensions change, but np broadcasting handles it
+        # calculate z2, weights x input plus bias
+        z2 = np.matmul(self.__W2, X) + self.__b2
+        # squeeze z2 using sigmoid function between (0, 1)
+        self.__A2 = 1/(1+np.exp(-z2))
+        return self.__A1, self.__A2
