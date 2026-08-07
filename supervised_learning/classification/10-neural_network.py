@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Write a class that defines a neural network with one hidden layer
-performing binary classification (Based on 8-neural_network.py)
+performing binary classification (Based on 9-neural_network.py)
 """
 
 import numpy as np
@@ -89,3 +89,19 @@ Upon instantiation, it should be initialized to 0.
     @property
     def A2(self):
         return self.__A2
+
+    def forward_prop(self, X):
+        """
+Calculates the forward propagation of the neural network
+
+X is a numpy.ndarray with shape (nx, m) that contains the input data
+
+nx is the number of input features to the neuron
+m is the number of examples
+
+Updates the private attributes __A1 and __A2
+The neuron should use a sigmoid activation function
+
+Returns a tuple containing the private attributes __A1 and __A2, respectively
+        """
+        pass
