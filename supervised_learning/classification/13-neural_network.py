@@ -190,7 +190,7 @@ Updates the private attributes __W1, __b1, __W2, and __b2
         # residual in hidden layer based on residual of final layer
         dz1 = np.matmul(self.__W2.T, dz2) * A1 * (1 - A1)
         dW1 = (1 / m) * np.matmul(dz1, X.T)
-        db1 = (1 / m) * np.sum(dz1)
+        db1 = (1 / m) * np.sum(dz1, axis=1, keepdims=True)  # (nodes, 1)
         # step downhill: subtract learning rate x gradient
         self.__W1 -= alpha * dW1
         self.__b1 -= alpha * db1
