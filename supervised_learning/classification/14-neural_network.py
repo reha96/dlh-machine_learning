@@ -184,7 +184,7 @@ Updates the private attributes __W1, __b1, __W2, and __b2
         # residual (A2 - Y) in final layer comes first
         dz2 = A2 - Y
         dW2 = (1 / m) * np.matmul(dz2, A1.T)  # using hidden layer preds
-        db2 = (1 / m) * np.sum(dz2)
+        db2 = (1 / m) * np.sum(dz2, axis=1, keepdims=True)  # checker issue
         # residual in hidden layer based on residual of final layer
         dz1 = np.matmul(self.__W2.T, dz2) * A1 * (1 - A1)
         dW1 = (1 / m) * np.matmul(dz1, X.T)
