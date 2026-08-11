@@ -14,6 +14,10 @@ codes, verify, checker.
    - Create the template file: full class skeleton from the previous task,
      intranet-spec docstrings, `pass`/stub bodies for the new method, header
      comment `(Based on N-*.py)`. **No solution code in the template.**
+   - Ingest the project's intranet resources: summarize articles, pull video
+     transcripts, capture crucial bits into `<project>/RESOURCES.md`. Runs
+     once per project at the first task's Prepare; see
+     `RESOURCE_INGESTION.md`. Never ingest mid-task.
 2. **Explain** — the 3-tier ladder (below). Concept first, always.
 3. **Student codes** — the student fills the stubs step by step. Answer
    questions; never put solution code into a concept explanation unless asked.
@@ -69,6 +73,9 @@ Run before the student submits, for every task file:
       (0,1), threshold at 0.5, gradient matches finite differences)
 - [ ] for graph tasks: mocked-`plt` call order (plot, xlabel, ylabel, title,
       show)
+- [ ] `RESOURCES.md`: every Read-or-watch resource has a summary or an
+      explicit status marker (paywalled / failed-transcript / deferred). No
+      silent drops.
 
 ## Lessons Log
 
@@ -80,3 +87,17 @@ Append new lessons here as they are learned; the file is meant to grow.
 - 2026-08-07: a test harness pasted at the bottom of a task file runs on every
   `import` (7-neuron.py: 20s import + stdout pollution). Harnesses live
   outside task files, or in a `__main__` guard in a scratch file.
+- 2026-08-11: intranet rltoken links are auth-gated and relative — prefix
+  `https://intranet-dlh.hbtn.io` and follow them inside the authenticated
+  playwright context only.
+- 2026-08-11: run the session health check before any ingestion run
+  (`/projects/current` must not redirect to `/auth/login`); else ask the user
+  for one FIDO sign-in. The active profile has the freshest `Default/Cookies`
+  mtime, not the newest profile dir.
+- 2026-08-11: `my-venv/bin/pip` has a stale shebang (repo moved from
+  `~/Documents` to `~/Documents/GitHub` after venv creation). Use
+  `my-venv/bin/python -m pip`; recreating the venv to fix it is not worth it.
+- 2026-08-11: paywall chain for articles: archive.org first, then the
+  playwright context, then mark `paywalled` — never summarize a stub.
+- 2026-08-11: this repo is public. Raw transcripts never commit; summaries
+  only, own words, no verbatim text longer than one sentence.
