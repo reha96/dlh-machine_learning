@@ -20,11 +20,16 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
     Returns:
         the keras model
     """
+    # start an empty pipeline; each add() appends a layer
     model = K.Sequential()
+    # one Dense per entry in layers, in order
     for i in range(len(layers)):
+        # Dense: W·x + b then activation — W and b are created inside
         model.add(K.layers.Dense(
             layers[i], input_dim=nx, activation=activations[i],
             kernel_regularizer=K.regularizers.L2(lambtha)))
+        # dropout randomly silences nodes during training (1 - keep_prob
+        # chance); never on the output layer
         if keep_prob is not None and i != len(layers) - 1:
             model.add(K.layers.Dropout(rate=1 - keep_prob))
 
