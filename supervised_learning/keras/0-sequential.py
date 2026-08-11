@@ -23,7 +23,8 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
     model = K.Sequential()
     for i in range(len(layers)):
         model.add(K.layers.Dense(
-            layers[i], input_dim=nx, activation=activations[i], kernel_regularizer=K.regularizers.L2(lambtha)))
+            layers[i], input_dim=nx, activation=activations[i],
+            kernel_regularizer=K.regularizers.L2(lambtha)))
         if keep_prob is not None:
             model.add(K.layers.Dropout(rate=1-keep_prob))
 
