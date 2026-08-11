@@ -21,9 +21,10 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
         the keras model
     """
     model = K.Sequential()
-    model.add(input_shape=(nx,))
-    for i in range(layers):
+    for i in range(len(layers)):
         model.add(K.layers.Dense(
-            layers[i], activation=activations[i], bias_regularizer=lambtha))
+            layers[i], input_dim=nx, activation=activations[i], kernel_regularizer=K.regularizers.L2(lambtha)))
+        if keep_prob is not None:
+            model.add(K.layers.Dropout(rate=1-keep_prob))
 
     return model
