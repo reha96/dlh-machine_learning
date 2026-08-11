@@ -8,6 +8,7 @@ Intranet project 2300. Python 3.9, numpy 1.25.2, tensorflow 2.15, pycodestyle
 ### TensorFlow 1 vs TensorFlow 2: Is the new TF better? (365 Data Science)
 
 URL: https://www.youtube.com/watch?v=t48a_KOh0fQ
+Date: 2019-06-04 (YouTube upload)
 Status: summary (transcript)
 
 TF1 was versatile but hard to learn: strange methods, unfamiliar coding
@@ -28,6 +29,7 @@ explicit computation graphs.
 ### Differences Between Tensorflow 1.x and Tensorflow 2.0, Episode 3 (Lazy Programmer)
 
 URL: https://www.youtube.com/watch?v=4NLlNx6wVaw
+Date: 2019-08-26 (YouTube upload)
 Status: summary (transcript)
 
 The overarching theme: TF2 is simpler. Keras is an API specification — the
@@ -53,6 +55,7 @@ without sessions.
 ### Keras Explained (Siraj Raval)
 
 URL: https://www.youtube.com/watch?v=j_pJmXJwMLA (start at 3:48)
+Date: 2018-01-06 (YouTube upload)
 Status: summary (transcript)
 
 Keras is a high-level interface that wraps multiple backends (TensorFlow,
@@ -74,6 +77,7 @@ define the expected input size.
 ### The Sequential model (TensorFlow Core guide)
 
 URL: https://www.tensorflow.org/guide/keras/sequential_model
+Date: 2025-01-13 (page last modified)
 Status: summary
 
 A Sequential model is right only for a plain stack of layers where each layer
@@ -95,6 +99,7 @@ with a known input shape from the start, pass an `Input` object or set
 ### Keras vs. tf.keras: What's the difference in TensorFlow 2.0? (PyImageSearch)
 
 URL: https://pyimagesearch.com/2019/10/21/keras-vs-tf-keras-whats-the-difference-in-tensorflow-2-0/
+Date: 2019-10-21 (publication date)
 Status: summary
 
 Keras (by Francois Chollet, 2015) was a set of abstractions sitting on a
@@ -117,6 +122,7 @@ better multi-GPU training (`MirroredStrategy`).
 ### Hierarchical Data Format (Wikipedia)
 
 URL: https://en.wikipedia.org/wiki/Hierarchical_Data_Format
+Date: 2026-05-22 (last edited)
 Status: summary
 
 HDF is a set of file formats (HDF4, HDF5) for storing and organizing large

@@ -78,8 +78,7 @@ Run before the student submits, for every task file:
 - [ ] for graph tasks: mocked-`plt` call order (plot, xlabel, ylabel, title,
       show)
 - [ ] `RESOURCES.md`: every Read-or-watch resource has a summary or an
-      explicit status marker (paywalled / failed-transcript / deferred). No
-      silent drops.
+      explicit status marker and a Date line. No silent drops.
 
 ## Lessons Log
 

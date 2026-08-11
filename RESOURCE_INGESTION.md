@@ -70,6 +70,25 @@ Within Read or watch, split by destination: article / YouTube / other video.
 - Crucial bits: key concepts, formulas, vocabulary, anything the spec or
   checker fingerprints (quirks, exact error strings, dtype/shape demands).
 
+## Recency (Date line)
+
+Every Read-or-watch resource gets a `Date:` line in RESOURCES.md. Per type:
+
+- **YouTube**: upload date via `yt-dlp` (in `my-venv`) —
+  `extract_info(url, download=False)['upload_date']`. Label
+  `(YouTube upload)`.
+- **Articles with a byline**: the publication date printed on the page.
+  NEVER use `Last-Modified` headers on WordPress/CDN sites — they reflect
+  cache regeneration (PyImageSearch showed 2026 for a 2019 article).
+- **Docs sites** (tensorflow.org, keras.io): `curl -sI -L <url>` and read
+  `Last-Modified`. Label `(page last modified)`.
+- **Wikipedia**: the "last edited" date in the page footer. Label
+  `(last edited)`.
+- No date obtainable: write `Date: unknown`. Never guess.
+
+Note the distinction in the label: YouTube and byline dates are publication
+dates; docs and Wikipedia dates are recency-of-page, not content age.
+
 ## YouTube
 
 - `youtube-transcript-api` first (fast, plain text).
@@ -108,7 +127,7 @@ This repo is public. Only derived content may be committed:
 ```markdown
 ## <Title>
 
-URL: <final url>  ·  Status: summary | paywalled | failed-transcript | deferred
+URL: <final url>  ·  Date: YYYY-MM-DD (<label>)  ·  Status: summary | paywalled | failed-transcript | deferred
 
 One-paragraph summary in own words.
 
