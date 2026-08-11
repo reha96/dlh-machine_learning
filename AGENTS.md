@@ -59,6 +59,10 @@ Explain every concept in this order, no skipping tiers:
 - Verification environment: **always** run tests and code with `my-venv`
   (`my-venv/bin/python`, numpy 2.4.4, matplotlib 3.11.0). Never system
   `python3` for task code, tests, or verification runs.
+- TensorFlow projects (keras, cnn, deep_cnns, ...): TF 2.15 has no Python
+  3.14 wheels, so my-venv cannot run it. Use `tf-venv` (`tf-venv/bin/python`,
+  python 3.11, tensorflow 2.15.0, numpy 1.25.2) — mirrors the checker. Both
+  venvs are gitignored; create with `uv` if missing.
 
 ## Verification Battery
 
