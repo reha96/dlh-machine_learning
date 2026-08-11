@@ -21,8 +21,9 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
         the keras model
     """
     model = K.Sequential()
-    model.add(K.input_shape(shape=(nx,)))
-    model.add(K.layers.Dense(layers))
-    model.add(K.layers.Activation(activations))
-    
+    model.add(input_shape=(nx,))
+    for i in range(layers):
+        model.add(K.layers.Dense(
+            layers[i], activation=activations[i], bias_regularizer=lambtha))
+
     return model
