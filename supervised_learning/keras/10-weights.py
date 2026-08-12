@@ -16,7 +16,7 @@ def save_weights(network, filename, save_format='keras'):
     Returns:
         None
     """
-    pass
+    network.save_weights(filename, save_format='keras')
 
 
 def load_weights(network, filename):
@@ -31,4 +31,4 @@ def load_weights(network, filename):
     Returns:
         None
     """
-    pass
+    network.load_weights(filename)
