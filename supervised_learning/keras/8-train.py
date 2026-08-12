@@ -40,4 +40,25 @@ def train_model(network, data, labels, batch_size, epochs,
     Returns:
         the History object generated after training the model
     """
-    pass
+
+    callbacks = []
+    if early_stopping and validation_data is not None:
+        callbacks = [K.callbacks.EarlyStopping(monitor='val_loss',
+                                               patience=patience)]
+    if save_best and filepath is not None:
+        callbacks.append(
+            K.callbacks.ModelCheckpoint(filepath=filepath,
+                                        monitor='val_loss',
+                                        save_best_only=True))
+
+    # no need to calculate learning rate lr from scratch, we need to pass
+    # a function that does this and Keras will handle the rest
+    if learning_rate_decay and validation_data is not None:
+        def scheduler(epoch):
+            return alpha / (1 + decay_rate * epoch)
+        callbacks.append(
+            K.callbacks.LearningRateScheduler(scheduler, verbose=1))
+
+    return network.fit(x=data, y=labels, batch_size=batch_size,
+                       epochs=epochs, verbose=verbose, shuffle=shuffle,
+                       validation_data=validation_data, callbacks=callbacks)
