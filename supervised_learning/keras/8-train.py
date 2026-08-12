@@ -7,7 +7,8 @@ import tensorflow.keras as K
 def train_model(network, data, labels, batch_size, epochs,
                 validation_data=None, early_stopping=False, patience=0,
                 learning_rate_decay=False, alpha=0.1, decay_rate=1,
-                verbose=True, shuffle=False):
+                save_best=False, filepath=None, verbose=True,
+                shuffle=False):
     """
     Trains a model using mini-batch gradient descent and analyzes validation
     data.
@@ -29,6 +30,9 @@ def train_model(network, data, labels, batch_size, epochs,
             should be used
         alpha (float): the initial learning rate
         decay_rate (float): the decay rate
+        save_best (bool): indicates whether to save the model after each
+            epoch if it is the best
+        filepath (str): the file path where the model should be saved
         verbose (bool): determines if output should be printed during
             training
         shuffle (bool): determines whether to shuffle the batches every epoch
@@ -36,20 +40,4 @@ def train_model(network, data, labels, batch_size, epochs,
     Returns:
         the History object generated after training the model
     """
-
-    callbacks = []
-    if early_stopping and validation_data is not None:
-        callbacks = [K.callbacks.EarlyStopping(monitor='val_loss',
-                                               patience=patience)]
-
-    # no need to calculate learning rate lr from scratch, we need to pass
-    # a function that does this and Keras will handle the rest
-    if learning_rate_decay and validation_data is not None:
-        def scheduler(epoch):
-            return alpha / (1 + decay_rate * epoch)
-        callbacks.append(
-            K.callbacks.LearningRateScheduler(scheduler, verbose=1))
-
-    return network.fit(x=data, y=labels, batch_size=batch_size,
-                       epochs=epochs, verbose=verbose, shuffle=shuffle,
-                       validation_data=validation_data, callbacks=callbacks)
+    pass
