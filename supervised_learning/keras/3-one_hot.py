@@ -14,4 +14,5 @@ def one_hot(labels, classes=None):
     Returns:
         the one-hot matrix
     """
-    pass
+    # tool for creating binary vars from categories
+    return K.utils.to_categorical(labels, classes)
