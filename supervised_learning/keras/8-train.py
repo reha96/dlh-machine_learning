@@ -45,6 +45,7 @@ def train_model(network, data, labels, batch_size, epochs,
     if early_stopping and validation_data is not None:
         callbacks = [K.callbacks.EarlyStopping(monitor='val_loss',
                                                patience=patience)]
+    # append and also save the best iteration of the model
     if save_best and filepath is not None:
         callbacks.append(
             K.callbacks.ModelCheckpoint(filepath=filepath,
