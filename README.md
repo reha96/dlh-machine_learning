@@ -43,6 +43,21 @@ dlh-machine_learning/
 │   │   ├── *.csv, *.csv.zip
 │   │   └── README.md
 │   └── README.md
+├── supervised_learning/         # Neural networks & deep learning
+│   ├── classification/          # Neuron → neural network → deep NN (NumPy)
+│   │   ├── 0-neuron.py through 15-neural_network.py
+│   │   ├── README.md, RESOURCES.md
+│   │   └── data/                # MNIST + binary datasets (gitignored)
+│   └── keras/                   # TensorFlow 2 & Keras
+│       ├── 0-sequential.py through 10-weights.py
+│       └── README.md, RESOURCES.md
+├── unsupervised_learning/       # Clustering & dimensionality reduction
+│   ├── clustering/              # k-means, GMM, agglomerative (NumPy)
+│   │   ├── 0-initialize.py through 12-agglomerative.py
+│   │   └── README.md, RESOURCES.md
+│   └── dimensionality_reduction/ # PCA, t-SNE (NumPy)
+│       ├── 0-pca.py through 8-tsne.py
+│       └── README.md, RESOURCES.md
 ├── my-venv/                     # Python virtual environment
 └── README.md
 ```
@@ -62,6 +77,10 @@ dlh-machine_learning/
 | **Math** | [Multivariate Probability](math/multivariate_prob/) | Mean vector, covariance, correlation, multivariate normal distribution | 3 |
 | **Pipeline** | [Databases](pipeline/databases/) | DDL, CRUD, WHERE, ORDER BY, GROUP BY, JOINS, aggregates, constraints, triggers | 18 (+4 schemas) |
 | **Pipeline** | [Pandas](pipeline/pandas/) | DataFrame creation, rename, slice, fill, concat, hierarchy, describe, resample, visualize | 15 |
+| **Supervised** | [Classification](supervised_learning/classification/) | Binary classification: neuron (logistic), NN with one hidden layer, deep NN; NumPy from scratch | 16 |
+| **Supervised** | [Keras](supervised_learning/keras/) | TensorFlow 2 & Keras: Sequential, Input, optimization, training, model persistence | 11 |
+| **Unsupervised** | [Clustering](unsupervised_learning/clustering/) | k-means, variance, optimum k, Gaussian Mixture Models, EM, BIC, agglomerative | 13 |
+| **Unsupervised** | [Dimensionality Reduction](unsupervised_learning/dimensionality_reduction/) | PCA, t-SNE (P/affinities, gradient descent, cost) | 9 |
 
 ---
 
@@ -73,6 +92,12 @@ dlh-machine_learning/
 ### Pipeline Track
 1. **Foundation** (CREATE) → 2. **CRUD** → 3. **Filtering/Sorting** → 4. **Joins** → 5. **Constraints** → 6. **Real-World Data** → 7. **Triggers** → 8. **Pandas** (DataFrame ops → cleaning → concat → resample → visualize)
 
+### Supervised Learning Track
+1. **Classification Fundamentals** (neuron → single hidden layer → deep NN, NumPy from scratch) → 2. **Keras** (high-level API)
+
+### Unsupervised Learning Track
+1. **Clustering** (k-means → variance → GMM/EM → agglomerative) → 2. **Dimensionality Reduction** (PCA → t-SNE)
+
 ---
 
 ## Setup
@@ -82,6 +107,8 @@ cd dlh-machine_learning
 source my-venv/bin/activate
 pip install numpy
 ```
+
+Keras code (supervised_learning/keras/) runs in `tf-venv` (Python 3.11, TensorFlow 2.15).
 
 ---
 
