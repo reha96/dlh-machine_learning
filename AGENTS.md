@@ -73,7 +73,8 @@ Run before the student submits, for every task file:
 
 - [ ] `pycodestyle` clean
 - [ ] compile + import smoke test: no module-level side effects, no output,
-      no `RuntimeWarning` under `python3 -W error`
+      no `RuntimeWarning` under `my-venv/bin/python -W error` (or
+      `tf-venv/bin/python` for TF tasks)
 - [ ] attribute shapes and initial values match the spec
 - [ ] every exception type and message exact
 - [ ] behavioral anchors (cost decreases after training, sigmoid output in
@@ -100,10 +101,16 @@ Append new lessons here as they are learned; the file is meant to grow.
   (`/projects/current` must not redirect to `/auth/login`); else ask the user
   for one FIDO sign-in. The active profile has the freshest `Default/Cookies`
   mtime, not the newest profile dir.
-- 2026-08-11: `my-venv/bin/pip` has a stale shebang (repo moved from
-  `~/Documents` to `~/Documents/GitHub` after venv creation). Use
-  `my-venv/bin/python -m pip`; recreating the venv to fix it is not worth it.
 - 2026-08-11: paywall chain for articles: archive.org first, then the
   playwright context, then mark `paywalled` — never summarize a stub.
+- 2026-08-12: `tf-venv` has no pip (`python -m pip` → "No module named pip";
+  no pip script in `bin/`). Add packages with `uv pip install --python
+  tf-venv/bin/python` or `python -m ensurepip` first (pip 24.0 available).
+- 2026-08-12: the `my-venv/bin/pip` shebang is fixed (rewritten 2026-08-11 to
+  the new repo path); direct `my-venv/bin/pip` works. The earlier stale-
+  shebang lesson is obsolete.
+- 2026-08-12: `my-venv` is ignored by its own nested `my-venv/.gitignore`
+  (`*`), not the root `.gitignore`; only `tf-venv/` is listed at root. Both
+  venvs are safe from commits.
 - 2026-08-11: this repo is public. Raw transcripts never commit; summaries
   only, own words, no verbatim text longer than one sentence.

@@ -15,7 +15,7 @@ def save_config(network, filename):
     Returns:
         None
     """
-    pass
+    network.to_json(filename)
 
 
 def load_config(filename):
@@ -29,4 +29,4 @@ def load_config(filename):
     Returns:
         the loaded model
     """
-    pass
+    K.models.model_from_json(filename)
