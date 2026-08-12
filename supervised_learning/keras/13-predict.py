@@ -16,4 +16,7 @@ def predict(network, data, verbose=False):
     Returns:
         the prediction for the data
     """
+    # predict is forward propagation, with the same math as evaluate
+    # but without labels and without scoring:
+    # return model's output tensor
     return network.predict(x=data, verbose=verbose)
