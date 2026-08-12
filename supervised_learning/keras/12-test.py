@@ -18,4 +18,5 @@ def test_model(network, data, labels, verbose=True):
         the loss and accuracy of the model with the testing data,
         respectively
     """
-    pass
+    # test the model, it is only trained and validated until now
+    return network.evaluate(x=data, y=labels, verbose=verbose)
