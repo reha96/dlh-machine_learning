@@ -29,4 +29,4 @@ def load_model(filename):
     Returns:
         the loaded model
     """
-    K.models.load_model(filename)
+    return K.models.load_model(filename)
