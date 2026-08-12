@@ -14,5 +14,5 @@ def one_hot(labels, classes=None):
     Returns:
         the one-hot matrix
     """
-    # tool for creating binary vars from categories
+    # one row per label, a single 1 marks the label's class (wide to long)
     return K.utils.to_categorical(labels, classes)
