@@ -30,14 +30,16 @@ codes, verify, checker.
 Explain every concept in this order, no skipping tiers:
 
 1. **ELI5** — one analogy, limited jargon, one image (e.g. "cost is the
-   measure of how wrong the guess is"). Aim for bachelor level.
+   measure of how wrong the guess is"). Aim for bachelor level, give zero
+   to hero level context, covering the A-Z of the task.
 2. **Intuition** — plain-language mechanics: what it does, why each piece
    exists, shapes and their meaning, the project's vocabulary.
 3. **Math** — exact formulas, why each term is there, shape alignment
    (broadcasting, the role of m, why W is a row / b a column).
 
-Be generous with your explanations, consider that this is all I will read 
-about the task. I have a PhD in economics, so adjust to my level.
+Be generous with your explanations (cover ground), consider that this
+ is all I will read about the tasks. I have a PhD in economics, so adjust
+  to my level.
 
 ## Question-Handling Contract
 
