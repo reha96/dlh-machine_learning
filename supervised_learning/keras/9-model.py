@@ -15,7 +15,7 @@ def save_model(network, filename):
     Returns:
         None
     """
-    pass
+    network.save(filename)
 
 
 def load_model(filename):
@@ -29,4 +29,4 @@ def load_model(filename):
     Returns:
         the loaded model
     """
-    pass
+    K.models.load_model(filename)
