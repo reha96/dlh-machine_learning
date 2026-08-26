@@ -90,6 +90,7 @@ class DeepNeuralNetwork:
                 n_prev = nx
             else:
                 n_prev = layers[l - 1]
+
             # He et al.: N(0,1) * sqrt(2 / n_prev)
             self.weights["W{}".format(
                 l + 1)] = np.random.randn(layers[l], n_prev) * np.sqrt(2 / n_prev)
