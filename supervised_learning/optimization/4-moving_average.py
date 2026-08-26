@@ -4,6 +4,8 @@ Write a function def moving_average(data, beta): that calculates the
 weighted moving average of a data set
 """
 
+import numpy as np
+
 
 def moving_average(data, beta):
     """
@@ -16,4 +18,15 @@ def moving_average(data, beta):
 
     Returns: a list containing the moving averages of data
     """
-    pass
+    # create sliding window to avoid bias
+    out = []
+    v = 0
+    # sliding window gives past data weight beta
+    # new data gets 1-beta weight
+    for i, d in enumerate(data):
+        # d is each data point at i
+        v = beta * v + (1-beta)*d
+        # exponential correction to properly weigh each obs
+        correction = (1 - beta**(i+1))
+        out.append(v/correction)
+    return out
