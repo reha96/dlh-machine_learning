@@ -21,4 +21,8 @@ def shuffle_data(X, Y):
 
     Returns: the shuffled X and Y matrices
     """
-    return np.random.permutation(X), np.random.permutation(Y)
+    # both X and Y have the same nb of data points
+    m = X.shape[0]
+    # apply perm to X and Y
+    perm = np.random.permutation(m)
+    return X[perm], Y[perm]
