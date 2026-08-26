@@ -66,11 +66,31 @@ class DeepNeuralNetwork:
         You are allowed to use one loop
         """
         if not isinstance(nx, int):
-                    raise TypeError("nx must be an integer")     
+            raise TypeError("nx must be an integer")
         if nx < 1:
-                    raise ValueError("nx must be a positive integer")
+            raise ValueError("nx must be a positive integer")
+
         # layers instead of nodes
         if not isinstance(layers, list) or len(layers) == 0:
             raise TypeError("layers must be a list of positive integers")
+
+        # all layers elements are positive ints
         if not all(map(lambda x: isinstance(x, int) and x > 0, layers)):
             raise TypeError("layers must be a list of positive integers")
+
+        # set three public attrs
+        self.L = len(layers)
+        self.cache = {}
+        self.weights = {}
+
+        # single loop to initialize weights
+        for l in range(self.L):
+            # n_prev = nx for first layer, else previous layer size
+            if l == 0:
+                n_prev = nx
+            else:
+                n_prev = layers[l - 1]
+            # He et al.: N(0,1) * sqrt(2 / n_prev)
+            self.weights["W{}".format(
+                l + 1)] = np.random.randn(layers[l], n_prev) * np.sqrt(2 / n_prev)
+            self.weights["b{}".format(l + 1)] = np.zeros((layers[l], 1))
