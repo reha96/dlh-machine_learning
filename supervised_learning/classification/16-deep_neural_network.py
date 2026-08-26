@@ -83,9 +83,9 @@ class DeepNeuralNetwork:
         self.cache = {}
         self.weights = {}
 
-        # single loop to initialize weights
+        # initialize weights
         for l in range(self.L):
-            # n_prev = nx for first layer, else previous layer size
+            # n_prev = nx in first layer, else previous layer size
             if l == 0:
                 n_prev = nx
             else:
