@@ -35,14 +35,10 @@ def create_mini_batches(X, Y, batch_size):
     # get nb of data points
     m = X.shape[0]
 
-    # find number of batches given batch_size
-    if m % batch_size != 0:
-        n_batches = m // batch_size + 1
-    else:
-        n_batches = m // batch_size
-
     out = []
-    for i in n_batches:
+    # cut shuffled rows into batch_size slices
+    # step size m for nb of data points
+    for i in range(0, m, batch_size):
         X_batch = X[i:i+batch_size]
         Y_batch = Y[i:i+batch_size]
         out.append((X_batch, Y_batch))
