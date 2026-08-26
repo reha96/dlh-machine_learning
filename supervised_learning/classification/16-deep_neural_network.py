@@ -93,5 +93,6 @@ class DeepNeuralNetwork:
 
             # He et al.: N(0,1) * sqrt(2 / n_prev)
             self.weights["W{}".format(
-                l + 1)] = np.random.randn(layers[l], n_prev) * np.sqrt(2 / n_prev)
+                l + 1)] = np.random.randn(layers[l], n_prev) * \
+                np.sqrt(2 / n_prev)
             self.weights["b{}".format(l + 1)] = np.zeros((layers[l], 1))
