@@ -18,7 +18,8 @@ codes, verify, checker.
      transcripts, capture crucial bits into `<project>/RESOURCES.md`. Runs
      once per project at the first task's Prepare; see
      `RESOURCE_INGESTION.md`. Never ingest mid-task.
-2. **Explain** — the 3-tier ladder (below). Concept first, always.
+2. **Explain** — use the `RESOURCE_INGESTION.md` and follow the 3-tier 
+   ladder (below). Concept first, always.
 3. **Student codes** — the student fills the stubs step by step. Answer
    questions; never put solution code into a concept explanation unless asked.
 4. **Verify** — run the verification battery (below) before the student submits.

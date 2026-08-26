@@ -19,14 +19,3 @@ def normalization_constants(X):
     respectively
     """
     return np.mean(X, axis=0), np.std(X, axis=0)
-
-
-if __name__ == '__main__':
-    np.random.seed(0)
-    a = np.random.normal(0, 2, size=(100, 1))
-    b = np.random.normal(2, 1, size=(100, 1))
-    c = np.random.normal(-3, 10, size=(100, 1))
-    X = np.concatenate((a, b, c), axis=1)
-    m, s = normalization_constants(X)
-    print(m)
-    print(s)
