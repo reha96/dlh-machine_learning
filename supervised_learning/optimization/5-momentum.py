@@ -20,4 +20,12 @@ def update_variables_momentum(alpha, beta1, var, grad, v):
 
     Returns: the updated variable and the new moment, respectively
     """
-    pass
+    # first moment is calculated by the weighted average from previous task
+    # we now apply it to the gradient
+    # uncorrected to start small and build up eventually
+    v = beta1*v + (1-beta1)*grad
+
+    # minimize error rate with small steps
+    var = var - alpha*v
+
+    return (var, v)
