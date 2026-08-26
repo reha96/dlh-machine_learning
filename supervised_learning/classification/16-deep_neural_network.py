@@ -84,15 +84,16 @@ class DeepNeuralNetwork:
         self.weights = {}
 
         # initialize weights
-        for l in range(self.L):
+        for layer in range(self.L):
             # n_prev = nx in first layer, else previous layer size
-            if l == 0:
+            if layer == 0:
                 n_prev = nx
             else:
-                n_prev = layers[l - 1]
+                n_prev = layers[layer - 1]
 
             # He et al.: N(0,1) * sqrt(2 / n_prev)
             self.weights["W{}".format(
-                l + 1)] = np.random.randn(layers[l], n_prev) * \
+                layer + 1)] = np.random.randn(layers[layer], n_prev) * \
                 np.sqrt(2 / n_prev)
-            self.weights["b{}".format(l + 1)] = np.zeros((layers[l], 1))
+            self.weights["b{}".format(layer + 1)] = \
+                np.zeros((layers[layer], 1))
