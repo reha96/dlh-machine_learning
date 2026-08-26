@@ -23,6 +23,6 @@ def shuffle_data(X, Y):
     """
     # both X and Y have the same nb of data points
     m = X.shape[0]
-    # apply perm to X and Y
+    # apply perm (as an index) to X and Y
     perm = np.random.permutation(m)
     return X[perm], Y[perm]
