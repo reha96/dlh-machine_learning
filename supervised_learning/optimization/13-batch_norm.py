@@ -24,21 +24,9 @@ def batch_norm(Z, gamma, beta, epsilon):
     Returns: the normalized Z matrix
     """
     # standardize as usual
-    Z_std = Z-np.mean(Z, axis=0)/(np.std(Z, axis=0)+epsilon)
+    Z_std = (Z-np.mean(Z, axis=0))/(np.std(Z, axis=0)+epsilon)
 
     # now normalize using gamma and beta
     Z_norm = Z_std * gamma + beta
 
     return Z_norm
-
-if __name__ == '__main__':
-    np.random.seed(0)
-    a = np.random.normal(0, 2, size=(100, 1))
-    b = np.random.normal(2, 1, size=(100, 1))
-    c = np.random.normal(-3, 10, size=(100, 1))
-    Z = np.concatenate((a, b, c), axis=1)
-    gamma = np.random.rand(1, 3)
-    beta = np.random.rand(1, 3)
-    print(Z[:10])
-    Z_norm = batch_norm(Z, gamma, beta, 1e-7)
-    print(Z_norm[:10])
