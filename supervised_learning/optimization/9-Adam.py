@@ -38,6 +38,6 @@ def update_variables_Adam(alpha, beta1, beta2, epsilon, var, grad, v, s, t):
     s_corr = s/(1-beta2**t)
 
     # update var, the parameter of interest
-    var = var - alpha*v / (np.sqrt(s) + epsilon)
+    var = var - alpha*v_corr / (np.sqrt(s_corr) + epsilon)
 
     return var, v, s
