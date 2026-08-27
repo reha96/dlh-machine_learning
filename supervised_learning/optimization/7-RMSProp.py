@@ -29,4 +29,4 @@ def update_variables_RMSProp(alpha, beta2, epsilon, var, grad, s):
     # dynamically adjusting learning rate, Root Mean Square Propagation
     var = var - (alpha * grad) / np.sqrt(s + epsilon)
 
-    return var
+    return var, s
