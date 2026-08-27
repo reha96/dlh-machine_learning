@@ -23,13 +23,13 @@ def create_batch_norm_layer(prev, n, activation):
     # checker expects the low-level ops, not as in keras project
 
     # 1. Dense without activation, VarianceScaling fan_avg (Glorot truncated)
-    init = tf.keras.VarianceScaling(mode='fan_avg')  # keep Var(Z)≈1 fwd/bwd
+    init = tf.keras.initializers.VarianceScaling(
+        mode='fan_avg')  # keep Var(Z)≈1 fwd/bwd
 
     # let's build Z from prev
-    Z = tf.keras.Dense(units=n, kernel_initializer=init)(
+    Z = tf.keras.layers.Dense(units=n, kernel_initializer=init)(
         prev)  # (m,n_prev)@(n_prev,n) → (m,n)
 
-  
     # 2-3. Manual moments + learnable scale/shift
 
     # per-unit over batch m, like np.mean/var axis=0 in task 13
