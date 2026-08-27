@@ -17,4 +17,5 @@ def create_momentum_op(alpha, beta1):
 
     Returns: optimizer
     """
-    pass
+    # all we did previously, with TensorFlow
+    return tf.keras.optimizers.SGD(learning_rate=alpha, momentum=beta1)
