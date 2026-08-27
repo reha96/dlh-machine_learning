@@ -28,7 +28,7 @@ def update_variables_Adam(alpha, beta1, beta2, epsilon, var, grad, v, s, t):
     """
 
     # update v, which is the mean of the gradients
-    v = beta1*v - (1-beta1)*grad
+    v = beta1*v + (1-beta1)*grad
 
     # update s, which is the variance of the gradients
     s = beta2*s + (1-beta2)*np.square(grad)
@@ -38,6 +38,6 @@ def update_variables_Adam(alpha, beta1, beta2, epsilon, var, grad, v, s, t):
     s = s/(1-beta2**t)
 
     # update var, the parameter of interest
-    var = var + alpha*v / (np.sqrt(s) + epsilon)
+    var = var - alpha*v / (np.sqrt(s) + epsilon)
 
     return var, v, s
