@@ -24,9 +24,13 @@ def batch_norm(Z, gamma, beta, epsilon):
     Returns: the normalized Z matrix
     """
     # standardize as usual
-    Z_std = (Z-np.mean(Z, axis=0))/(np.std(Z+epsilon, axis=0))
+    mean = np.mean(Z, axis=0)  # axis=0, ddof=0 population
+    variance = np.var(Z, axis=0)  # ddof=0 default, NOT np.std
+    # epsilon INSIDE sqrt(var+epsilon)
+    # adding constant inside np.std would cancel out, so above order
+    Z_std = (Z - mean) / np.sqrt(variance + epsilon)
 
     # now normalize using gamma and beta
-    Z_norm = Z_std * gamma + beta
+    Z_norm = Z_std * gamma + beta  # gamma,beta (1,n) broadcast
 
     return Z_norm
