@@ -34,8 +34,8 @@ def update_variables_Adam(alpha, beta1, beta2, epsilon, var, grad, v, s, t):
     s = beta2*s + (1-beta2)*np.square(grad)
 
     # correct v and s biases toward 0
-    v = v/(1-beta1**t)
-    s = s/(1-beta2**t)
+    v_corr = v/(1-beta1**t)
+    s_corr = s/(1-beta2**t)
 
     # update var, the parameter of interest
     var = var - alpha*v / (np.sqrt(s) + epsilon)
