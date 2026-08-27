@@ -21,6 +21,6 @@ def learning_rate_decay(alpha, decay_rate, global_step, decay_step):
     Returns: the updated value for alpha
     """
     # learning rate decay formula, power = 1
-    # floor function to get how many update steps we took so far
+    # floor function obtains how many update steps we took so far (t)
     alpha_upd = alpha / (1 + decay_rate * (global_step // decay_step))
     return alpha_upd
