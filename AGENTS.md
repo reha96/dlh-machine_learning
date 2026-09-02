@@ -49,6 +49,29 @@ Be generous with your explanations in terms of words and cover ground, consider 
 - Concept explanations stay code-free unless the student asks for code.
 - Every code review includes a check of the student's comments for accuracy.
 
+## Notebook Research Workflow
+
+The `open-notebook` MCP server is connected. This project's notebook is
+**AI Book** — ID `notebook:rxx4byfysdltkrffq02y` (Hands-On Machine Learning
+with Scikit-Learn, Keras, and TensorFlow, 3rd ed.). Notebook IDs contain a
+`:` — quote them in shell contexts. Use the `/ask-notebook` command for the
+packaged flow; the tools directly otherwise.
+
+- Read-only tools: `list_notebooks` / `get_notebook` (metadata),
+  `list_sources` / `get_source`, `search` (vector/text, optional
+  `notebook_id`), `list_chat_sessions`.
+- Asking: prefer sessions — `create_chat_session` (notebook ID + short
+  title), then `execute_chat` (session ID + message). Default models apply.
+  Reuse the session ID for follow-ups to keep context. The one-shot tools
+  `ask_simple` / `ask_question` require model IDs: pass
+  `model:wjn7c6g5loecxcktll4r` (the project's chat model) as
+  `strategy_model`, `answer_model`, and `final_answer_model`.
+- Cite which sources supported each answer. If the notebook does not cover
+  the question, say so instead of guessing.
+
+Read-only by default. Any create/update/delete — including source upload or
+ingestion — requires the user's explicit approval each time.
+
 ## Conventions and Lessons
 
 - Error messages must match the intranet spec character-for-character.

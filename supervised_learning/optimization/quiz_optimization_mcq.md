@@ -1,21 +1,34 @@
-# Optimization — 20-Question MCQ (self-test)
+# Optimization — 24-Question MCQ (self-test, Expanded)
 
 > **Source-grounded:** definitions and formulas match `RESOURCES.md`
-> and the course notebook at
-> `https://notebooklm.google.com/notebook/9e3bcac0-163a-465a-8167-63a63ad00dc7`
-> (standardization, batch norm, mini-batch, EWMA/momentum, RMSProp,
-> Adam, LR decay).
-> **How to use:** Try all 20 without looking at
-> `quiz_optimization_answers.md`. Pick one letter per question.
+> and the AI Book notebook — *Hands-On Machine Learning with
+> Scikit-Learn, Keras, and TensorFlow, 3rd ed.* (ID
+> `notebook:rxx4byfysdltkrffq02y`, ground-truth evaluation
+> `source:zbqd84whl6a4kbcc1y9x`) plus the fixes to the 7 errors in
+> `blog.md` (Feature Scaling, Batch Norm, Mini-batch, Momentum,
+> RMSProp, Adam, LR Decay).
+> **How to use:** Try all 24 without opening
+> `quiz_optimization_answers.md`. Pick one letter per question. Check
+> the separate answer file only when done.
 > **Level:** undergrad-accessible. Math appears where it helps
 > (`RESOURCES.md:105-112` for optimizer formulas), but each stem can be
-> answered from intuition alone.
+> answered from intuition alone — human language first, formulas second.
 > **Design:** Within each topic block questions go high → low:
 > Q1 = what/why (purpose, intuition), Q2 = core mechanics,
 > Q3 = formulas, hyperparameters and edge cases. All four options per
 > question are length-balanced (≈ ±15% chars) and equally detailed so
 > length cannot hint at the answer. Correct positions are randomized
-> (≈ 5× each of A/B/C/D).
+> (≈ 6× each of A/B/C/D for 24Q). Econometric bridges appear where
+> suitable (GDP, CPI base-year, GARCH volatility).
+> **Expansion note (20→24):** The original 20Q already targeted the
+> `blog.md` weaknesses. This revision keeps Q1–20 intact and adds
+> Q21–24 as the four deepest notebook-derived probes where the 20Q
+> coverage was indirect. The 8 notebook MCQs map as follows:
+> N-Q1 (Both valid scaling) → Q2 + **Q21**; N-Q2 (elongated bowl) → Q1;
+> N-Q3 (BN every mini-batch) → **Q22** + Q4/Q5; N-Q4 (mini-batch subset)
+> → Q8; N-Q5 (momentum accumulation) → Q11/Q10; N-Q6 (RMSProp 2nd moment)
+> → **Q23** + Q14; N-Q7 (Adam+momentum) → Q16; N-Q8 (LR decay time-based)
+> → **Q24** + Q19/Q20. Every blog error now has ≥1 direct test.
 
 ---
 
@@ -488,9 +501,118 @@ during training.
 
 ---
 
+## Deep Probes — Notebook Integration (4Q, high → low)
+
+These four questions are the direct notebook `source:zbqd84whl6a4kbcc1y9x`
+probes for the `blog.md` weaknesses that Q1–20 only covered indirectly.
+They use the same length-balanced, equally detailed style.
+
+### Q21. [Feature scaling — both valid vs gamma·X+beta]
+A colleague claims feature scaling is only `(X·gamma)+beta` squeezing
+to [0,1] and that its purpose is to stop exploding gradients. Which
+correction fixes method and purpose?
+
+A) Both min-max `x'=(x−min)/(max−min)` → [0,1] and standardization
+`x'=(x−mean)/std` → mean 0, var 1 are valid scaling choices; the
+affine `gamma·X+beta` belongs to batch norm, not scaling; scaling
+rounds an elongated bowl for straighter GD, not anti-explosion.
+
+B) Only `gamma·X+beta` → [0,1] is valid scaling; min-max and the
+z-score are batch-norm steps and never used on raw inputs, so the
+purpose is indeed to compress every feature into a hard [0,1] box
+rather than to reshape loss contours or aid gradient descent at all.
+
+C) Only standardization `x'=(x−mean)/std` is valid; min-max is just
+`gamma·X+beta` with different names and always squeezes to [0,1],
+so the two terms describe one identical affine transform in practice
+and neither reshapes the elongated bowl or changes step geometry.
+
+D) Feature scaling is identical to batch norm's `gamma·z_norm+beta`
+per mini-batch; both compute batch mean/variance every step and then
+apply learned scale-shift, so input scaling before training never
+helps hidden layers or contour shape at all.
+
+### Q22. [Batch norm — every mini-batch, not interval schedule]
+Your teammate writes: "Batch norm adjusts the learning rate at
+fixed intervals to avoid over-adapting." Which statement is the
+precise notebook correction?
+
+A) Batch norm rescales the global learning rate once per epoch on a
+fixed interval schedule, decaying `alpha` over time so that later
+epochs take smaller steps while activations themselves are left as
+they were during each forward pass.
+
+B) Batch norm touches only raw inputs `X` a single time before any
+training begins, computing one mean/variance on the whole dataset;
+hidden activations are never normalized because the first layer's
+transform already centers everything for deeper layers later onward.
+
+C) Batch norm normalizes pre-activations `z` at **every** training
+step on the current mini-batch — `mu,sigma2` from that batch,
+`z_norm=(z−mu)/sqrt(sigma2+eps)`, `z_tilde=gamma·z_norm+beta`
+before `g()` — then updates `gamma,beta`; not an interval LR tweak.
+
+D) Batch norm normalizes the bias vector `b` at fixed epoch
+intervals by dividing by `gamma` and adding `beta`; activations are
+otherwise untouched and only the gradient vector is standardized on
+that periodic schedule to limit adaptation.
+
+### Q23. [RMSProp — second moment only, not mean+variance]
+`blog.md:27` said RMSProp "adjusts by mean and variance (1st and
+2nd moments)." The notebook says it is only the second. Which
+update nails the correction?
+
+A) `s = beta·s + (1−beta)·dW` (signed mean, no square) then
+`W←W−alpha·s`; `s` keeps sign and discards magnitude, so the step
+follows the averaged direction rather than any squared-magnitude
+scale per parameter.
+
+B) `s = beta·s + (1−beta)·dW²` (element-wise square), then
+`W←W−alpha·dW/sqrt(s+eps)`; `s` is the EWMA of squared gradients
+— the 2nd uncentered moment only — so magnitude history per weight
+sets scale, not mean+variance together.
+
+C) `s1=beta·s1+(1−beta)·dW` and `s2=beta·s2+(1−beta)·dW²`, then
+`W←W−alpha·s1/sqrt(s2+eps)`; both 1st (mean) and 2nd (variance)
+moments are kept and combined, exactly as the blog claimed for the
+adaptive scale computation.
+
+D) RMSProp uses min-max range `s=max−min` per weight and steps by
+`dW/s`; no squaring or exponential averaging happens, so the scale
+is just the current batch range rather than any decaying history of
+squared gradients over time.
+
+### Q24. [LR decay — time-based schedule, not gradient-based]
+`blog.md:32` called LR decay "similar to momentum, gradually
+decreasing." The notebook says it is time-based, not
+gradient-based. Which distinction is correct?
+
+A) LR decay keeps velocity `v=beta·v+(1−beta)·dW` and accumulates
+consistent gradient directions to roll through plateaus faster while
+damping oscillation — the same gradient-driven acceleration that
+momentum provides during optimization.
+
+B) LR decay adapts per parameter via squared-gradient history
+`s=beta·s+(1−beta)·dW²`, dividing `dW/sqrt(s+eps)` so that volatile
+directions take smaller steps and flat directions keep larger steps
+throughout the optimization trajectory.
+
+C) LR decay is identical to RMSProp's second-moment update and
+never changes the global `alpha` on its own; the schedule is just
+`s=beta·s+(1−beta)·dW²` under another name, so time and epoch play
+no role in determining the step size.
+
+D) LR decay is a time/epoch schedule shrinking the global `alpha`,
+e.g. `alpha=alpha0/(1+decay·epoch)`, `alpha0·e^{−k·t}` or staircase
+`alpha0·drop^{floor(epoch/p)}`; it is clock-driven, not
+gradient-driven like momentum or RMSProp which use past gradients.
+
+---
+
 **Next:** check your picks in `quiz_optimization_answers.md` — each
 answer has a 2–4 sentence explanation and the exact
-`RESOURCES.md:line` or video section plus the `blog.md:line` the
-distractor corrects. If you missed Q4–Q6, revisit
-`RESOURCES.md:360-418`; Q10–Q18 rely on `RESOURCES.md:100-113,
-130-178, 259-345`.
+`RESOURCES.md:line` or video section plus the `blog.md:line` and
+notebook `source:zbqd84whl6a4kbcc1y9x` the distractor corrects. If you
+missed Q4–Q6 or Q22, revisit `RESOURCES.md:360-418`; Q10–Q18 and
+Q23 rely on `RESOURCES.md:100-113, 130-178, 259-345`; Q1–Q3 and Q21
+on `RESOURCES.md:30-76, 212-229`.
