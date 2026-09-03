@@ -16,4 +16,7 @@ def specificity(confusion):
         numpy.ndarray of shape (classes,) containing the specificity
         of each class.
     """
-    pass
+    
+    # specificity is 1 - True Negative Rate (over total negatives)
+    # which is True Negatives (TN) / (TN + False Positives (FP))
+    # TN is 

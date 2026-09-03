@@ -25,11 +25,3 @@ def sensitivity(confusion):
     false_p = row_sum - true_p
 
     return true_p/(true_p+false_p)
-
-
-if __name__ == '__main__':
-    confusion = np.load(
-        '/home/rehat/Documents/GitHub/dlh-machine_learning/supervised_learning/error_analysis/confusion.npz')['confusion']
-
-    np.set_printoptions(suppress=True)
-    print(sensitivity(confusion))
