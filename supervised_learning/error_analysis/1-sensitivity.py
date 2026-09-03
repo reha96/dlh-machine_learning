@@ -22,6 +22,6 @@ def sensitivity(confusion):
 
     # sum of non diag elements ROW-WISE (across wrong predictions) equal FN
     row_sum = np.sum(confusion, axis=1)
-    false_p = row_sum - true_p
+    false_n = row_sum - true_p
 
-    return true_p/(true_p+false_p)
+    return true_p/(true_p+false_n)
