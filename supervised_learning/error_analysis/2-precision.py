@@ -16,4 +16,12 @@ def precision(confusion):
         numpy.ndarray of shape (classes,) containing the precision
         of each class.
     """
-    pass
+    # precision is True Positives (TP) / (TP + False Positives (FP))
+    # diagonals store TPs per class
+    true_p = np.diag(confusion)
+
+    # sum of non diag elements COL-WISE (across true labels) equal FP
+    col_sum = np.sum(confusion, axis=0)
+    false_p = col_sum - true_p
+
+    return true_p/(true_p+false_p)
