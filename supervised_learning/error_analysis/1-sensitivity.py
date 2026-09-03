@@ -16,4 +16,20 @@ def sensitivity(confusion):
         numpy.ndarray of shape (classes,) containing the sensitivity
         of each class.
     """
-    pass
+    # sensitivity = True Positives (TP) / (TP + False Positives (FP))
+    # diagonals store TPs per class
+    true_p = np.diag(confusion)
+
+    # sum of non diag elements equal FP
+    col_sum = np.sum(confusion, axis=0)
+    false_p = col_sum - true_p
+
+    return true_p/(true_p+false_p)
+
+
+if __name__ == '__main__':
+    confusion = np.load(
+        '/home/rehat/Documents/GitHub/dlh-machine_learning/supervised_learning/error_analysis/confusion.npz')['confusion']
+
+    np.set_printoptions(suppress=True)
+    print(sensitivity(confusion))
