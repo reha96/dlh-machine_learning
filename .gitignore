@@ -16,3 +16,5 @@ data/user/logs/deeptutor.jsonl
 .gitignore
 data/user/settings/integrations.json
 data/user/settings/model_catalog.json
+supervised_learning/error_analysis/confusion.npz
+supervised_learning/error_analysis/MNIST.npz
