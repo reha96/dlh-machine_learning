@@ -12,3 +12,7 @@ unsupervised_learning/dimensionality_reduction/mnist2500_labels.txt
 /supervised_learning/classification/data
 my-venv/
 tf-venv/
+data/user/logs/deeptutor.jsonl
+.gitignore
+data/user/settings/integrations.json
+data/user/settings/model_catalog.json

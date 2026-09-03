@@ -72,6 +72,15 @@ packaged flow; the tools directly otherwise.
 Read-only by default. Any create/update/delete — including source upload or
 ingestion — requires the user's explicit approval each time.
 
+## DeepTutor Research Workflow
+
+The `deeptutor` MCP server is connected (`DEEPTUTOR_HOME=~/Documents/deeptutor-workspace`). This project's DeepTutor knowledge base is **ai-book-kb** — 1181 chunks from *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow, 3rd ed.* (`llamaindex`, `unsloth/bge-small-en-v1.5` 384d, `unsloth/gemma-4-E4B-it-GGUF` 73728 ctx, gateway `172.18.0.1:18080/18081`). Prefer this KB for grounded ML questions.
+
+- Read-only tools: `list_knowledge_bases` / `get_knowledge_base_info` (metadata), `search_knowledge_base` (name `ai-book-kb`, query, mode `hybrid`), `list_sessions`.
+- Asking: grounded chat is `ask_deeptutor` — pass `message`, `knowledge_bases: ["ai-book-kb"]`, `capability: "chat"` (or `deep_solve`/`deep_question`), reuse returned `session_id` for follow-ups. Also available: `search_knowledge_base` for fast retrieval with page citations, then `ask_deeptutor` for synthesis.
+- Example: `ask_deeptutor(message="Explain gradient descent from the Hands-On ML book (cite pages)", knowledge_bases=["ai-book-kb"])` → returns `session_id` + `response`. Keep `knowledge_bases` explicit; if the KB does not cover the question, say so.
+- Local gateway is `http://172.18.0.1:18080/v1` + `http://172.18.0.1:18081/v1/embeddings`; no external API key needed. Never create/update/delete KBs without explicit approval.
+
 ## Conventions and Lessons
 
 - Error messages must match the intranet spec character-for-character.
