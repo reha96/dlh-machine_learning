@@ -16,13 +16,13 @@ def sensitivity(confusion):
         numpy.ndarray of shape (classes,) containing the sensitivity
         of each class.
     """
-    # sensitivity = True Positives (TP) / (TP + False Positives (FP))
+    # sensitivity is Recall = True Positives (TP) / (TP + False Negatives (FN))
     # diagonals store TPs per class
     true_p = np.diag(confusion)
 
-    # sum of non diag elements equal FP
-    col_sum = np.sum(confusion, axis=0)
-    false_p = col_sum - true_p
+    # sum of non diag elements ROW-WISE (across wrong predictions) equal FN
+    row_sum = np.sum(confusion, axis=1)
+    false_p = row_sum - true_p
 
     return true_p/(true_p+false_p)
 
