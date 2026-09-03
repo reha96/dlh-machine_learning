@@ -29,10 +29,8 @@ def f1_score(confusion):
     col_sum = np.sum(confusion, axis=0)
     false_p = col_sum - true_p
 
-    # according to formula
-    true_n = np.sum(confusion) - true_p - false_p - false_n
-
     # f1 is 2 * (precision * recall) / (precision + recall)
     # simplifies to TP / (TP + (FN+FP)/2)
-    f1 = true_p / (true_p + (false_n+false_p)/2)
+    bottom = true_p + (false_n+false_p)/2
+    f1 = true_p / bottom
     return f1
