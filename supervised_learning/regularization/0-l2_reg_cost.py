@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """L2 regularization cost (numpy)."""
-# Spec: intranet 2297 (2026-09-05). Stub only, no solution code.
 import numpy as np
 
 
@@ -18,4 +17,27 @@ def l2_reg_cost(cost, lambtha, weights, L, m):
 
     Returns: the cost of the network accounting for L2 regularization.
     """
-    pass
+
+    # cost is original loss plus penalty
+    # lambtha is the strength of regularization param
+
+    # first we need the penalty
+    # penalty is the sum of the squares of the model's Weights
+    # (per layer) but not Biases
+
+    # create dict keys
+    dkeys = []
+    for i in range(1, L+1):
+        dkeys.append(f"W{i}")
+
+    # calculate sigma squared (sum of squared weights)
+    sigma2 = 0
+    for l in dkeys:
+        # sum of squared matrices Layer X Weights (Frobenius**2)
+        # vs regression feature weights (single vector)
+        sigma2 += np.sum(weights[l]**2)
+
+    # Why /2m? 1/m averages over examples
+    # /2 cancels when you differentiate
+    reg_cost = cost + (lambtha/(2*m))*sigma2
+    return reg_cost
