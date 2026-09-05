@@ -32,10 +32,10 @@ def l2_reg_cost(cost, lambtha, weights, L, m):
 
     # calculate sigma squared (sum of squared weights)
     sigma2 = 0
-    for l in dkeys:
+    for layer in dkeys:
         # sum of squared matrices Layer X Weights (Frobenius**2)
         # vs regression feature weights (single vector)
-        sigma2 += np.sum(weights[l]**2)
+        sigma2 += np.sum(weights[layer]**2)
 
     # Why /2m? 1/m averages over examples
     # /2 cancels when you differentiate
