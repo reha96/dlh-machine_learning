@@ -8,17 +8,24 @@ Write a blog post explaining the mechanics, pros, and cons of the following opti
     Adam optimization
     Learning rate decay
 
-To start, all the techniques that will be discussed concern forward pass (
-    or is it backpropagation, or both?)  
+To start, all the techniques that we discuss concern forward pass (
+    or is it backpropagation, or both?), and aim to find the optimal 
+    Weights (W) and biases (b) for the neural network model.
 
-feature scaling, works either by standardization (X-x_mean)/(x_sigma),
+
+Feature scaling has many variants and concerns the mathematical range of input
+ data's features (not labels or outcome variable). It is thus a data prepocessing technique.
+In most cases, we achieve scaling by standardization (X-x_mean)/(x_sigma),
 this results in mean 0 and variance 1 for input var. a second option is
-by normalization ((X*gamma)+beta), which typically squeezes variable between
+by min/max normalization ((X*gamma)+beta), which typically squeezes variable between
 0 and 1, or any specified range. purpose is to avoid explosing the gradient
-after many many passes
+after many many passes. Simply put, gradient descent loss minimization works
+better when all input features are of same scale.
 
-batch normalization, we adjust gradient/learning rate only at certain 
-intervals, to avoid over adapting our descent
+batch normalization, is a network-level regularization technique. Remember that 
+regularization techniques we saw so far were Lasso (L1) and Ridge (L2), with their
+key objective being the selection of weights that best explain/capture the variance in output variable, while penalizing overfitting. Simpler, choosing the minimal set of weights to explain our outcome variable.  Mechanically, this technique normalizes input features at every layer of the network so each layer works with the same standardized distribution of weights. It allows 
+for larger learning rates (for what? for gradient descent?)
 
 Mini-batch gradient descent which does exactly the above
 

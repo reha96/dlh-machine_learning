@@ -222,7 +222,7 @@ Optimization toolkit from feature scaling and batch normalization through mini-b
 
 **Challenge:** Create the same schedule as a TF learning-rate schedule object.
 
-**Approach:** Return `tf.keras.optimizers.schedules.InverseTimeDecay(initial_learning_rate=alpha, decay_steps=decay_step, decay_rate=decay_rate, staircase=True)`.
+**Approach:** Return `tf.keras.optimizers.schedules.InverseTimeDecay(initial_learning_rate=alpha, decay_steps=decay_step, decay_rate=decay_rate, staircase=True, name='InverseTimeDecay')`.
 
 **New techniques introduced:**
 
@@ -289,6 +289,8 @@ Optimization toolkit from feature scaling and batch normalization through mini-b
 ---
 
 ## Resources
+
+> Full summaries live in [`RESOURCES.md`](./RESOURCES.md) (ingested 2026-08-26: one-paragraph summary + 3–6 crucial-bits bullets and a `Date:` line per Read-or-watch resource, plus Quiz Hooks). Below are link-only pointers.
 
 **Articles (intranet Read or watch):**
 
