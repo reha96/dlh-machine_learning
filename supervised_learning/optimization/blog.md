@@ -8,6 +8,9 @@ Write a blog post explaining the mechanics, pros, and cons of the following opti
     Adam optimization
     Learning rate decay
 
+To start, all the techniques that will be discussed concern forward pass (
+    or is it backpropagation, or both?)  
+
 feature scaling, works either by standardization (X-x_mean)/(x_sigma),
 this results in mean 0 and variance 1 for input var. a second option is
 by normalization ((X*gamma)+beta), which typically squeezes variable between
