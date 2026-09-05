@@ -1,8 +1,6 @@
 # Error Analysis — Supervised Learning
 
-Confusion-matrix toolkit: build the matrix from one-hot labels and predictions, derive per-class sensitivity, precision, specificity and F1, then answer strategy quizzes on error handling and metric comparison.
-
-> Note (2026-09-05): tasks 0–4 are fully verified against the solution files and both reference forks (which agree byte-for-byte on the quiz answers). Learning-objective wording and the exact quiz questions for tasks 5–6 await one intranet sign-in; entries below describe only what is verifiable offline.
+Confusion-matrix toolkit: build the matrix from one-hot labels and predictions, derive per-class sensitivity, precision, specificity and F1, then apply bias/variance diagnosis to remediation scenarios (intranet project 2295).
 
 ---
 
@@ -107,35 +105,38 @@ Confusion-matrix toolkit: build the matrix from one-hot labels and predictions, 
 
 ---
 
-### Task 5 — Error Handling (`5-error_handling`)
+### Task 5 — Dealing with Error (`5-error_handling`)
 
-**Challenge:** Pick error-handling strategies for diagnosed error sources — a written quiz, not code (extensionless answer file, no `.py`).
+**Challenge:** Map each of four bias/variance regimes to the correct remediation — a written quiz, not code (extensionless answer file, no `.py`).
 
-**Approach:** Four multi-select answers, one per line: `A,B,D` / `A,B,D` / `B,C,E` / `F`. Content matches both reference forks byte-for-byte. (Exact question stems need the intranet spec — pending sign-in.)
+**Approach:** One line per scenario, CSV alphabetical for multi-select: High Bias + High Variance → `A,B,D`; High Bias + Low Variance → `A,B,D`; Low Bias + High Variance → `B,C,E`; Low Bias + Low Variance → `F`. Options: A train more, B different architecture, C more data, D deeper network, E regularization, F nothing. Content matches both reference forks byte-for-byte.
 
 **New techniques introduced:**
 
 | Technique | Purpose |
 |-----------|---------|
-| Letter-answer file format | Checker compares raw text (`A,B,D` per line); no code, no numpy |
+| Bias → capacity/training (`A,B,D`) | Underfitting is fought with more training, new architectures, deeper nets |
+| Variance → data/regularization (`C,E`) | Overfitting is fought with more data and regularization |
+| Healthy model → `F` (nothing) | Low bias + low variance needs no intervention |
 
-> **Key takeaway:** Error analysis ends in decisions about data and strategy, not just numbers — this task grades the decision.
+> **Key takeaway:** Diagnose first (bias or variance?), then prescribe: capacity cures bias, data and penalties cure variance.
 
 ---
 
 ### Task 6 — Compare and Contrast (`6-compare_and_contrast`)
 
-**Challenge:** Choose the correct comparative statement about the metrics above — one single-answer question.
+**Challenge:** Given training and validation confusion matrices plus human-level error (~14%), name the single most important issue: A high bias, B high variance, C nothing.
 
-**Approach:** Answer file containing `A`. Content matches both reference forks byte-for-byte. (Exact question stem needs the intranet spec — pending sign-in.)
+**Approach:** Answer `A` — training error itself sits far above the human level, so the bottleneck is capacity/training (bias), not the train–validation gap. Single-letter file, matching both reference forks byte-for-byte.
 
 **New techniques introduced:**
 
 | Technique | Purpose |
 |-----------|---------|
-| Single-letter answer file | Minimal deliverable: one line, `A`, no trailing options |
+| Human level as bias floor | Avoidable bias = training error − human error; nothing beats this baseline |
+| Gap reading | Variance = validation − training; a small gap with a bad floor still means bias |
 
-> **Key takeaway:** Knowing all four metrics is not enough; this task checks you know when each one is the right lens.
+> **Key takeaway:** Compare training error to human level first (bias?) and only then the train–validation gap (variance?) — order matters.
 
 ---
 
@@ -148,8 +149,8 @@ Confusion-matrix toolkit: build the matrix from one-hot labels and predictions, 
 | 2 | Column sums for FP; precision `TP/(TP+FP)`; row/col duality | Metrics / Precision |
 | 3 | `TN = total−TP−FP−FN`; specificity `TN/(TN+FP)` | Metrics / Specificity |
 | 4 | Harmonic mean `2PR/(P+R)`; `__import__` of digit-leading modules | Metrics / F1 |
-| 5 | Multi-select letter-answer file (4 lines) | Quiz / Error strategy |
-| 6 | Single-letter answer file | Quiz / Metric comparison |
+| 5 | Bias/variance regimes → remediation map (A–F scenarios) | Quiz / Error strategy |
+| 6 | Human-level floor + train–val gap reading → bias verdict | Quiz / Bias–variance diagnosis |
 
 ---
 

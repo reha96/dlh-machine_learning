@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Forward propagation with Dropout (numpy)."""
-# Provisional template: signature confirmed across both reference forks;
-# pending intranet project 2297 spec check after sign-in. No solution code.
+# Spec: intranet 2297 (2026-09-05). Stub only, no solution code.
 import numpy as np
 
 

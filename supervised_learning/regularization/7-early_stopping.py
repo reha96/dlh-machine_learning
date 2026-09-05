@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Early stopping decision."""
-# Provisional template: signature confirmed across both reference forks;
-# pending intranet project 2297 spec check after sign-in. No solution code.
+# Spec: intranet 2297 (2026-09-05). Stub only, no solution code.
 
 
 def early_stopping(cost, opt_cost, threshold, patience, count):
