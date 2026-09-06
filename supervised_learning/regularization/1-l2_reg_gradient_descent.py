@@ -20,8 +20,44 @@ def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
 
     Updates weights in place. Returns: None.
     """
-    pass
+    # gradient descent with L2 is first shrink then step
+    # alpha is step size, lambtha is shrinkage strength (same as in cost)
+    # we update W with penalty, without Biases
 
+    # first we need m = number of examples
+    # Y is (classes, m), same m as cache A0 is (784, m)
+    m = Y.shape[1]
+
+    # start backprop at last layer
+    # for softmax+cross-entropy, dZ_last = A_L - Y
+    # (vs regression residual y - yhat)
+
+    # loop backwards L..1 to propagate error
+    for layer in range(L, 0, -1):
+        # get activations
+        # A_prev is (n_{l-1}, m), A_curr is (n_l, m)
+        # W is (n_l, n_{l-1}) — row = dest neuron
+        A_prev = cache['A' + str(layer - 1)]
+        A_curr = cache['A' + str(layer)]
+
+        # compute dZ for this layer
+        # last layer already has dZ, hidden uses tanh derivative
+        # tanh' = 1 - A^2 (vs sigmoid A*(1-A) in earlier tasks)
+
+        # compute gradients
+        # dW = (1/m) * dZ dot A_prev.T + lambtha/m * W  — L2 extra term
+        # db = (1/m) * sum(dZ, axis=1, keepdims)        — no L2
+        # Why /m not /2m? /2 cancelled in derivative d/dW 1/2||W||2 = W
+
+        # save copy of W before update — need W.T for dA_prev
+
+        # update weights in place
+        # W -= alpha * dW
+        # b -= alpha * db
+
+        # propagate to previous layer if not at input
+        # dA_prev = W.T dot dZ
+        # dZ_prev = dA_prev * (1 - A_prev**2)
 
 def one_hot(Y, classes):
     """convert an array to a one-hot matrix"""
