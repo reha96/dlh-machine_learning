@@ -58,7 +58,7 @@ Just like in traditional machine learning, regularization techniques are used to
 
 **Pros:**
 *   It is a straightforward method to prevent overfitting by stopping training at the optimal point where the model generalizes best.
-*   It is generally accepted that this is one of the best regularization techniques.
+*   It is generally accepted that this is one of the better regularization techniques.
 
 **Cons:**
 *   It requires maintaining and monitoring a separate validation dataset.
