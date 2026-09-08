@@ -27,21 +27,21 @@ def dropout_gradient_descent(Y, weights, cache, alpha, keep_prob, L):
     dZ = cache[f'A{L}']-Y
 
     # GD = backprop
-    for l in range(L, 0, -1):
-        A_prev = cache[f'A{l-1}']
-        W = weights[f'W{l}']
+    for lyr in range(L, 0, -1):
+        A_prev = cache[f'A{lyr-1}']
+        W = weights[f'W{lyr}']
 
         # gradients = derivatives
         dW = (1/m)*np.matmul(dZ, A_prev.T)
         db = (1/m)*np.sum(dZ, axis=1, keepdims=True)
 
         # dropout
-        if l > 1:
+        if lyr > 1:
             dA_prev = np.matmul(W.T, dZ)
-            D = cache[f'D{l-1}']
+            D = cache[f'D{lyr-1}']
             dA_prev *= D
             dA_prev /= keep_prob
             dZ = dA_prev*(1-np.square(A_prev))
 
-        weights[f'W{l}'] -= alpha*dW
-        weights[f'b{l}'] -= alpha*db
+        weights[f'W{lyr}'] -= alpha*dW
+        weights[f'b{lyr}'] -= alpha*db
