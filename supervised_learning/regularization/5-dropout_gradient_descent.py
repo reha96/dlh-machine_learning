@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Gradient descent with Dropout (numpy)."""
-# Spec: intranet 2297 (2026-09-05). Stub only, no solution code.
 import numpy as np
 
 
@@ -21,4 +20,28 @@ def dropout_gradient_descent(Y, weights, cache, alpha, keep_prob, L):
 
     Updates weights in place. Returns: None.
     """
-    pass
+    # get examples
+    m = Y.shape[1]
+
+    # last layer derivative
+    dZ = cache[f'A{L}']-Y
+
+    # GD = backprop
+    for l in range(L, 0, -1):
+        A_prev = cache[f'A{l-1}']
+        W = weights[f'W{l}']
+
+        # gradients = derivatives
+        dW = (1/m)*np.matmul(dZ, A_prev.T)
+        db = (1/m)*np.sum(dZ, axis=1, keepdims=True)
+
+        # dropout
+        if l > 1:
+            dA_prev = np.matmul(W.T, dZ)
+            D = cache[f'D{l-1}']
+            dA_prev *= D
+            dA_prev /= keep_prob
+            dZ = dA_prev*(1-np.square(A_prev))
+
+    weights[f'W{l}'] -= alpha*dW
+    weights[f'b{l}'] -= alpha*db

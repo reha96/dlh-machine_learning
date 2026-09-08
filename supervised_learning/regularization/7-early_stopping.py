@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Early stopping decision."""
-# Spec: intranet 2297 (2026-09-05). Stub only, no solution code.
 
 
 def early_stopping(cost, opt_cost, threshold, patience, count):

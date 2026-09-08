@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Dense layer with Dropout (TensorFlow)."""
-# Spec: intranet 2297 (2026-09-05). Stub only, no solution code.
 import tensorflow as tf
 
 
