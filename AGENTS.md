@@ -18,59 +18,13 @@ codes, verify, checker.
      transcripts, capture crucial bits into `<project>/RESOURCES.md`. Runs
      once per project at the first task's Prepare; see
      `RESOURCE_INGESTION.md`. Never ingest mid-task.
-2. **Explain** — use the `RESOURCE_INGESTION.md` and follow the 3-tier 
-   ladder (below). Concept first, always.
+2. **Explain** — use the `RESOURCE_INGESTION.md` and DeepTutor Research Workflow
 3. **Student codes** — the student fills the stubs step by step. Answer
    questions; never put solution code into a concept explanation unless asked.
 4. **Verify** — run the verification battery (below) before the student submits.
 5. **Check** — student runs the official checker; diagnose any failure against
    the reference forks.
 
-## The 3-Tier Explanation Ladder
-
-Explain every concept in this order, no skipping tiers:
-
-1. **ELI5** — one analogy, limited jargon, one image (e.g. "cost is the
-   measure of how wrong the guess is"). Aim for university level introduction
-   to the topic, and aspire to give all necessary context, covering the big 
-   picture for this task.
-2. **Intuition** — plain-language mechanics: what each moving part does,
-   why each piece exists, their shapes and their meaning, the project's vocabulary.
-3. **Math** — exact formulas, why each term is there, shape alignment
-   (broadcasting, the role of m, why W is a row / b a column).
-
-Be generous with your explanations in terms of words and cover ground, consider that this
- is all I will read about the task. I have a PhD in economics, so adjust
-  to my level and give examples from econometrics when suitable.
-
-## Question-Handling Contract
-
-- Answer "why" before "what".
-- Concept explanations stay code-free unless the student asks for code.
-- Every code review includes a check of the student's comments for accuracy.
-
-## Notebook Research Workflow
-
-The `open-notebook` MCP server is connected. This project's notebook is
-**AI Book** — ID `notebook:rxx4byfysdltkrffq02y` (Hands-On Machine Learning
-with Scikit-Learn, Keras, and TensorFlow, 3rd ed.). Notebook IDs contain a
-`:` — quote them in shell contexts. Use the `/ask-notebook` command for the
-packaged flow; the tools directly otherwise.
-
-- Read-only tools: `list_notebooks` / `get_notebook` (metadata),
-  `list_sources` / `get_source`, `search` (vector/text, optional
-  `notebook_id`), `list_chat_sessions`.
-- Asking: prefer sessions — `create_chat_session` (notebook ID + short
-  title), then `execute_chat` (session ID + message). Default models apply.
-  Reuse the session ID for follow-ups to keep context. The one-shot tools
-  `ask_simple` / `ask_question` require model IDs: pass
-  `model:wjn7c6g5loecxcktll4r` (the project's chat model) as
-  `strategy_model`, `answer_model`, and `final_answer_model`.
-- Cite which sources supported each answer. If the notebook does not cover
-  the question, say so instead of guessing.
-
-Read-only by default. Any create/update/delete — including source upload or
-ingestion — requires the user's explicit approval each time.
 
 ## DeepTutor Research Workflow
 
