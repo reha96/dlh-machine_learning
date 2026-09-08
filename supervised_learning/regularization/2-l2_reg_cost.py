@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """L2 regularization cost (TensorFlow)."""
-# Spec: intranet 2297 (2026-09-05). Stub only, no solution code.
 import tensorflow as tf
 
 
