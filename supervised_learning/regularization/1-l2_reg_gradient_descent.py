@@ -40,12 +40,15 @@ def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
         W = weights['W' + str(layer)]
 
         # compute gradients
-        dW = 1/m * np.matmul(dZ, A_prev.T) + lambtha * W
+        # dW gets L2 term, db does not bc biases not regularized
+        dW = (1 / m) * np.matmul(dZ, A_prev.T) + (lambtha / m) * W
         db = (1 / m) * np.sum(dZ, axis=1, keepdims=True)
+
+        if layer > 1:
+            # propagate to previous layer using original W
+            # tanh derivative is 1 - A**2
+            dA_prev = np.matmul(W.T, dZ)
+            dZ = dA_prev * (1 - np.square(A_prev))
 
         weights['W' + str(layer)] -= alpha * dW
         weights['b' + str(layer)] -= alpha * db
-
-    if layer > 1:
-        dA_prev = np.matmul(W.T, dZ)
-        dZ = dA_prev * (1 - cache['A' + str(layer - 1)] ** 2)
