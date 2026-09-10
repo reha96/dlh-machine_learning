@@ -15,4 +15,16 @@ def dropout_create_layer(prev, n, activation, keep_prob, training=True):
 
     Returns: the output of the new layer.
     """
-    pass
+    # layer weights
+    init = tf.keras.initializers.VarianceScaling(scale=2.0, mode='fan_avg')
+
+    # create layer and store output
+    # activation inside Dense, dropout comes after
+    dense_out = tf.keras.layers.Dense(
+        units=n,
+        activation=activation,
+        kernel_initializer=init)(prev)
+
+    # add dropout
+    rate = 1-keep_prob  # dropout rate
+    return tf.keras.layers.Dropout(rate=rate)(dense_out, training=training)
