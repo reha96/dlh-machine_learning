@@ -15,4 +15,15 @@ def early_stopping(cost, opt_cost, threshold, patience, count):
     Returns: a boolean of whether the network should be stopped early,
     followed by the updated count.
     """
-    pass
+    # cost improvement must be larger than threshold
+    if opt_cost - cost > threshold:
+        count = 0  # threshold is met
+    else:
+        count += 1  # threshold is not met
+
+    # retun bool if patience has run out
+    out = False
+    if count >= patience:
+        out = True
+
+    return out, count
