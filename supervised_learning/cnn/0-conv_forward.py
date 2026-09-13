@@ -26,15 +26,21 @@ def conv_forward(A_prev, W, b, activation, padding="same", stride=(1, 1)):
     kh, kw, c_prev, c_new = W.shape
     s_h, s_w = stride
 
-    # calculate the output dimensions
-    # start with padding
+    # add padding
     if padding == "valid":
         ph, pw = 0, 0
     else:
         ph = ((h_prev-1)*s_h + kh - h_prev)//2
         pw = ((w_prev-1)*s_w + kw - w_prev)//2
-
     
+    # padding applied to only height and width (not m, not c)
+    padding_dims = ((0,0),(ph,ph),(pw,pw),(0,0))
+    padded = np.pad(A_prev, padding_dims, mode="constant")
+    
+    # calculate the output dimensions
+    h_new = (h_prev + 2*ph - kh)//s_h + 1
+    w_new = (w_prev + 2*pw - kw)//s_w + 1
+    convolved = np.zeros((m, h_new, w_new, c_new))
     
     
     
