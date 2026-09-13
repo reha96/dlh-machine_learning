@@ -32,39 +32,29 @@ def conv_forward(A_prev, W, b, activation, padding="same", stride=(1, 1)):
     else:
         ph = ((h_prev-1)*s_h + kh - h_prev)//2
         pw = ((w_prev-1)*s_w + kw - w_prev)//2
-    
+
     # padding applied to only height and width (not m, not c)
-    padding_dims = ((0,0),(ph,ph),(pw,pw),(0,0))
-    padded = np.pad(A_prev, padding_dims, mode="constant")
-    
+    padding_dims = ((0, 0), (ph, ph), (pw, pw), (0, 0))
+    A_padded = np.pad(A_prev, padding_dims, mode="constant")
+
     # calculate the output dimensions
     h_new = (h_prev + 2*ph - kh)//s_h + 1
     w_new = (w_prev + 2*pw - kw)//s_w + 1
     convolved = np.zeros((m, h_new, w_new, c_new))
-    
-    
-    
-import matplotlib.pyplot as plt
 
-if __name__ == "__main__":
-    np.random.seed(0)
-    lib = np.load(
-        '/home/rehat/Documents/GitHub/dlh-machine_learning/supervised_learning/classification/data/MNIST.npz')
-    X_train = lib['X_train']
-    m, h, w = X_train.shape
-    X_train_c = X_train.reshape((-1, h, w, 1))
+    # sweep each filter across the padded input
+    for i in range(h_new):
+        for j in range(w_new):
+            # region of the input covered by the filter
+            h_start = i*s_h
+            w_start = j*s_w
+            region = A_padded[:, h_start:h_start+kh, w_start:w_start+kw, :]
 
-    W = np.random.randn(3, 3, 1, 2)
-    b = np.random.randn(1, 1, 1, 2)
+            # dot product of the region with each filter
+            for k in range(c_new):
+                kernel = W[:, :, :, k]
+                convolved[:, i, j, k] = np.sum(region*kernel, axis=(1, 2, 3))
 
-    def relu(Z):
-        return np.maximum(Z, 0)
-
-    plt.imshow(X_train[0])
-    plt.show()
-    A = conv_forward(X_train_c, W, b, relu, padding='valid')
-    print(A.shape)
-    plt.imshow(A[0, :, :, 0])
-    plt.show()
-    plt.imshow(A[0, :, :, 1])
-    plt.show()
+    # add bias and apply activation
+    Z = convolved + b
+    return activation(Z)
