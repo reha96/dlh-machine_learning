@@ -43,11 +43,11 @@ def pool_forward(A_prev, kernel_shape, stride=(1, 1), mode='max'):
             h_start = i*s_h
             w_start = j*s_w
             region = A_prev[:, h_start:h_start+kh, w_start:w_start+kw, :]
-            
+
             # aggregate (pooling)
             if mode == "max":
-                A_pooled[:, i, j, :] = np.max(region, axis=(1,2))
+                A_pooled[:, i, j, :] = np.max(region, axis=(1, 2))
             else:
-                A_pooled[:, i, j, :] = np.mean(region, axis=(1,2))
+                A_pooled[:, i, j, :] = np.mean(region, axis=(1, 2))
 
     return A_pooled
