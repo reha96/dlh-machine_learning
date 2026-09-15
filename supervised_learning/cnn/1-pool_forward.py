@@ -26,4 +26,28 @@ def pool_forward(A_prev, kernel_shape, stride=(1, 1), mode='max'):
     Returns:
         numpy.ndarray: the output of the pooling layer.
     """
-    pass
+    # extract relevant shapes
+    m, h_prev, w_prev, c_prev = A_prev.shape
+    kh, kw = kernel_shape
+    s_h, s_w = stride
+
+    # calculate output dimensions
+    output_h = (h_prev - kh)//s_h + 1
+    output_w = (w_prev - kw)//s_w + 1
+    A_pooled = np.zeros((m, output_h, output_w, c_prev))
+
+    # sweep each filter across the input
+    for i in range(output_h):
+        for j in range(output_w):
+            # region of the input covered by the filter
+            h_start = i*s_h
+            w_start = j*s_w
+            region = A_prev[:, h_start:h_start+kh, w_start:w_start+kw, :]
+            
+            # aggregate (pooling)
+            if mode == "max":
+                A_pooled[:, i, j, :] = np.max(region, axis=(1,2))
+            else:
+                A_pooled[:, i, j, :] = np.mean(region, axis=(1,2))
+
+    return A_pooled

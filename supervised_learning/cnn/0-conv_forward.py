@@ -22,14 +22,18 @@ def conv_forward(A_prev, W, b, activation, padding="same", stride=(1, 1)):
         numpy.ndarray: the output of the convolutional layer.
     """
     # extract relevant shapes
-    m, h_prev, w_prev, c_prev = A_prev.shape
-    kh, kw, c_prev, c_new = W.shape
+    # input (A) obs, height, width, channels
+    m, h_prev, w_prev, c_prev = A_prev.shape  
+    # kernel (W) height, width, channels
+    kh, kw, c_prev, c_new = W.shape  
+    # step size height, width
     s_h, s_w = stride
 
-    # add padding
+    # add padding for input (A) kernel area
     if padding == "valid":
         ph, pw = 0, 0
     else:
+        # padding formula for height, width
         ph = ((h_prev-1)*s_h + kh - h_prev)//2
         pw = ((w_prev-1)*s_w + kw - w_prev)//2
 
