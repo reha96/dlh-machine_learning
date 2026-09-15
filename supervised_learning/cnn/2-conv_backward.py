@@ -37,4 +37,50 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
         with respect to the previous layer (dA_prev), the kernels (dW), and
         the biases (db), respectively.
     """
-    pass
+    # extract relevant shapes
+    # partial derivatives (dZ)
+    m, h_new, w_new, c_new = dZ.shape
+    # input (A) obs, height, width, channels
+    m, h_prev, w_prev, c_prev = A_prev.shape
+    # kernel (W) height, width, channels
+    kh, kw, c_prev, c_new = W.shape
+    # step size height, width
+    sh, sw = stride
+
+    # add padding for input (A) kernel area
+    if padding == "valid":
+        ph, pw = 0, 0
+    else:
+        # padding formula for height, width
+        ph = ((h_prev-1)*sh + kh - h_prev)//2 + 1
+        pw = ((w_prev-1)*sw + kw - w_prev)//2 + 1
+
+    # padding applied to only height and width (not m, not c)
+    padding_dims = ((0, 0), (ph, ph), (pw, pw), (0, 0))
+    A_padded = np.pad(A_prev, padding_dims, mode="constant")
+
+    # init the output dimensions
+    dA_prev = np.zeros((m, h_prev+2*ph, w_prev+2*pw, c_prev))
+    dW = np.zeros(W.shape)
+    db = np.sum(dZ, axis=(0, 1, 2), keepdims=True)
+
+    # sweep each output position and scatter the gradients back
+    for i in range(h_new):
+        for j in range(w_new):
+            # region of the padded input covered by the filter
+            h_start = i*sh
+            w_start = j*sw
+            region = A_padded[:, h_start:h_start+kh, w_start:w_start+kw, :]
+
+            # scatter and gather gradients for each filter
+            for k in range(c_new):
+                dA_prev[:, h_start:h_start+kh, w_start:w_start+kw, :] += (
+                    W[:, :, :, k]*dZ[:, i, j, k][:, None, None, None])
+                dW[:, :, :, k] += np.sum(
+                    region*dZ[:, i, j, k][:, None, None, None], axis=0)
+
+    # drop the padded border for same padding
+    if padding == 'same':
+        dA_prev = dA_prev[:, ph:-ph, pw:-pw, :]
+
+    return dA_prev, dW, db
