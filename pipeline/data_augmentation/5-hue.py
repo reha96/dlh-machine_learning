@@ -14,5 +14,5 @@ def change_hue(image, delta):
         The altered image.
     """
     return tf.image.adjust_hue(
-    image, delta, name=None
-)
+        image, delta, name=None
+    )
