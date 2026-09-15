@@ -45,7 +45,7 @@ def pca_color(image, alphas):
     delta_row = tf.transpose(delta_vec)
     # copy the one shift to every pixel (N, 3)
     delta_full = tf.broadcast_to(delta_row, tf.shape(centered))
-   
+
     # add the shift back onto the centered colors
     shifted = centered + delta_full + color_mean
     # keep every value inside the 0 to 1 range
