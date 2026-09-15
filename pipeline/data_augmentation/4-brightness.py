@@ -14,4 +14,6 @@ def change_brightness(image, max_delta):
     Returns:
         The altered image.
     """
-    pass
+    return tf.image.random_brightness(
+    image, max_delta, seed=None
+)
