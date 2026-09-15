@@ -23,9 +23,9 @@ def conv_forward(A_prev, W, b, activation, padding="same", stride=(1, 1)):
     """
     # extract relevant shapes
     # input (A) obs, height, width, channels
-    m, h_prev, w_prev, c_prev = A_prev.shape  
+    m, h_prev, w_prev, c_prev = A_prev.shape
     # kernel (W) height, width, channels
-    kh, kw, c_prev, c_new = W.shape  
+    kh, kw, c_prev, c_new = W.shape
     # step size height, width
     s_h, s_w = stride
 

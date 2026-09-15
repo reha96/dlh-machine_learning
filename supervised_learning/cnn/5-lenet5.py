@@ -29,4 +29,39 @@ def lenet5(X):
         K.Model: the compiled model to use Adam optimization (with default
         hyperparameters) and accuracy metrics.
     """
-    pass
+    # one shared initializer for every initialized layer
+    initializer = K.initializers.HeNormal(seed=0)
+
+    # build the layers in spec order
+    model = K.Sequential([
+        X,
+        K.layers.Conv2D(filters=6,
+                        kernel_size=(5, 5),
+                        padding='same',
+                        activation='relu',
+                        kernel_initializer=initializer),
+        K.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2)),
+        K.layers.Conv2D(filters=16,
+                        kernel_size=(5, 5),
+                        padding='valid',
+                        activation='relu',
+                        kernel_initializer=initializer),
+        K.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2)),
+        K.layers.Flatten(),
+        K.layers.Dense(units=120,
+                       activation='relu',
+                       kernel_initializer=initializer),
+        K.layers.Dense(units=84,
+                       activation='relu',
+                       kernel_initializer=initializer),
+        K.layers.Dense(units=10,
+                       activation='softmax',
+                       kernel_initializer=initializer)
+    ])
+
+    # compile with Adam defaults and accuracy
+    model.compile(loss='categorical_crossentropy',
+                  optimizer=K.optimizers.Adam(),
+                  metrics=['accuracy'])
+
+    return model
