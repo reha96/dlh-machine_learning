@@ -54,7 +54,6 @@ CNNs achieve record-breaking results on large datasets of real-world objects. Th
 
 ## Personal Notes
 
-<!-- Your reaction: what surprised you, what stood the test of time, -->
-<!-- what you would ask the authors. -->
+
 The CNN methods described in Procedures are what we still use in 2026! I wonder what the authors would have done differently had they known the impact of their paper over the next decade. What would they change in the paper?
----
+
