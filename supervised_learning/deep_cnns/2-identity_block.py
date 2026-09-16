@@ -26,27 +26,32 @@ def identity_block(A_prev, filters):
 
     # 3 blocks of 3 conv layers
     # step 1: create conv layer with kernel 1x1
+    kernel_init = K.initializers.HeNormal(seed=0)  # pycodestyle
     X = K.layers.Conv2D(filters=f11, kernel_size=1, padding='same',
-                             kernel_initializer=K.initializers.HeNormal(seed=0))(A_prev)
+                        kernel_initializer=kernel_init)(A_prev)
 
     # apply batch normalization and ReLu activation
-    X = K.layers.BatchNormalization(axis=3)(A_prev)
-    X = K.layers.Activation('relu')(A_prev)
+    X = K.layers.BatchNormalization(axis=3)(X)
+    X = K.layers.Activation('relu')(X)
 
     # step 2: create conv layer with kernel 3x3
     X = K.layers.Conv2D(filters=f3, kernel_size=3, padding='same',
-                             kernel_initializer=K.initializers.HeNormal(seed=0))(A_prev)
+                        kernel_initializer=K.initializers.HeNormal(seed=0))(X)
 
     # apply batch normalization and ReLu activation
-    X = K.layers.BatchNormalization(axis=3)(A_prev)
-    X = K.layers.Activation('relu')(A_prev)
+    X = K.layers.BatchNormalization(axis=3)(X)
+    X = K.layers.Activation('relu')(X)
 
     # step 3: create conv layer with kernel 1x1
     X = K.layers.Conv2D(filters=f12, kernel_size=1, padding='same',
-                                kernel_initializer=K.initializers.HeNormal(seed=0))(A_prev)
+                        kernel_initializer=K.initializers.HeNormal(seed=0))(X)
 
-    # apply batch normalization and ReLu activation
-    X = K.layers.BatchNormalization(axis=3)(A_prev)
-    X = K.layers.Activation('relu')(A_prev)
-    
+    # apply batch normalization but no ReLu before adding
+    X = K.layers.BatchNormalization(axis=3)(X)
+
+    # take tensors, and add them element-wise together
+    X = K.Add()([X, A_prev])
+    # then apply BN
+    X = K.layers.Activation('relu')(X)
+
     return X
