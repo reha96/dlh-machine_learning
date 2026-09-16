@@ -26,7 +26,7 @@ def identity_block(A_prev, filters):
 
     # 3 blocks of 3 conv layers
     # step 1: create conv layer with kernel 1x1
-    kernel_init = K.initializers.HeNormal(seed=0)  # pycodestyle
+    kernel_init = K.initializers.HeNormal(seed=0)
     X = K.layers.Conv2D(filters=f11, kernel_size=1, padding='same',
                         kernel_initializer=kernel_init)(A_prev)
 
@@ -49,9 +49,9 @@ def identity_block(A_prev, filters):
     # apply batch normalization but no ReLu before adding
     X = K.layers.BatchNormalization(axis=3)(X)
 
-    # take tensors, and add them element-wise together
-    X = K.Add()([X, A_prev])
-    # then apply BN
+    # take two tensors, and add them element-wise together
+    K.Add()([X, A_prev])
+    # then apply ReLu
     X = K.layers.Activation('relu')(X)
 
     return X
