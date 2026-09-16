@@ -50,7 +50,7 @@ def identity_block(A_prev, filters):
     X = K.layers.BatchNormalization(axis=3)(X)
 
     # take two tensors, and add them element-wise together
-    K.Add()([X, A_prev])
+    X = K.layers.Add()([X, A_prev])
     # then apply ReLu
     X = K.layers.Activation('relu')(X)
 
