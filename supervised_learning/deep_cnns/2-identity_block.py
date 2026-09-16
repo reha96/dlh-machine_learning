@@ -26,19 +26,27 @@ def identity_block(A_prev, filters):
 
     # 3 blocks of 3 conv layers
     # step 1: create conv layer with kernel 1x1
-    A_prev = K.layers.Conv2D(filters=f11, kernel_size=1, padding='same',
+    X = K.layers.Conv2D(filters=f11, kernel_size=1, padding='same',
                              kernel_initializer=K.initializers.HeNormal(seed=0))(A_prev)
 
     # apply batch normalization and ReLu activation
-    # why axis 3? for c, channels axis of shape (m, h, w, c)
-    A_prev = K.layers.BatchNormalization(axis=3)(A_prev)
-    A_prev = K.layers.Activation('relu')(A_prev)
+    X = K.layers.BatchNormalization(axis=3)(A_prev)
+    X = K.layers.Activation('relu')(A_prev)
 
     # step 2: create conv layer with kernel 3x3
-    A_prev = K.layers.Conv2D(filters=f3, kernel_size=3, padding='same',
+    X = K.layers.Conv2D(filters=f3, kernel_size=3, padding='same',
                              kernel_initializer=K.initializers.HeNormal(seed=0))(A_prev)
 
     # apply batch normalization and ReLu activation
-    # why axis 3? for c, channels axis of shape (m, h, w, c)
-    A_prev = K.layers.BatchNormalization(axis=3)(A_prev)
-    A_prev = K.layers.Activation('relu')(A_prev)
+    X = K.layers.BatchNormalization(axis=3)(A_prev)
+    X = K.layers.Activation('relu')(A_prev)
+
+    # step 3: create conv layer with kernel 1x1
+    X = K.layers.Conv2D(filters=f12, kernel_size=1, padding='same',
+                                kernel_initializer=K.initializers.HeNormal(seed=0))(A_prev)
+
+    # apply batch normalization and ReLu activation
+    X = K.layers.BatchNormalization(axis=3)(A_prev)
+    X = K.layers.Activation('relu')(A_prev)
+    
+    return X
