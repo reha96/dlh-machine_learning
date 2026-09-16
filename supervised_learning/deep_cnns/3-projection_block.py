@@ -55,15 +55,15 @@ def projection_block(A_prev, filters, s=2):
     X = K.layers.BatchNormalization(axis=3)(X)
 
     # new block, parallel to the first one:
-    X_new = K.layers.Conv2D(filters=f11, kernel_size=1, padding='same',
+    X_new = K.layers.Conv2D(filters=f12, kernel_size=1, padding='same',
                             strides=s,  # stride param
                             kernel_initializer=kernel_init)(A_prev)
 
     # apply batch normalization but no ReLu before adding
     X_new = K.layers.BatchNormalization(axis=3)(X_new)
 
-    # take three tensors, and add them element-wise together
-    X = K.layers.Add()([X, X_new, A_prev])
+    # take two tensors, and add them element-wise together
+    X = K.layers.Add()([X, X_new])
     # then apply ReLu
     X = K.layers.Activation('relu')(X)
 
