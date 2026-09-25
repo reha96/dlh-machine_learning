@@ -48,12 +48,12 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     decoded = keras.layers.Dense(input_dims, activation='sigmoid')(decoded)
 
     # Create autoencoder model
-    autoencoder = keras.Model(input_img, decoded)
+    auto = keras.Model(input_img, decoded)
 
     # Compile the autoencoder with Adam optimizer and binary cross-entropy loss
-    autoencoder.compile(optimizer='adam', loss='binary_crossentropy')
+    auto.compile(optimizer='adam', loss='binary_crossentropy')
 
     # Create decoder model (latent space → output)
     decoder = keras.Model(latent, decoded)
 
-    return encoder, decoder, autoencoder
+    return encoder, decoder, auto
