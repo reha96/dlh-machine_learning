@@ -53,7 +53,7 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     # Compile the autoencoder with Adam optimizer and binary cross-entropy loss
     autoencoder.compile(optimizer='adam', loss='binary_crossentropy')
 
-    # Create decoder model (encoder + bottleneck + decoder)
-    decoder = keras.Model(encoded, decoded)
+    # Create decoder model (latent space → output)
+    decoder = keras.Model(latent, decoded)
 
     return encoder, decoder, autoencoder
