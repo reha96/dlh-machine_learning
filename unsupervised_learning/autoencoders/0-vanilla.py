@@ -24,4 +24,35 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     binary cross-entropy loss. All layers should use a relu activation except
     for the last layer in the decoder, which should use sigmoid.
     """
-    pass
+
+    # This is our input
+    input_img = keras.Input(shape=input_dims)
+
+    # Encoder: compress input to latent space
+    encoded = input_img
+    for h in hidden_layers:
+        encoded = keras.layers.Dense(h, activation='relu')(encoded)
+
+    # Create encoder model
+    encoder = keras.Model(input_img, encoded)
+
+    # Decoder: expand latent space back to input dimensions
+    decoded = encoded
+    for h in reversed(hidden_layers):
+        decoded = keras.layers.Dense(h, activation='relu')(decoded)
+
+    # Final output layer (sigmoid for reconstruction)
+    decoded = keras.layers.Dense(input_dims, activation='sigmoid')(decoded)
+
+    # Create autoencoder model
+    autoencoder = keras.Model(input_img, decoded)
+
+    # Compile the autoencoder with Adam optimizer and binary cross-entropy loss
+    autoencoder.compile(optimizer='adam', loss='binary_crossentropy')
+
+    # Create decoder model (encoder + bottleneck + decoder)
+    decoder = keras.Model(encoded, decoded)
+
+    return encoder, decoder, autoencoder
+
+    return encoded, decoded, autoencoder
