@@ -169,3 +169,66 @@ redacting.
 
 - Every Read-or-watch resource has a summary or an explicit status marker.
   No silent drops.
+
+## rehapi open-notebook ingest (added 2026-09-23, transfer_learning 3655 run)
+
+After `RESOURCES.md` is written, mirror every source into an open-notebook
+notebook so later tasks can chat over the material. No cap on source count
+(17/17 ingested this run: 7 link + 5 YouTube-transcript-as-text + 5 arXiv-PDF).
+
+- Target: local API `http://127.0.0.1:5055` (container
+  `rehat-open_notebook-1`) is the same backend the `open-notebook` MCP tools
+  hit. `https://rehapi.tail6b88bf.ts.net:5055` (MagicDNS, raw
+  `http://100.84.255.123` fails 400) is a SEPARATE tailnet host
+  (`100.84.255.123`, device `rehapi`) with its own password — ask the user
+  for `REHAPI_PASSWORD` via the question tool (custom answer), use it
+  in-process only, never log or commit it. Verified 2026-09-23:
+  local `notebook:mlh17jusrwrpv5jfcqw5` 17/17 embedded, rehapi
+  `notebook:a4wytx2g9eegh5ypehzy` 17/17 created (14 embedded, 3 async
+  jobs submitted).
+- Bearer: `OPEN_NOTEBOOK_PASSWORD` from `/home/rehat/open-notebook.env`
+  (mode 0600, also injected into the container env — verified identical via
+  hash on 2026-09-23). Parse the file exactly (split on first `=`, strip
+  quotes); shell `source` mangles special characters and yields 401. Header:
+  `Authorization: Bearer <exact-value>`. The MCP wrapper
+  (`open-notebook-mcp==0.3.0`) does this correctly — useful as reference.
+- MCP vs REST: the MCP wrapper's `create_source` is link-only in practice
+  (no `content`/`file` params exposed), so use raw REST: `POST
+  /api/sources/json` for `link` (`url`) and `text` (`content`) types,
+  multipart `POST /api/sources` (`file` binary + form fields) for PDFs.
+  `notebooks: [<id>]` assigns the notebook on JSON creation; pass
+  `embed: true, async_processing: false` on creation for determinism.
+  MULTIPART GOTCHA (2026-09-23): in multipart, `notebooks` must be a
+  JSON-array string (`'["notebook:<id>"]'`) — a plain ID yields 422
+  `Invalid JSON in notebooks field`. Prefer plain `notebook_id: <id>`
+  for single-notebook uploads.
+- YouTube-transcript-to-notebook override (per user approval for public edu
+  videos): upload the FULL transcript as `type: text` content to the NOTEBOOK
+  ONLY. The repo stays summaries-only (raw transcripts live in
+  `/tmp/opencode/`, never committed). Fetch via `youtube-transcript-api`
+  first, `yt-dlp --write-auto-subs` fallback.
+- Paper upload: download PDFs from `https://arxiv.org/pdf/<id>` (set a
+  `User-Agent`), multipart-upload with `embed: "true"`,
+  `async_processing: "false"`.
+- Polling: `GET /api/sources/{id}/status` until `completed` (15s interval,
+  ~8min budget), then `POST /api/embed`
+  `{item_id, item_type: "source", async_processing: false}` for anything not
+  yet `embedded`. Verify with `GET /api/sources?notebook_id=<id>&limit=100`.
+- Naming: notebook `transfer_learning-resources` (project + `-resources`
+  suffix); description starts `RESOURCES.md <repo-path> ingested <date>` and
+  is updated (`PUT /api/notebooks/{id}`) with final `sources=N embedded=M`
+  counts. Chat session title `transfer prep`.
+- Chat smoke: MCP `execute_chat`/`get_chat_context` (wrapper 0.3.0) are
+  broken against current server (missing required `context` /
+  `context_config` fields) — use REST: `POST /api/chat/context`
+  `{notebook_id, context_config: {}}` then `POST /api/chat/execute`
+  `{session_id, message, context}`. Smoke message: "list N sources".
+  Local smoke passed 2026-09-23 (17 grouped + mismatch flags). Rehapi
+  smoke BLOCKED by gateway model config, not data: default + override
+  `deepseek-v4-flash:free` → 404 `use slug deepseek/deepseek-v4-flash-0731`,
+  qwen `:free` → 422 not-a-LanguageModel, others → 502 content-too-large
+  for 17 sources. Data verified via `GET /api/sources` counts instead.
+- Intranet hygiene: rltoken labels can mismatch destinations badly (3655 had
+  4/17: 2 YouTube, 2 arXiv). Always resolve via the authenticated
+  `page.goto` loop, summarize the ACTUAL destination, and flag mismatches in
+  both `RESOURCES.md` and the notebook source titles.
