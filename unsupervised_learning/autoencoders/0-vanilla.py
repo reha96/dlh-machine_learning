@@ -33,11 +33,14 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     for h in hidden_layers:
         encoded = keras.layers.Dense(h, activation='relu')(encoded)
 
-    # Create encoder model
-    encoder = keras.Model(input_img, encoded)
+    # Latent space representation (bottleneck)
+    latent = keras.layers.Dense(latent_dims, activation='relu')(encoded)
+
+    # Create encoder model (input → latent space)
+    encoder = keras.Model(input_img, latent)
 
     # Decoder: expand latent space back to input dimensions
-    decoded = encoded
+    decoded = latent
     for h in reversed(hidden_layers):
         decoded = keras.layers.Dense(h, activation='relu')(decoded)
 
@@ -54,5 +57,3 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     decoder = keras.Model(encoded, decoded)
 
     return encoder, decoder, autoencoder
-
-    return encoded, decoded, autoencoder
