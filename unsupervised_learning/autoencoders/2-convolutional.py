@@ -42,8 +42,7 @@ def autoencoder(input_dims, filters, latent_dims):
                                 activation='relu', padding='same')(X)
         # max pool 2,2
         X = keras.layers.MaxPooling2D(pool_size=(2, 2), padding='same')(X)
-    # bottleneck is our output
-    X = keras.layers.Dense(latent_dims, activation='relu')(X)
+    # output is already the bottleneck
     outputs_e = X
     # create encoder mopdel
     encoder = keras.Model(inputs_e, outputs_e)
@@ -55,19 +54,21 @@ def autoencoder(input_dims, filters, latent_dims):
 
     # reversed filters on input
     for f in reversed(filters):
-        X = keras.layers.Conv2D(filters=f, kernel_size=(3, 3),
-                                activation='relu', padding='same')(X)
-        X = keras.layers.UpSampling2D(size=(2, 2))(X)
+        if f != filters[-2]:
+            X = keras.layers.Conv2D(filters=f, kernel_size=(3, 3),
+                                    activation='relu', padding='same')(X)
+            X = keras.layers.UpSampling2D(size=(2, 2))(X)
+        else:
+            # second to last layer
+            X = keras.layers.Conv2D(filters=filters[0], kernel_size=(
+                3, 3), activation='relu', padding='valid')(X)
 
-    # second to last layer
-    X = keras.layers.Conv2D(filters=filters[0], kernel_size=(
-        3, 3), activation='relu', padding='valid')(X)
     # last conv layer
     X = keras.layers.Conv2D(
         filters=input_dims[-1], kernel_size=(3, 3), activation='sigmoid', padding='same')(X)
     outputs_d = X
     # create decoder model
-    decoder = keras.Model(inputs_e, outputs_d)
+    decoder = keras.Model(inputs_d, outputs_d)
 
     # Create autoencoder model
     auto = keras.Model(inputs_e, outputs_d)
