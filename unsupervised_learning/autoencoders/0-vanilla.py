@@ -26,7 +26,8 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     """
 
     # This is our input
-    input_img = keras.Input(shape=input_dims)
+    # keras expects input shape as tuple
+    input_img = keras.Input(shape=(input_dims,))
 
     # Encoder: compress input to latent space
     encoded = input_img
