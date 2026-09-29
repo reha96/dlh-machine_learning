@@ -53,15 +53,14 @@ def autoencoder(input_dims, filters, latent_dims):
     inputs_d = X
 
     # reversed filters on input
-    for f in reversed(filters):
-        if f != filters[-2]:
-            X = keras.layers.Conv2D(filters=f, kernel_size=(3, 3),
-                                    activation='relu', padding='same')(X)
-            X = keras.layers.UpSampling2D(size=(2, 2))(X)
-        else:
-            # second to last layer
-            X = keras.layers.Conv2D(filters=filters[0], kernel_size=(
-                3, 3), activation='relu', padding='valid')(X)
+    # loop until second last element
+    for f in reversed(filters[1:]):
+        X = keras.layers.Conv2D(filters=f, kernel_size=(3, 3),
+                                activation='relu', padding='same')(X)
+        X = keras.layers.UpSampling2D(size=(2, 2))(X)
+    # second to last layer
+    X = keras.layers.Conv2D(filters=filters[-1], kernel_size=(
+        3, 3), activation='relu', padding='valid')(X)
 
     # last conv layer
     X = keras.layers.Conv2D(
