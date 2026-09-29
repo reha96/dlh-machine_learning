@@ -34,11 +34,6 @@ def autoencoder(input_dims, hidden_layers, latent_dims, lambtha):
     for h in hidden_layers:
         X = keras.layers.Dense(h, activation='relu')(X)
 
-    # add layer on encoder output with l1 regu
-    X = keras.layers.Dense(latent_dims,
-                           activation='relu',
-                           activity_regularizer=keras.regularizers.l1(lambtha))(X)
-
     # Latent space representation (bottleneck)
     latent = keras.layers.Dense(latent_dims, activation='relu')(X)
     # Create encoder model (input → latent space)
@@ -48,7 +43,9 @@ def autoencoder(input_dims, hidden_layers, latent_dims, lambtha):
     latent_inputs = keras.Input(shape=(latent_dims,))
     X = latent_inputs
     for h in reversed(hidden_layers):
-        X = keras.layers.Dense(h, activation='relu')(X)
+        X = keras.layers.Dense(h, activation='relu',
+                               activity_regularizer\
+                                   =keras.regularizers.l1(lambtha))(X)
 
     # Final output layer (sigmoid for reconstruction)
     outputs = keras.layers.Dense(input_dims, activation='sigmoid')(X)
