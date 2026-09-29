@@ -24,35 +24,36 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     for the last layer in the decoder, which should use sigmoid.
     """
 
-    # This is our input, expects tuple
-    input_img = keras.Input(shape=(input_dims,))
+    # This is our input
+    input_img = keras.Input(shape=input_dims)
 
-    # Encoder: compress input to latent space
-    encoded = input_img
+    # Encoder
+    # compress input to latent space
+    X = input_img
     for h in hidden_layers:
-        encoded = keras.layers.Dense(h, activation='relu')(encoded)
-
+        X = keras.layers.Dense(h, activation='relu')(X)
     # Latent space representation (bottleneck)
-    latent = keras.layers.Dense(latent_dims, activation='relu')(encoded)
-
+    latent = keras.layers.Dense(latent_dims, activation='relu')(X)
     # Create encoder model (input → latent space)
     encoder = keras.Model(input_img, latent, name="encoder")
 
-    # Decoder: expand latent space back to input dimensions
-    decoded = latent
+    # Decoder
+    # expand latent space back to input dimensions
+    latent_inputs = keras.Input(shape=(latent_dims,))
+    X = latent_inputs
     for h in reversed(hidden_layers):
-        decoded = keras.layers.Dense(h, activation='relu')(decoded)
+        X = keras.layers.Dense(h, activation='relu')(X)
 
     # Final output layer (sigmoid for reconstruction)
-    decoded = keras.layers.Dense(input_dims, activation='sigmoid')(decoded)
+    outputs = keras.layers.Dense(input_dims, activation='sigmoid')(X)
+    # Create decoder model (latent space → output)
+    decoder = keras.Model(latent_inputs, outputs, name="decoder")
 
     # Create autoencoder model
-    auto = keras.Model(input_img, decoded, name="autoencoder")
+    auto_outputs = decoder(encoder(input_img))
+    auto = keras.Model(input_img, auto_outputs, name="autoencoder")
 
     # Compile the autoencoder with Adam optimizer and binary cross-entropy loss
     auto.compile(optimizer='adam', loss='binary_crossentropy')
-
-    # Create decoder model (latent space → output)
-    decoder = keras.Model(latent, decoded, name="decoder")
 
     return encoder, decoder, auto
