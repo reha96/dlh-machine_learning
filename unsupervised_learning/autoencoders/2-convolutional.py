@@ -59,14 +59,15 @@ def autoencoder(input_dims, filters, latent_dims):
                                 activation='relu', padding='same')(X)
         X = keras.layers.UpSampling2D(size=(2, 2))(X)
     # second to last layer
-    # second to last filter is the first one when filter len == 3
+    # second to last filter is the first one (filters[0])
     X = keras.layers.Conv2D(filters=filters[0], kernel_size=(
         3, 3), activation='relu', padding='valid')(X)
     X = keras.layers.UpSampling2D(size=(2, 2))(X)
 
     # last conv layer
     X = keras.layers.Conv2D(
-        filters=input_dims[-1], kernel_size=(3, 3), activation='sigmoid', padding='valid')(X)
+        filters=input_dims[-1], kernel_size=(3, 3), activation='sigmoid',
+        padding='same')(X)
     outputs_d = X
     # create decoder model
     decoder = keras.Model(inputs_d, outputs_d)
