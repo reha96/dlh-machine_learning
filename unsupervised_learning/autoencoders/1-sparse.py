@@ -33,7 +33,11 @@ def autoencoder(input_dims, hidden_layers, latent_dims, lambtha):
     X = input_img
     for h in hidden_layers:
         X = keras.layers.Dense(h, activation='relu')(X)
-        X = keras.layers.ActivityRegularization(l1=lambtha)(X)
+
+    # add layer on encoder output with l1 regu
+    X = keras.layers.Dense(latent_dims,
+                           activation='relu',
+                           activity_regularizer=keras.regularizers.l1(lambtha))(X)
 
     # Latent space representation (bottleneck)
     latent = keras.layers.Dense(latent_dims, activation='relu')(X)
