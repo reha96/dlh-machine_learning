@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# (Based on N/A — Task 0 has no preceding task skeleton.)
 """Create a vanilla autoencoder model."""
 
 import tensorflow.keras as keras
@@ -26,8 +25,7 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     """
 
     # This is our input
-    # keras expects input shape as tuple
-    input_img = keras.Input(shape=(input_dims,))
+    input_img = keras.Input(shape=input_dims)
 
     # Encoder: compress input to latent space
     encoded = input_img
