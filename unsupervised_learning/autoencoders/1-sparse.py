@@ -26,6 +26,9 @@ def autoencoder(input_dims, hidden_layers, latent_dims, lambtha):
     binary cross-entropy loss. All layers should use a relu activation except
     for the last layer in the decoder, which should use sigmoid.
     """
+    # get regularizer
+    a_reg = keras.regularizers.l1(lambtha)
+
     # This is our input
     input_img = keras.Input(shape=input_dims)
 
@@ -35,7 +38,8 @@ def autoencoder(input_dims, hidden_layers, latent_dims, lambtha):
         X = keras.layers.Dense(h, activation='relu')(X)
 
     # Latent space representation (bottleneck)
-    latent = keras.layers.Dense(latent_dims, activation='relu')(X)
+    latent = keras.layers.Dense(latent_dims, activation='relu',
+                                activity_regularizer=a_reg)(X)
     # Create encoder model (input → latent space)
     encoder = keras.Model(input_img, latent)
 
@@ -43,9 +47,7 @@ def autoencoder(input_dims, hidden_layers, latent_dims, lambtha):
     latent_inputs = keras.Input(shape=(latent_dims,))
     X = latent_inputs
     for h in reversed(hidden_layers):
-        X = keras.layers.Dense(h, activation='relu',
-                               activity_regularizer\
-                                   =keras.regularizers.l1(lambtha))(X)
+        X = keras.layers.Dense(h, activation='relu')(X)
 
     # Final output layer (sigmoid for reconstruction)
     outputs = keras.layers.Dense(input_dims, activation='sigmoid')(X)
