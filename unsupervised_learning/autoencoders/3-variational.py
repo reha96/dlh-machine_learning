@@ -39,21 +39,22 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     z_log_var = keras.layers.Dense(latent_dims, activation=None)(X)
     # Lambda layer allows arbitrary expressions as a Layer
     z = keras.layers.Lambda(sampling)([z_mean, z_log_var])
-    encoder = keras.Model(inputs=inputs_e, outputs=[z, z_mean, z_log_var])
+    encoder = keras.Model(inputs_e, [z, z_mean, z_log_var])
+    # unpack for later use
+    z, z_mean, z_log_var = encoder(inputs_e)
 
     # decoder
     inputs_d = keras.Input(shape=latent_dims)
     X = inputs_d
-    for units in reversed(hidden_layers[1:]):  # Skip first element
+    for units in reversed(hidden_layers):
         X = keras.layers.Dense(units, activation='relu')(X)
     outputs_d = keras.layers.Dense(input_dims, activation='sigmoid')(X)
-    decoder = keras.Model(inputs=inputs_d, outputs=outputs_d)
+    decoder = keras.Model(inputs_d, outputs_d)
 
     # auto
-    # reconstruction loss needs to be added
-    reconstructed = decoder(z)
+    outputs_a = decoder(z)
     reconstruction_loss = keras.losses.binary_crossentropy(
-        inputs_e, reconstructed)
+        inputs_e, outputs_a)
     reconstruction_loss *= input_dims
 
     # KL divergence loss
@@ -61,8 +62,7 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
         z_mean) - keras.backend.exp(z_log_var), axis=-1)
 
     # Add combined loss to model
-    auto_outputs = decoder(encoder(inputs_e))
-    auto = keras.Model(inputs_e, auto_outputs)
+    auto = keras.Model(inputs_e, outputs_a)
     auto.add_loss(keras.backend.mean(reconstruction_loss + kl_loss))
     auto.compile(optimizer='adam')
 
