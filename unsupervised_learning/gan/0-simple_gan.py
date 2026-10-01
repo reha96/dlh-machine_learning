@@ -34,9 +34,29 @@ class Simple_GAN(keras.Model):
             learning_rate (float, optional): Learning rate of both
                 Adam optimizers.
         """
-        # call super().__init__() first, store every argument,
-        # set beta_1=.5 and beta_2=.9, then define the generator loss
         # and optimizer and the discriminator loss and optimizer
+
+        # call super().__init__()
+        # inheriting from keras.Model, it will 
+        # initialize the Keras model's internal state
+        super().__init__()
+
+        # store every argument
+        self.generator = generator
+        self.discriminator = discriminator
+        self.latent_generator = latent_generator
+        self.real_examples = real_examples
+        self.batch_size = batch_size
+        self.disc_iter = disc_iter
+        self.learning_rate = learning_rate
+
+        # set betas
+        self.beta_1 = .5
+        self.beta_2 = .9
+
+        # define the generator loss
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+        
         pass
 
     def get_fake_sample(self, size=None, training=False):
