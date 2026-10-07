@@ -53,7 +53,8 @@ class Simple_GAN(keras.Model):
         self.generator.loss = lambda x: tf.keras.losses.MeanSquaredError()(
             x, tf.ones(x.shape))
         self.generator.optimizer = keras.optimizers.Adam(
-            learning_rate=learning_rate, beta_1=self.beta_1, beta_2=self.beta_2)
+            learning_rate=learning_rate,
+            beta_1=self.beta_1, beta_2=self.beta_2)
         self.generator.compile(
             optimizer=generator.optimizer, loss=generator.loss)
 
@@ -62,7 +63,8 @@ class Simple_GAN(keras.Model):
             tf.keras.losses.MeanSquaredError()(x, tf.ones(x.shape)) +
             tf.keras.losses.MeanSquaredError()(y, -1*tf.ones(y.shape)))
         self.discriminator.optimizer = keras.optimizers.Adam(
-            learning_rate=learning_rate, beta_1=self.beta_1, beta_2=self.beta_2)
+            learning_rate=learning_rate,
+            beta_1=self.beta_1, beta_2=self.beta_2)
         self.discriminator.compile(
             optimizer=discriminator.optimizer, loss=discriminator.loss)
 
