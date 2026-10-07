@@ -51,7 +51,7 @@ class Simple_GAN(keras.Model):
         # define the generator loss and optimizer:
         self.generator.loss = lambda x: tf.keras.losses.MeanSquaredError()(x, tf.ones(x.shape))
         self.generator.optimizer = keras.optimizers.Adam(
-            learning_rate=learning_rate, beta_1=beta_1, beta_2=beta_2)
+            learning_rate=learning_rate, beta_1=self.beta1, beta_2=self.beta2)
         self.generator.compile(
             optimizer=generator.optimizer, loss=generator.loss)
 
@@ -59,7 +59,7 @@ class Simple_GAN(keras.Model):
         self.discriminator.loss = lambda x, y: tf.keras.losses.MeanSquaredError()(
             x, tf.ones(x.shape)) + tf.keras.losses.MeanSquaredError()(y, -1*tf.ones(y.shape))
         self.discriminator.optimizer = keras.optimizers.Adam(
-            learning_rate=learning_rate, beta_1=beta_1, beta_2=beta_2)
+            learning_rate=learning_rate, beta_1=self.beta1, beta_2=self.beta2)
         self.discriminator.compile(
             optimizer=discriminator.optimizer, loss=discriminator.loss)
 
@@ -75,8 +75,9 @@ class Simple_GAN(keras.Model):
         Returns:
             The batch of fake samples produced by the generator.
         """
-        self.generator(self.latent_generator(
-            self.batch_size), training=training)
+        if size is None:
+            size = self.batch_size
+        return self.generator(self.latent_generator(size), training=training)
 
     def get_real_sample(self, size=None):
         """Draw a random batch from the real examples.
@@ -105,13 +106,33 @@ class Simple_GAN(keras.Model):
         Returns:
             A dict with the "discr_loss" and "gen_loss" values.
         """
-        # for _ in range(self.disc_iter):
-        #     get a real sample and a fake sample
-        #     in a tape watching the discriminator's weights, compute
-        #     the loss discr_loss on the real and fake samples
-        #     apply gradient descent once to the discriminator
-        # in a tape watching the generator's weights, get a fake
-        # sample and compute the loss gen_loss of the generator
-        # apply gradient descent to the generator
-        # return {"discr_loss": discr_loss, "gen_loss": gen_loss}
-        pass
+        for _ in range(self.disc_iter):
+            #     get a real sample and a fake sample
+            #     in a tape watching the discriminator's weights, compute
+            # jj     the loss discr_loss on the real and fake samples
+            real = self.get_real_sample()
+            fake = self.get_fake_sample()
+            #     apply gradient descent once to the discriminator
+            # in a tape watching the generator's weights, get a fake
+            # sample and compute the loss gen_loss of the generator
+            with tf.GradientTape() as tape:
+                pred_real = self.discriminator(real, training=True)
+                pred_fake = self.discriminator(fake, training=True)
+                discr_loss = self.discriminator.loss(pred_real, pred_fake)
+            # apply gradient descent to the generator
+            grads = tape.gradient(
+                discr_loss, self.discriminator.trainable_variables)
+            self.discriminator.optimizer.apply_gradients(
+                zip(grads, self.discriminator.trainable_variables))
+            # generator
+            with tf.GradientTape() as tape:               # a NEW tape (G's)
+                # inside => G's vars watched
+                fake = self.get_fake_sample(training=True)
+                p_fake = self.discriminator(
+                    fake, training=False)   # opponent frozen
+                # one-arg lambda, INSIDE tape
+                gen_loss = self.generator.loss(p_fake)
+            grads = tape.gradient(gen_loss, self.generator.trainable_variables)
+            self.generator.optimizer.apply_gradients(
+                zip(grads, self.generator.trainable_variables))
+        return {"discr_loss": discr_loss, "gen_loss": gen_loss}
