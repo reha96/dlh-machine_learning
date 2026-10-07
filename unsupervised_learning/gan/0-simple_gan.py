@@ -34,30 +34,34 @@ class Simple_GAN(keras.Model):
             learning_rate (float, optional): Learning rate of both
                 Adam optimizers.
         """
-        # and optimizer and the discriminator loss and optimizer
-
-        # call super().__init__()
-        # inheriting from keras.Model, it will 
-        # initialize the Keras model's internal state
-        super().__init__()
-
-        # store every argument
-        self.generator = generator
-        self.discriminator = discriminator
+        super().__init__()                         # run the __init__ of Keras.Model first.
         self.latent_generator = latent_generator
         self.real_examples = real_examples
+        self.generator = generator
+        self.discriminator = discriminator
         self.batch_size = batch_size
         self.disc_iter = disc_iter
+
         self.learning_rate = learning_rate
+        # standard value, but can be changed if necessary
+        self.beta1 = .5
+        # standard value, but can be changed if necessary
+        self.beta2 = .9
 
-        # set betas
-        self.beta_1 = .5
-        self.beta_2 = .9
+        # define the generator loss and optimizer:
+        self.generator.loss = lambda x: tf.keras.losses.MeanSquaredError()(x, tf.ones(x.shape))
+        self.generator.optimizer = keras.optimizers.Adam(
+            learning_rate=learning_rate, beta_1=beta_1, beta_2=beta_2)
+        self.generator.compile(
+            optimizer=generator.optimizer, loss=generator.loss)
 
-        # define the generator loss
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-        
-        pass
+        # define the discriminator loss and optimizer:
+        self.discriminator.loss = lambda x, y: tf.keras.losses.MeanSquaredError()(
+            x, tf.ones(x.shape)) + tf.keras.losses.MeanSquaredError()(y, -1*tf.ones(y.shape))
+        self.discriminator.optimizer = keras.optimizers.Adam(
+            learning_rate=learning_rate, beta_1=beta_1, beta_2=beta_2)
+        self.discriminator.compile(
+            optimizer=discriminator.optimizer, loss=discriminator.loss)
 
     def get_fake_sample(self, size=None, training=False):
         """Generate a batch of fake samples.
@@ -71,7 +75,8 @@ class Simple_GAN(keras.Model):
         Returns:
             The batch of fake samples produced by the generator.
         """
-        pass
+        self.generator(self.latent_generator(
+            self.batch_size), training=training)
 
     def get_real_sample(self, size=None):
         """Draw a random batch from the real examples.
@@ -83,7 +88,9 @@ class Simple_GAN(keras.Model):
         Returns:
             A batch of real samples drawn uniformly at random.
         """
-        pass
+        sorted_indices = tf.range(tf.shape(self.real_examples)[0])
+        random_indices = tf.random.shuffle(sorted_indices)[:self.batch_size]
+        return tf.gather(self.real_examples, random_indices)
 
     def train_step(self, useless_argument):
         """Run one training step of the GAN.
