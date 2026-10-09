@@ -271,6 +271,13 @@ The ML Cheatsheet's cross-entropy section: the log loss measures how far a predi
 - especially punishes confident wrong predictions
 - multiclass: sum over classes of −y·log(p) per observation
 
+### Logistic classification with cross-entropy — Roelants
+URL: https://peterroelants.github.io/posts/cross-entropy-logistic/  ·  Date: 2015-06-10 (first published)  ·  Status: summary
+Roelants derives binary logistic classification end to end in one page: the sigmoid maps a score to P(t=1|z), a Bernoulli likelihood over the labels turns into negative log-likelihood, and that NLL is exactly the binary cross-entropy loss used in this project. The page also shows why the pairing is convenient for training, since the sigmoid derivative cancels and leaves a simple output error term, and points to a follow-up post for the softmax multiclass extension.
+- sigmoid as probability plus log-odds view: z sets the log ratio of P(t=1) over P(t=0), linear in w·x for a linear layer
+- MLE to NLL to CE: product of Bernoulli terms becomes a sum of logs; minimizing NLL equals minimizing CE, 0 when confident-correct and large when confident-wrong, convex for plain logistic regression
+- gradients collapse: sigmoid derivative y(1-y) cancels the CE derivative, so dL/dz = y-t, the same dz = A-Y used in 5-neuron.py forward_prop/cost/gradient_descent
+
 ### What is Pickle in python?
 URL: https://yasoob.me/2013/08/02/what-is-pickle-in-python/  ·  Date: 2013-08-02 (publication date)  ·  Status: summary
 Yasoob's intro to pickle, Python's serialization module: pickle.dump writes an object to a file as a byte stream, pickle.load reconstructs it later or in another script. The post lists use cases — saving program state, sending objects over TCP, storing in databases, caching — and notes files must be opened in binary mode ('wb'/'rb').
