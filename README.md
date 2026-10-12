@@ -48,8 +48,11 @@ dlh-machine_learning/
 │   │   ├── 0-neuron.py through 15-neural_network.py
 │   │   ├── README.md, RESOURCES.md
 │   │   └── data/                # MNIST + binary datasets (gitignored)
-│   └── keras/                   # TensorFlow 2 & Keras
-│       ├── 0-sequential.py through 10-weights.py
+│   ├── keras/                   # TensorFlow 2 & Keras
+│   │   ├── 0-sequential.py through 10-weights.py
+│   │   └── README.md, RESOURCES.md
+│   └── rnn/                     # RNN, GRU, LSTM, Deep RNN (NumPy, Master)
+│       ├── 0-rnn_cell.py through 4-deep_rnn.py
 │       └── README.md, RESOURCES.md
 ├── unsupervised_learning/       # Clustering & dimensionality reduction
 │   ├── clustering/              # k-means, GMM, agglomerative (NumPy)
@@ -57,6 +60,15 @@ dlh-machine_learning/
 │   │   └── README.md, RESOURCES.md
 │   └── dimensionality_reduction/ # PCA, t-SNE (NumPy)
 │       ├── 0-pca.py through 8-tsne.py
+│       └── README.md, RESOURCES.md
+├── nlp/                         # Natural language processing & LLMs
+│   ├── introduction_to_nlp/     # Normalization → tokens → TF-IDF → Word2Vec/FastText
+│   │   └── README.md, RESOURCES.md
+│   ├── large_language_models/   # MLM internals, encoder/decoder, ViT, BLIP
+│   │   └── README.md, RESOURCES.md
+│   ├── fine_tuning_llms/        # DistilBERT sentiment fine-tuning with Trainer
+│   │   └── README.md, RESOURCES.md
+│   └── langchain/               # Prompts, agents, RAG
 │       └── README.md, RESOURCES.md
 ├── my-venv/                     # Python virtual environment
 └── README.md
@@ -79,8 +91,13 @@ dlh-machine_learning/
 | **Pipeline** | [Pandas](pipeline/pandas/) | DataFrame creation, rename, slice, fill, concat, hierarchy, describe, resample, visualize | 15 |
 | **Supervised** | [Classification](supervised_learning/classification/) | Binary classification: neuron (logistic), NN with one hidden layer, deep NN; NumPy from scratch | 16 |
 | **Supervised** | [Keras](supervised_learning/keras/) | TensorFlow 2 & Keras: Sequential, Input, optimization, training, model persistence | 11 |
+| **Supervised** | [RNNs](supervised_learning/rnn/) | Recurrent cells from scratch: RNN, GRU, LSTM, deep RNN (NumPy) | 5 |
 | **Unsupervised** | [Clustering](unsupervised_learning/clustering/) | k-means, variance, optimum k, Gaussian Mixture Models, EM, BIC, agglomerative | 13 |
 | **Unsupervised** | [Dimensionality Reduction](unsupervised_learning/dimensionality_reduction/) | PCA, t-SNE (P/affinities, gradient descent, cost) | 9 |
+| **NLP** | [Introduction to NLP](nlp/introduction_to_nlp/) | Normalization, tokenization, stemming/lemmatization, n-grams, BoW, TF-IDF, Word2Vec, FastText | 13 |
+| **NLP** | [Large Language Models](nlp/large_language_models/) | Masked language modeling (RoBERTa), encoder/decoder-only usage, ViT, BLIP captioning | 10 |
+| **NLP** | [Fine-Tuning LLMs](nlp/fine_tuning_llms/) | DistilBERT sentiment fine-tuning: tokenization, dynamic padding, metrics, `Trainer` | 8 |
+| **NLP** | [LangChain](nlp/langchain/) | Prompt templates, tool/agent pipelines, RAG: loaders, chunking, vector store, retrieval | 16 |
 
 ---
 
@@ -93,10 +110,13 @@ dlh-machine_learning/
 1. **Foundation** (CREATE) → 2. **CRUD** → 3. **Filtering/Sorting** → 4. **Joins** → 5. **Constraints** → 6. **Real-World Data** → 7. **Triggers** → 8. **Pandas** (DataFrame ops → cleaning → concat → resample → visualize)
 
 ### Supervised Learning Track
-1. **Classification Fundamentals** (neuron → single hidden layer → deep NN, NumPy from scratch) → 2. **Keras** (high-level API)
+1. **Classification Fundamentals** (neuron → single hidden layer → deep NN, NumPy from scratch) → 2. **Keras** (high-level API) → 3. **RNNs** (recurrent, gated, deep)
 
 ### Unsupervised Learning Track
 1. **Clustering** (k-means → variance → GMM/EM → agglomerative) → 2. **Dimensionality Reduction** (PCA → t-SNE)
+
+### NLP / LLM Track
+1. **Classical NLP** (normalization → tokens → TF-IDF → embeddings) → 2. **LLMs** (masked language modeling → encoder/decoder families → ViT/BLIP) → 3. **Fine-Tuning** (DistilBERT + `Trainer`) → 4. **LangChain** (prompts → agents → RAG)
 
 ---
 
