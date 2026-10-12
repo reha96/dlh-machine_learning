@@ -129,3 +129,14 @@ Append new lessons here as they are learned; the file is meant to grow.
   need the local gateway — down today (`curl` 000, only open-notebook/
   surrealdb containers up), so hybrid `search` fails fast, vector `search`
   and `ask` time out. Check gateway before relying on DeepTutor answers.
+- 2026-10-12: a session may run with no playwright MCP tools even though the
+  config enables them. Do not stall: `chromium.connectOverCDP` against a Chrome
+  you launch on a NON-default `--user-data-dir` reproduces the whole ingestion
+  loop; `--ozone-platform=wayland` + `XDG_RUNTIME_DIR`/`WAYLAND_DISPLAY`/
+  `DBUS_SESSION_BUS_ADDRESS` are required for a headed window, and the user must
+  sign in inside that window (session cookies never touch disk). Full recipe in
+  `RESOURCE_INGESTION.md` → Access.
+- 2026-10-12: "projects of the past week" means the ML-specialization window on
+  `/projects/current`, not a git date. Each card carries start/end dates; the
+  weekly cadence is one NLP/LLM project per week. Repo↔intranet mapping is now in
+  the root README quick-reference table.

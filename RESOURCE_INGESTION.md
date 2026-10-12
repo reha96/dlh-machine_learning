@@ -32,6 +32,20 @@ item, and capture the crucial bits. Output goes to `<project>/RESOURCES.md`.
   following. The links resolve only inside the authenticated browser context.
 - Use the playwright MCP context only. It owns the MSAL session; no other
   tool has intranet auth.
+- Fallback when the playwright MCP is not exposed in the session (checked
+  2026-10-12): drive Chrome directly over CDP with node Playwright, connecting
+  with `chromium.connectOverCDP`. Two hard constraints:
+  - Chrome refuses `--remote-debugging-port` on the *default* data directory, so
+    launch with a **non-default** `--user-data-dir` (a `cp -a` copy of
+    `~/.config/google-chrome-unstable` works; never write to the live profile).
+  - The MSAL session lives in **memory** — copying a profile mid-session carries
+    nothing (`dateModified`-style flushing does not persist session cookies).
+    The user must sign in inside the CDP-controlled window; poll `/json/list` for
+    a URL that is not `/auth/sign_in`.
+  - Headed launch needs the desktop env passed through: `XDG_RUNTIME_DIR=/run/user/1000`,
+    `WAYLAND_DISPLAY=wayland-0`, `DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus`,
+    plus `--ozone-platform=wayland` (without it Chrome falls back to X11 and dies
+    with "Missing X server or $DISPLAY").
 
 ## Session Health Check
 
