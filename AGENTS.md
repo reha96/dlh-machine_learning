@@ -18,6 +18,10 @@ codes, verify, checker.
      transcripts, capture crucial bits into `<project>/RESOURCES.md`. Runs
      once per project at the first task's Prepare; see
      `RESOURCE_INGESTION.md`. Never ingest mid-task.
+   - Intranet access first follows `RESOURCE_INGESTION.md` → Access. **When the
+     session runs inside OpenWork** (the desktop app), skip the Playwright MCP:
+     open the internal browser and ask the user to log in — see
+     `RESOURCE_INGESTION.md` → Access → "OpenWork sessions".
 2. **Explain** — use the `RESOURCE_INGESTION.md` and DeepTutor Research Workflow
     plus the guided cheat sheet below.
 3. **Student codes** — the student fills the stubs step by step. Answer
@@ -130,12 +134,14 @@ Append new lessons here as they are learned; the file is meant to grow.
   surrealdb containers up), so hybrid `search` fails fast, vector `search`
   and `ask` time out. Check gateway before relying on DeepTutor answers.
 - 2026-10-12: a session may run with no playwright MCP tools even though the
-  config enables them. Do not stall: `chromium.connectOverCDP` against a Chrome
-  you launch on a NON-default `--user-data-dir` reproduces the whole ingestion
-  loop; `--ozone-platform=wayland` + `XDG_RUNTIME_DIR`/`WAYLAND_DISPLAY`/
-  `DBUS_SESSION_BUS_ADDRESS` are required for a headed window, and the user must
-  sign in inside that window (session cookies never touch disk). Full recipe in
-  `RESOURCE_INGESTION.md` → Access.
+  config enables them. When running inside OpenWork, do not stall or fall back to
+  manual browsing: open the internal browser (Chrome on a non-default
+  `--user-data-dir` with a CDP port) and ask the user to log in once through the
+  question tool. `--ozone-platform=wayland` + `XDG_RUNTIME_DIR`/`WAYLAND_DISPLAY`/
+  `DBUS_SESSION_BUS_ADDRESS` are required for a headed window, and the sign-in must
+  happen inside that window (session cookies never touch disk). Health-check
+  `http://127.0.0.1:9333/json/list` before copying any profile. Full recipe in
+  `RESOURCE_INGESTION.md` → Access → "OpenWork sessions".
 - 2026-10-12: "projects of the past week" means the ML-specialization window on
   `/projects/current`, not a git date. Each card carries start/end dates; the
   weekly cadence is one NLP/LLM project per week. Repo↔intranet mapping is now in

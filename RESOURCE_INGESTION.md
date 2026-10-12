@@ -32,20 +32,47 @@ item, and capture the crucial bits. Output goes to `<project>/RESOURCES.md`.
   following. The links resolve only inside the authenticated browser context.
 - Use the playwright MCP context only. It owns the MSAL session; no other
   tool has intranet auth.
-- Fallback when the playwright MCP is not exposed in the session (checked
-  2026-10-12): drive Chrome directly over CDP with node Playwright, connecting
-  with `chromium.connectOverCDP`. Two hard constraints:
-  - Chrome refuses `--remote-debugging-port` on the *default* data directory, so
-    launch with a **non-default** `--user-data-dir` (a `cp -a` copy of
-    `~/.config/google-chrome-unstable` works; never write to the live profile).
-  - The MSAL session lives in **memory** — copying a profile mid-session carries
-    nothing (`dateModified`-style flushing does not persist session cookies).
-    The user must sign in inside the CDP-controlled window; poll `/json/list` for
-    a URL that is not `/auth/sign_in`.
-  - Headed launch needs the desktop env passed through: `XDG_RUNTIME_DIR=/run/user/1000`,
-    `WAYLAND_DISPLAY=wayland-0`, `DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus`,
-    plus `--ozone-platform=wayland` (without it Chrome falls back to X11 and dies
-    with "Missing X server or $DISPLAY").
+
+### OpenWork sessions (desktop app) — open the internal browser
+
+**Scope: only when the agent runs inside OpenWork.** There, do not wait for the
+Playwright MCP — it is frequently absent from the tool catalog even though it is
+enabled in `~/.config/opencode/opencode.jsonc`. Instead, open the internal browser
+yourself and **ask the user to log in** once through the question tool. One
+interactive sign-in per session; the profile then stays authenticated for the rest
+of the run.
+
+Order of operations:
+
+1. Health-check the existing browser first: `curl -s http://127.0.0.1:9333/json/list`.
+   If a page sits on a real intranet URL (not `/auth/sign_in`), the session is
+   alive — skip straight to scraping.
+2. Otherwise relaunch Chrome (script: `/tmp/opencode/launch-cdp-chrome.sh`) and ask
+   the user: *"A Chrome window is open at the DLH sign-in page — please sign in with
+   Microsoft (FIDO) and tell me when you're done."*
+3. Poll `http://127.0.0.1:9333/json/list` until the URL is no longer
+   `/auth/sign_in`, then scrape with
+   `chromium.connectOverCDP('http://127.0.0.1:9333')`.
+
+Constraints that make this work (each one cost a failed attempt on 2026-10-12):
+
+- Chrome refuses `--remote-debugging-port` on the **default** data directory, so
+  the internal browser must run on a non-default `--user-data-dir`
+  (`/tmp/opencode/chrome-dlh2`, seeded once with `cp -a` from
+  `~/.config/google-chrome-unstable`). Never write to the live Chrome profile.
+- The MSAL session is **memory-only** — copying a profile, or closing Chrome and
+  re-copying, does not carry the session. The sign-in has to happen inside the
+  CDP-controlled window.
+- Headed launch needs the desktop environment passed through:
+  `XDG_RUNTIME_DIR=/run/user/1000`, `WAYLAND_DISPLAY=wayland-0`,
+  `DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus`, and
+  `--ozone-platform=wayland`. Without that flag Chrome falls back to X11 and exits
+  with "Missing X server or $DISPLAY".
+- Leave the window open when the session ends — the next run reuses the live
+  session and needs no second sign-in.
+- The user signs in twice when a dead session is found mid-run: once for a
+  throwaway profile copy (useless, the session does not persist) and once for the
+  real one. Always health-check the CDP browser before copying any profile.
 
 ## Session Health Check
 
@@ -56,6 +83,9 @@ Run first, before snapshotting:
   the session is dead. Stop and ask the user for one interactive FIDO
   sign-in. Do not walk rltokens on a dead session; every link returns the
   login page and the summaries come out garbage.
+- How the sign-in is requested depends on the host: with the Playwright MCP,
+  drive its browser context; under OpenWork, open the internal browser and ask
+  the user to log in there (see Access → "OpenWork sessions").
 - The active profile is the one with the freshest `Default/Cookies` mtime,
   not the newest profile directory. Sessions do not survive across days;
   re-check at every run.
