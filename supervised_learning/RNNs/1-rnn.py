@@ -27,4 +27,8 @@ def rnn(rnn_cell, X, h_0):
         TypeError: if X or h_0 is not a `numpy.ndarray`.
         ValueError: if X and h_0 have incompatible shapes.
     """
-    pass
+    if not isinstance(X, np.ndarray) or not isinstance(X, np.ndarray):
+        raise TypeError
+
+    if not isinstance(X, np.ndarray) or not isinstance(X, np.ndarray):
+        raise ValueError
