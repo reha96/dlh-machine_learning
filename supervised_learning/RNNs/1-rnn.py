@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Simple RNN forward propagation (RNNs task 1)."""
-
+# (Based on 0-rnn_cell.py)
 import numpy as np
 
 
@@ -26,11 +26,23 @@ def rnn(rnn_cell, X, h_0):
         TypeError: if X or h_0 is not a `numpy.ndarray`.
         ValueError: if X and h_0 have incompatible shapes.
     """
-    if not isinstance(X, np.ndarray) or not isinstance(X, np.ndarray):
-        raise TypeError
+    # raises
+    if not isinstance(X, np.ndarray) or not isinstance(h_0, np.ndarray):
+        raise TypeError("X or h_0 is not a `numpy.ndarray`")
 
     if X.shape[1] != h_0.shape[0]:
-        raise ValueError
+        raise ValueError("X and h_0 have incompatible shapes")
 
+    # unpack to get dimensions
+    t, m, i = X.shape
+    h = h_0.shape[1]
+    o = rnn_cell.o
+
+    # initiate
+    H = np.zeros(t + 1, m, h)
+    Y = np.zeros(t, m, o)
+
+    # loop
+    for 
     
     return (H, Y)
