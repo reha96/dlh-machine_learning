@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# (Based on 0-rnn_cell.py)
 """Simple RNN forward propagation (RNNs task 1)."""
 
 import numpy as np
@@ -30,5 +29,8 @@ def rnn(rnn_cell, X, h_0):
     if not isinstance(X, np.ndarray) or not isinstance(X, np.ndarray):
         raise TypeError
 
-    if not isinstance(X, np.ndarray) or not isinstance(X, np.ndarray):
+    if X.shape[1] != h_0.shape[0]:
         raise ValueError
+
+    
+    return (H, Y)
