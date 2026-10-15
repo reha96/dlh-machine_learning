@@ -39,7 +39,16 @@ class LSTMCell:
             h (int): dimensionality of the hidden state.
             o (int): dimensionality of the outputs.
         """
-        pass
+        self.Wf = np.random.randn(i + h, h)
+        self.Wu = np.random.randn(i + h, h)
+        self.Wc = np.random.randn(i + h, h)
+        self.Wo = np.random.randn(i + h, h)
+        self.Wy = np.random.randn(h, o)
+        self.bf = np.zeros((1, h))
+        self.bu = np.zeros((1, h))
+        self.bc = np.zeros((1, h))
+        self.bo = np.zeros((1, h))
+        self.by = np.zeros((1, o))
 
     def forward(self, h_prev, c_prev, x_t):
         """Perform forward propagation for one time step.
@@ -58,4 +67,29 @@ class LSTMCell:
                 y (np.ndarray): the output of the cell of shape (m, o),
                     using a softmax activation.
         """
-        pass
+        concat = np.concatenate([h_prev, x_t], axis=1)
+
+        # Forget gate (sigmoid)
+        f = 1 / (1 + np.exp(-(np.dot(concat, self.Wf) + self.bf)))
+
+        # Update gate (sigmoid)
+        u = 1 / (1 + np.exp(-(np.dot(concat, self.Wu) + self.bu)))
+
+        # Candidate cell state
+        c_tilde = np.tanh(np.dot(concat, self.Wc) + self.bc)
+
+        # Next cell state
+        c_next = f * c_prev + u * c_tilde
+
+        # Output gate (sigmoid)
+        o = 1 / (1 + np.exp(-(np.dot(concat, self.Wo) + self.bo)))
+
+        # Next hidden state
+        h_next = o * np.tanh(c_next)
+
+        # Output with softmax
+        exp_scores = np.dot(h_next, self.Wy) + self.by
+        probs = np.exp(exp_scores)
+        y = probs / np.sum(probs, axis=1, keepdims=True)
+
+        return (h_next, c_next, y)

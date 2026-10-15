@@ -27,4 +27,23 @@ def rnn(rnn_cell, X, h_0):
         TypeError: if X or h_0 is not a `numpy.ndarray`.
         ValueError: if X and h_0 have incompatible shapes.
     """
-    pass
+    if not isinstance(X, np.ndarray) or not isinstance(h_0, np.ndarray):
+        raise TypeError("X and h_0 must be numpy.ndarray")
+
+    t, m, i = X.shape
+    if h_0.ndim != 2 or h_0.shape[0] != m:
+        raise ValueError("h_0 must have shape (m, h) compatible with X")
+
+    h = rnn_cell.h
+    H = np.zeros((t + 1, m, h))
+    H[0] = h_0
+    Y = np.zeros((t, m, rnn_cell.o))
+
+    for step in range(t):
+        h_prev = H[step]
+        x_t = X[step]
+        h_next, y = rnn_cell.forward(h_prev, x_t)
+        H[step + 1] = h_next
+        Y[step] = y
+
+    return (H, Y)
