@@ -28,22 +28,6 @@ def deep_rnn(rnn_cells, X, h_0):
         ValueError: if X and h_0 have incompatible shapes.
     """
 
-
-def deep_rnn(rnn_cells, X, h_0):
-    """Perform forward propagation for a deep RNN.
-
-    Args:
-        rnn_cells : List of RNNCell instances of length l.
-        X : Data of shape (t, m, i).
-        h_0 : Initial hidden states of shape (l, m, h).
-
-    Returns:
-        tuple: (H, Y)
-            H is a numpy.ndarray of shape (t + 1, l, m, h) containing
-              all hidden states for every layer and time step.
-            Y is a numpy.ndarray of shape (t, m, o) containing
-              all outputs from the final layer.
-    """
     lrc = len(rnn_cells)
     t, m, i = X.shape
     h = h_0.shape[2]
