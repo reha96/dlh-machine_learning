@@ -39,6 +39,7 @@ class GRUCell:
         self.Wr = np.random.randn(i + h, h)
         self.Wh = np.random.randn(i + h, h)
         self.Wy = np.random.randn(h, o)
+        
         self.bz = np.zeros((1, h))
         self.br = np.zeros((1, h))
         self.bh = np.zeros((1, h))
@@ -61,21 +62,47 @@ class GRUCell:
         concat = np.concatenate([h_prev, x_t], axis=1)
 
         # Update gate (sigmoid)
-        z = 1 / (1 + np.exp(-(np.dot(concat, self.Wz) + self.bz)))
-
+        z = np.matmul(concat, self.Wz) + self.bz
+        z = 1 / (1 + np.exp(-z))
+        
         # Reset gate (sigmoid)
-        r = 1 / (1 + np.exp(-(np.dot(concat, self.Wr) + self.br)))
+        r = np.matmul(concat, self.Wr) + self.br
+        r = 1 / (1 + np.exp(-r))
 
         # Candidate hidden state
-        r_h_prev = r * h_prev
-        concat_r = np.concatenate([r_h_prev, x_t], axis=1)
-        h_tilde = np.tanh(np.dot(concat_r, self.Wh) + self.bh)
+        concat_r = np.concatenate((r * h_prev, x_t), axis=1)
+        h_tilde = np.tanh(np.matmul(concat_r, self.Wh) + self.bh)
 
         # Gated hidden state
         h_next = (1 - z) * h_prev + z * h_tilde
-
+        
         # Output with softmax
-        exp_scores = np.exp(np.dot(h_next, self.Wy) + self.by)
-        y = exp_scores / np.sum(exp_scores, axis=1, keepdims=True)
+        y = np.matmul(h_next, self.Wy) + self.by
+        y = np.exp(y - np.max(y, axis=1, keepdims=True))
+        y = y / np.sum(y, axis=1, keepdims=True)
 
         return (h_next, y)
+
+
+
+np.random.seed(2)
+gru_cell = GRUCell(10, 15, 5)
+print("Wz:", gru_cell.Wz)
+print("Wr:", gru_cell.Wr)
+print("Wh:", gru_cell.Wh)
+print("Wy:", gru_cell.Wy)
+print("bz:", gru_cell.bz)
+print("br:", gru_cell.br)
+print("bh:", gru_cell.bh)
+print("by:", gru_cell.by)
+gru_cell.bz = np.random.randn(1, 15)
+gru_cell.br = np.random.randn(1, 15)
+gru_cell.bh = np.random.randn(1, 15)
+gru_cell.by = np.random.randn(1, 5)
+h_prev = np.random.randn(8, 15)
+x_t = np.random.randn(8, 10)
+h, y = gru_cell.forward(h_prev, x_t)
+print(h.shape)
+print(h)
+print(y.shape)
+print(y)
