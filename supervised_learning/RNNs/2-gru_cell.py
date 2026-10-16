@@ -39,7 +39,7 @@ class GRUCell:
         self.Wr = np.random.randn(i + h, h)
         self.Wh = np.random.randn(i + h, h)
         self.Wy = np.random.randn(h, o)
-        
+
         self.bz = np.zeros((1, h))
         self.br = np.zeros((1, h))
         self.bh = np.zeros((1, h))
@@ -64,7 +64,7 @@ class GRUCell:
         # Update gate (sigmoid)
         z = np.matmul(concat, self.Wz) + self.bz
         z = 1 / (1 + np.exp(-z))
-        
+
         # Reset gate (sigmoid)
         r = np.matmul(concat, self.Wr) + self.br
         r = 1 / (1 + np.exp(-r))
@@ -75,7 +75,7 @@ class GRUCell:
 
         # Gated hidden state
         h_next = (1 - z) * h_prev + z * h_tilde
-        
+
         # Output with softmax
         y = np.matmul(h_next, self.Wy) + self.by
         y = np.exp(y - np.max(y, axis=1, keepdims=True))
