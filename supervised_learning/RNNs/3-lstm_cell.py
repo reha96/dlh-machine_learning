@@ -44,6 +44,7 @@ class LSTMCell:
         self.Wc = np.random.randn(i + h, h)
         self.Wo = np.random.randn(i + h, h)
         self.Wy = np.random.randn(h, o)
+
         self.bf = np.zeros((1, h))
         self.bu = np.zeros((1, h))
         self.bc = np.zeros((1, h))
@@ -67,29 +68,32 @@ class LSTMCell:
                 y (np.ndarray): the output of the cell of shape (m, o),
                     using a softmax activation.
         """
-        concat = np.concatenate([h_prev, x_t], axis=1)
+        concat = np.concatenate((h_prev, x_t), axis=1)
 
         # Forget gate (sigmoid)
-        f = 1 / (1 + np.exp(-(np.dot(concat, self.Wf) + self.bf)))
+        f = np.matmul(concat, self.Wf) + self.bf
+        f = 1 / (1 + np.exp(-f))
 
         # Update gate (sigmoid)
-        u = 1 / (1 + np.exp(-(np.dot(concat, self.Wu) + self.bu)))
+        u = np.matmul(concat, self.Wu) + self.bu
+        u = 1 / (1 + np.exp(-u))
 
         # Candidate cell state
-        c_tilde = np.tanh(np.dot(concat, self.Wc) + self.bc)
+        c_tilde = np.tanh(np.matmul(concat, self.Wc) + self.bc)
 
         # Next cell state
         c_next = f * c_prev + u * c_tilde
 
         # Output gate (sigmoid)
-        o = 1 / (1 + np.exp(-(np.dot(concat, self.Wo) + self.bo)))
+        o = np.matmul(concat, self.Wo) + self.bo
+        o = 1 / (1 + np.exp(-o))
 
         # Next hidden state
         h_next = o * np.tanh(c_next)
 
         # Output with softmax
-        exp_scores = np.dot(h_next, self.Wy) + self.by
-        probs = np.exp(exp_scores)
-        y = probs / np.sum(probs, axis=1, keepdims=True)
+        y = np.matmul(h_next, self.Wy) + self.by
+        y = np.exp(y - np.max(y, axis=1, keepdims=True))
+        y = y / np.sum(y, axis=1, keepdims=True)
 
         return (h_next, c_next, y)
