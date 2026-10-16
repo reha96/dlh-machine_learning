@@ -35,13 +35,13 @@ class GRUCell:
             h (int): dimensionality of the hidden state.
             o (int): dimensionality of the outputs.
         """
-        self.Wh = np.random.randn(i + h, h)
         self.Wz = np.random.randn(i + h, h)
         self.Wr = np.random.randn(i + h, h)
+        self.Wh = np.random.randn(i + h, h)
         self.Wy = np.random.randn(h, o)
-        self.bh = np.zeros((1, h))
         self.bz = np.zeros((1, h))
         self.br = np.zeros((1, h))
+        self.bh = np.zeros((1, h))
         self.by = np.zeros((1, o))
 
     def forward(self, h_prev, x_t):
