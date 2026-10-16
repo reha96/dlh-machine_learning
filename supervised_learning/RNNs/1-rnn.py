@@ -32,8 +32,8 @@ def rnn(rnn_cell, X, h_0):
 
     t, m, i = X.shape
     _, h = h_0.shape
-    o = rnn_cell.o
-    
+    o = rnn_cell.by.o
+
     if h_0.ndim != 2 or h_0.shape[0] != m:
         raise ValueError("h_0 must have shape (m, h) compatible with X")
 
