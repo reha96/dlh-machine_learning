@@ -65,6 +65,12 @@ The `deeptutor` MCP server is connected (`DEEPTUTOR_HOME=~/Documents/deeptutor-w
   silent and fast (<1s). Test harnesses go in a separate file or not at all.
 - Data files go in `.gitignore` with explicit paths (mnist txt files, npz
   datasets). Never commit them.
+- **Always commit (rule 2026-10-20):** every green checkpoint gets a commit —
+  task verified, `RESOURCES.md` written, workflow docs changed. Never end a
+  turn or session with a dirty working tree; `git status` must be clean before
+  handing back. Stage only intended files (never private memory such as
+  `.opencode/openwork/`, tokens, logs — those are gitignored). Keep commits
+  small and scoped; message style `type(scope): summary`.
 - When a project's tasks are done, rewrite its README per
   `STUDY_GUIDE_TEMPLATE.md`.
 - Verification environment: **always** run tests and code with `my-venv`
