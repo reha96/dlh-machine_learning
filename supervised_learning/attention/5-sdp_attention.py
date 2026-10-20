@@ -27,4 +27,16 @@ def sdp_attention(Q, K, V, mask=None):
                 (..., seq_len_q, seq_len_v) containing the attention
                 weights.
     """
-    pass
+    # (..., seq_len_q, seq_len_v): every query against every key
+    logits = tf.matmul(Q, K, transpose_b=True)
+
+    dk = tf.cast(tf.shape(K)[-1], tf.float32)
+    logits = logits / tf.math.sqrt(dk)
+
+    if mask is not None:
+        logits += mask * -1e9
+
+    weights = tf.nn.softmax(logits, axis=-1)
+    output = tf.matmul(weights, V)
+
+    return output, weights

@@ -29,7 +29,14 @@ class EncoderBlock(tf.keras.layers.Layer):
                 connected layer.
             drop_rate (float): the dropout rate.
         """
-        pass
+        super().__init__()
+        self.mha = MultiHeadAttention(dm, h)
+        self.dense_hidden = tf.keras.layers.Dense(hidden, activation='relu')
+        self.dense_output = tf.keras.layers.Dense(dm)
+        self.layernorm1 = tf.keras.layers.LayerNormalization(epsilon=1e-6)
+        self.layernorm2 = tf.keras.layers.LayerNormalization(epsilon=1e-6)
+        self.dropout1 = tf.keras.layers.Dropout(drop_rate)
+        self.dropout2 = tf.keras.layers.Dropout(drop_rate)
 
     def call(self, x, training, mask=None):
         """Call the encoder block.
@@ -44,4 +51,12 @@ class EncoderBlock(tf.keras.layers.Layer):
             tensor of shape (batch, input_seq_len, dm) containing the
                 block's output.
         """
-        pass
+        # Self attention, then residual and layer norm
+        attn, _ = self.mha(x, x, x, mask)
+        x = self.layernorm1(x + self.dropout1(attn, training=training))
+
+        # Position wise feed forward, then residual and layer norm
+        hidden = self.dense_hidden(x)
+        out = self.dense_output(hidden)
+
+        return self.layernorm2(x + self.dropout2(out, training=training))

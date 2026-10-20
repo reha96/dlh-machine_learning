@@ -15,4 +15,15 @@ def positional_encoding(max_seq_len, dm):
         np.ndarray: shape (max_seq_len, dm) containing the positional
             encoding vectors.
     """
-    pass
+    PE = np.zeros((max_seq_len, dm))
+
+    # One row per position, one frequency per dimension pair
+    positions = np.arange(max_seq_len)[:, np.newaxis]
+    dims = np.arange(dm // 2)[np.newaxis, :]
+    angles = positions / (10000 ** ((2 * dims) / dm))
+
+    # Sines on the even columns, cosines on the odd ones
+    PE[:, 0::2] = np.sin(angles)
+    PE[:, 1::2] = np.cos(angles)
+
+    return PE

@@ -11,7 +11,7 @@ blocks that stack into a transformer.
 | Difficulty | Master · Weight 5 |
 | Author | Alexa Orrico (Holberton School) |
 | Stack | `python3` 3.9, `numpy` 1.25.2, `tensorflow` 2.15, `pycodestyle` 2.11.1 |
-| Status | Scaffolded 2026-10-20 — no task implemented yet |
+| Status | Mandatory tasks complete 2026-10-20 — output verified against the intranet |
 | Resources | [`RESOURCES.md`](RESOURCES.md) — not yet ingested |
 
 ---
@@ -24,11 +24,11 @@ task page is authoritative.
 
 | Tasks tab | Task header | File | Score | Status |
 |---|---|---|---|---|
-| 0 | 3. Positional Encoding | `4-positional_encoding.py` | 0/3 | scaffolded |
-| 1 | 4. Scaled Dot Product Attention | `5-sdp_attention.py` | 0/3 | scaffolded |
-| 2 | 5. Multi Head Attention | `6-multihead_attention.py` | 0/4 | scaffolded |
-| 3 | 6. Transformer Encoder Block | `7-transformer_encoder_block.py` | 0/4 | scaffolded |
-| 4 | 7. Transformer Decoder Block | `8-transformer_decoder_block.py` | 0/4 | scaffolded |
+| 0 | 3. Positional Encoding | `4-positional_encoding.py` | 0/3 | implemented |
+| 1 | 4. Scaled Dot Product Attention | `5-sdp_attention.py` | 0/3 | implemented |
+| 2 | 5. Multi Head Attention | `6-multihead_attention.py` | 0/4 | implemented |
+| 3 | 6. Transformer Encoder Block | `7-transformer_encoder_block.py` | 0/4 | implemented |
+| 4 | 7. Transformer Decoder Block | `8-transformer_decoder_block.py` | 0/4 | implemented |
 
 Six **advanced** tasks unlock once the mandatory set is done. Their names come
 from the reference forks (`Teheremiti`, `dassantoss`) and cover the parts this
@@ -78,6 +78,12 @@ Explain to anyone, without looking anything up:
 - This is a TF project, so verification runs in `tf-venv`
   (`tf-venv/bin/python`, Python 3.11, TensorFlow 2.15.0, keras 2.15.0,
   numpy 1.25.2), **not** `myenv`.
+- The five mandatory tasks are implemented and their output matches the
+  intranet's expected output when run through the task pages' own `*-main.py`
+  programs. Task 4 matches line for line; the other four match after ignoring
+  numpy's blank-line separators between 2D blocks (the intranet page strips
+  them) and the `0x…` object addresses in the `print(layer)` lines (which no
+  run can reproduce).
 - Importing any task module prints TensorFlow's CUDA/cuDNN registration lines
   on a CPU-only box. That is TF's own logging, not module output — the modules
   are silent under `TF_CPP_MIN_LOG_LEVEL=3`.

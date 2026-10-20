@@ -29,7 +29,14 @@ class MultiHeadAttention(tf.keras.layers.Layer):
 
         dm is divisible by h.
         """
-        pass
+        super().__init__()
+        self.h = h
+        self.dm = dm
+        self.depth = dm // h
+        self.Wq = tf.keras.layers.Dense(units=dm)
+        self.Wk = tf.keras.layers.Dense(units=dm)
+        self.Wv = tf.keras.layers.Dense(units=dm)
+        self.linear = tf.keras.layers.Dense(units=dm)
 
     def call(self, Q, K, V, mask):
         """Call the multi head attention layer.
@@ -52,4 +59,26 @@ class MultiHeadAttention(tf.keras.layers.Layer):
                     (..., h, seq_len_q, seq_len_v) containing the
                     attention weights.
         """
-        pass
+        batch = tf.shape(Q)[0]
+
+        Q = self.Wq(Q)
+        K = self.Wk(K)
+        V = self.Wv(V)
+
+        # Split the model depth across the h heads
+        Q = self._split(batch, Q)
+        K = self._split(batch, K)
+        V = self._split(batch, V)
+
+        scaled, weights = sdp_attention(Q, K, V, mask)
+
+        # Merge the heads back into the model depth
+        scaled = tf.transpose(scaled, perm=[0, 2, 1, 3])
+        merged = tf.reshape(scaled, (batch, -1, self.dm))
+
+        return self.linear(merged), weights
+
+    def _split(self, batch, x):
+        """Reshape (batch, seq, dm) into (batch, h, seq, depth)."""
+        x = tf.reshape(x, (batch, -1, self.h, self.depth))
+        return tf.transpose(x, perm=[0, 2, 1, 3])
