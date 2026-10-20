@@ -12,7 +12,7 @@ the mandatory set.
 | Author | Alexa Orrico (Holberton School) |
 | Stack | `python3` 3.9, `numpy` 1.25.2, `tensorflow` 2.15.0, `gensim` 4.3.3, `pycodestyle` 2.11.1 |
 | Status | Mandatory tasks complete 2026-10-20 — output verified against the intranet |
-| Resources | [`RESOURCES.md`](RESOURCES.md) — not yet ingested |
+| Resources | [`RESOURCES.md`](RESOURCES.md) — ingested 2026-10-20 (10 Read-or-watch summarized, NotebookLM mirror recorded) |
 
 ---
 
