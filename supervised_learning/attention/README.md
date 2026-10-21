@@ -11,8 +11,8 @@ blocks that stack into a transformer.
 | Difficulty | Master · Weight 5 |
 | Author | Alexa Orrico (Holberton School) |
 | Stack | `python3` 3.9, `numpy` 1.25.2, `tensorflow` 2.15, `pycodestyle` 2.11.1 |
-| Status | Mandatory tasks complete 2026-10-20 — output verified against the intranet |
-| Resources | [`RESOURCES.md`](RESOURCES.md) — not yet ingested |
+| Status | Mandatory tasks complete 2026-10-20 — output verified against the intranet; verification battery 60/60 green 2026-10-21 (pycodestyle, silent imports under `-W error`, attribute shapes/values, behavioral anchors, numerical equivalence with both reference forks) |
+| Resources | [`RESOURCES.md`](RESOURCES.md) — ingestion in progress 2026-10-21 |
 
 ---
 
@@ -89,3 +89,7 @@ Explain to anyone, without looking anything up:
   are silent under `TF_CPP_MIN_LOG_LEVEL=3`.
 - `dm` is the model depth and `h` the head count, and `dm` must be divisible by
   `h`. Each head works on `depth = dm // h` dimensions.
+- Fork discrepancy: only `dassantoss` raises `ValueError("dm must be divisible
+  by h")` in `MultiHeadAttention.__init__`; `Teheremiti` does not and the spec
+  lists divisibility as a precondition, not an error. The checker never passes
+  non-divisible `dm`, so this implementation matches `Teheremiti` (no raise).
