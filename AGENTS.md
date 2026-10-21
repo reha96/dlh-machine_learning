@@ -68,6 +68,12 @@ The `deeptutor` MCP server is connected (`DEEPTUTOR_HOME=~/Documents/deeptutor-w
   silent and fast (<1s). Test harnesses go in a separate file or not at all.
 - Data files go in `.gitignore` with explicit paths (mnist txt files, npz
   datasets). Never commit them.
+- **Always commit (rule 2026-10-20):** every green checkpoint gets a commit —
+  task verified, `RESOURCES.md` written, workflow docs changed. Never end a
+  turn or session with a dirty working tree; `git status` must be clean before
+  handing back. Stage only intended files (never private memory such as
+  `.opencode/openwork/`, tokens, logs — those are gitignored). Keep commits
+  small and scoped; message style `type(scope): summary`.
 - When a project's tasks are done, rewrite its README per
   `STUDY_GUIDE_TEMPLATE.md`.
 - Verification environment: **always** run tests and code with `my-venv`
@@ -149,3 +155,13 @@ Append new lessons here as they are learned; the file is meant to grow.
   `/projects/current`, not a git date. Each card carries start/end dates; the
   weekly cadence is one NLP/LLM project per week. Repo↔intranet mapping is now in
   the root README quick-reference table.
+- 2026-10-20: resource ingestion now ends with a **Google NotebookLM** mirror —
+  verify a notebook for the project exists (Playwright, user signs in via
+  handoff), else create one titled with the official intranet project ID
+  (e.g. `word_embeddings (2360)`) and upload all sources. Open-notebook mirror
+  is paused for now. Full recipe in `RESOURCE_INGESTION.md` → "Gemini notebook
+  mirror — Google NotebookLM".
+- 2026-10-20: rltoken destination checks are worth their time: 2360 had a
+  truncated Medium URL (`...glove-51` → 404; real id `51339db89639`, recovered
+  via the Wayback CDX API) and an "ELMo (website)" label pointing at a GitHub
+  model zoo. Flag both in `RESOURCES.md`.

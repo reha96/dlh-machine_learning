@@ -276,3 +276,38 @@ notebook so later tasks can chat over the material. No cap on source count
   4/17: 2 YouTube, 2 arXiv). Always resolve via the authenticated
   `page.goto` loop, summarize the ACTUAL destination, and flag mismatches in
   both `RESOURCES.md` and the notebook source titles.
+
+## Gemini notebook mirror — Google NotebookLM (added 2026-10-20)
+
+After `RESOURCES.md` is written, mirror every source into a **Google
+NotebookLM** notebook ("gemini notebook" in workflow shorthand). Per user
+decision 2026-10-20 this is **the** mirror path **for now** — the rehapi
+open-notebook mirror above is paused; its section stays for reference.
+
+Per project, at the end of ingestion:
+
+1. Open `https://notebooklm.google.com` with Playwright (the Playwright MCP
+   browser; the intranet CDP browser is only for the intranet). If Google asks
+   for sign-in, hand off to the user once (question tool / browser handoff) —
+   never handle credentials in chat.
+2. **Verify first**: search the notebook list for an existing notebook for this
+   project (match on project name or the official intranet project ID).
+3. If missing: create one notebook whose **title carries the official project
+   ID from the intranet website** (the `/projects/<id>` number, e.g.
+   `word_embeddings (2360)`). Upload all Read-or-watch + Definitions sources:
+   public URLs as links, articles/PDFs as uploads, YouTube transcripts as
+   notebook-only text.
+4. If it already exists: top up missing sources instead of creating a
+   duplicate notebook.
+5. Record the mapping in `RESOURCES.md` under a `## NotebookLM mirror` line:
+   notebook URL/ID ↔ intranet project ID. Commit only this line — never
+   transcript or PDF content.
+
+Rules (same copyright posture as the open-notebook ingest):
+
+- Transcripts and full-text PDFs are notebook-only; the repo keeps
+  summaries-only in own words.
+- The notebook title must carry the official project ID so intranet cards,
+  repo folders and notebooks stay cross-referenceable.
+- Label→destination mismatches discovered in the rltoken walk are recorded in
+  `RESOURCES.md`; upload sources under their REAL titles.

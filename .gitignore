@@ -22,3 +22,5 @@ supervised_learning/cnn/MNIST.npz
 unsupervised_learning/gan/small_res_faces_10000.npy
 unsupervised_learning/gan/generator.h5
 unsupervised_learning/gan/discriminator.h5
+# private memory: OpenWork chat attachments/inbox — never commit
+.opencode/openwork/
