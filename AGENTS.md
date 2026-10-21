@@ -55,6 +55,9 @@ The `deeptutor` MCP server is connected (`DEEPTUTOR_HOME=~/Documents/deeptutor-w
 
 ## Conventions and Lessons
 
+- **Commit every unit of work as you go** (small, descriptive commits) so the
+  student always has a trace of the session. Never leave meaningful changes
+  uncommitted at the end of a turn.
 - Error messages must match the intranet spec character-for-character.
 - Type checks before value checks; validation order per the spec.
 - Student comment style: short plain-language `#` comment per block.
